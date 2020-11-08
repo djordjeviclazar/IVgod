@@ -9,7 +9,7 @@ namespace FileFunctions
 {
     public class FileFunctions
     {
-        static byte[] ReadBytes(String filename)
+        public static byte[] ReadBytes(String filename)
         {
             FileInfo fileInfo = new FileInfo(filename);
             byte[] bytes = new byte[fileInfo.Length];
@@ -25,7 +25,7 @@ namespace FileFunctions
             return bytes;
         }
 
-        static void WriteBytes(String filename, byte[] info)
+        public static void WriteBytes(String filename, byte[] info)
         {
             using (BinaryWriter stream = new BinaryWriter(File.Open(filename, FileMode.OpenOrCreate)))
             {
