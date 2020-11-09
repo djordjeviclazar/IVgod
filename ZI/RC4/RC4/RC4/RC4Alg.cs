@@ -16,13 +16,14 @@ namespace RC4
         {
             byte[] K = new byte[256], S = new byte[256];
 
-            for (byte i = 0; i <= 255; i++)
+            byte br = 0;
+            for (int i = 0; i < 256; i++)
             {
-                S[i] = i;
+                S[i] = br++;
                 K[i] = key[i % key.Length];
             }
             int k = 0;
-            for (byte i = 0; i < 255; i++)
+            for (int i = 0; i < 256; i++)
             {
                 k = (k + S[i] + K[i]) % 256;
 
