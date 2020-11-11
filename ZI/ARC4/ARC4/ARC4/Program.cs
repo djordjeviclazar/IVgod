@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RC4
+namespace ARC4
 {
     class Program
     {
         static void Main(string[] args)
         {
-            RC4Alg alg = new RC4Alg();
+            ARC4Alg alg = new ARC4Alg();
             
 
             byte[] key = Encoding.ASCII.GetBytes("Key");

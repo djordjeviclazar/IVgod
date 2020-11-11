@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F0ABDC55-9557-4410-BB0F-CFF52A86F0BF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RC4</RootNamespace>
-    <AssemblyName>RC4</AssemblyName>
+    <RootNamespace>ARC4</RootNamespace>
+    <AssemblyName>ARC4</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,7 +46,7 @@
     <Compile Include="FileFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RC4Alg.cs" />
+    <Compile Include="ARC4Alg.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static FileFunctions.FileFunctions;
 
-namespace RC4
+namespace ARC4
 {
-    public class RC4Alg
+    public class ARC4Alg
     {
         // A1:
         public void Crypt(String filename, String resultFile, byte[] key)

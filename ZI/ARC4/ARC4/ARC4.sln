@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC4", "RC4\RC4.csproj", "{F0ABDC55-9557-4410-BB0F-CFF52A86F0BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARC4", "ARC4\ARC4.csproj", "{F0ABDC55-9557-4410-BB0F-CFF52A86F0BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
