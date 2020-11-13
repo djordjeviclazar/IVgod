@@ -35,5 +35,18 @@ namespace FileFunctions
                 }
             }
         }
+
+        public static byte[] ReadAllBytes(String filename)
+        {
+
+            byte[] bytes = File.ReadAllBytes(filename);
+
+            return bytes;
+        }
+
+        public static void WriteAllBytes(String filename, byte[] info)
+        {
+            File.WriteAllBytes(filename, info);
+        }
     }
 }
