@@ -7,6 +7,16 @@
 
 class CLV1GDITangramView : public CView
 {
+// Grid
+private:
+	bool gridOn = false;
+	const int unit = 25; // pixels
+
+// Polygon
+	POINT* drawPolygon(CDC* pDC, POINT* nodes, int nodeNumber, COLORREF color, COLORREF lineColor, int hached);
+	void drawInpolygon(CDC* pDC, POINT* center, int nodeNumber, int radius, double rotation, COLORREF lineColor);
+	int distance(POINT& a, POINT& b);
+
 protected: // create from serialization only
 	CLV1GDITangramView() noexcept;
 	DECLARE_DYNCREATE(CLV1GDITangramView)
@@ -40,6 +50,9 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in LV1-GDI-TangramView.cpp
