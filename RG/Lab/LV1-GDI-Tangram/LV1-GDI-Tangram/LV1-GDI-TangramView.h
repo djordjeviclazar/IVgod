@@ -14,7 +14,7 @@ private:
 
 // Polygon
 	POINT* drawPolygon(CDC* pDC, POINT* nodes, int nodeNumber, COLORREF color, COLORREF lineColor, int hached);
-	void drawInpolygon(CDC* pDC, POINT* center, int nodeNumber, int radius, double rotation, COLORREF lineColor);
+	void drawInpolygon(CDC* pDC, POINT* center, int nodeNumber, double radius, double rotation, COLORREF lineColor);
 	int distance(POINT& a, POINT& b);
 
 protected: // create from serialization only

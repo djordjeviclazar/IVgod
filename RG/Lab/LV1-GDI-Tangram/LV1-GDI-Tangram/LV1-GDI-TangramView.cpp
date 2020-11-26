@@ -71,10 +71,10 @@ POINT* CLV1GDITangramView::drawPolygon(CDC* pDC, POINT* nodes, int nodeNumber, C
 	return incenter;
 }
 
-void CLV1GDITangramView::drawInpolygon(CDC* pDC, POINT* center, int nodeNumber, int radius, double rotation, COLORREF lineColor)
+void CLV1GDITangramView::drawInpolygon(CDC* pDC, POINT* center, int nodeNumber, double radius, double rotation, COLORREF lineColor)
 {
 	POINT* nodes = new POINT[nodeNumber];
-	double displacementAngle = (1. - 2. / nodeNumber) * PI; // interior polygon angle in radians
+	double displacementAngle = (1. - (nodeNumber - 2) / (1. * nodeNumber)) * 3.141592653589793; // interior polygon angle in radians
 	double angle = rotation; // argument in formula
 
 	for (int i = 0; i < nodeNumber; i++)
@@ -145,14 +145,14 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 
 	// background
 	oldPen = (CPen*)pDC->SelectStockObject(NULL_PEN);
-	oldBrush = (CBrush*)pDC->SelectStockObject(GRAY_BRUSH);
+	oldBrush = (CBrush*)pDC->SelectStockObject(LTGRAY_BRUSH);
 	pDC->Rectangle(0, 0, 500, 500);
 
 	// polygons:
 
 	int a = unit * 9; // big square edge
 	POINT* incenter;
-	int radius;
+	double radius;
 	double rotation;
 
 	// yellow triangle
@@ -172,7 +172,7 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 	triangleNodes[2].x = unit + (a >> 1); triangleNodes[2].y = triangleNodes[2].x;
 
 	incenter = drawPolygon(pDC, triangleNodes, 3, RGB(252, 3, 3), RGB(3, 15, 252), -1);
-	radius = unit >> 1;
+	radius = (unit >> 1) * sqrt(2);
 	rotation = PI / 2;
 	drawInpolygon(pDC, incenter, 4, radius, rotation, RGB(3, 15, 252));
 	delete incenter;
@@ -183,19 +183,21 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 	triangleNodes[2].x = unit + a; triangleNodes[2].y = unit + (a >> 1);
 
 	incenter = drawPolygon(pDC, triangleNodes, 3, RGB(48, 252, 3), RGB(3, 15, 252), -1);
-	radius = unit >> 1;
+	radius = unit * 0.8;
 	rotation = 0.;
 	drawInpolygon(pDC, incenter, 8, radius, rotation, RGB(3, 15, 252));
 	delete incenter;
+
+	incenter = 0;
 
 	// purple triangle
 	triangleNodes[0].x = unit + a; triangleNodes[0].y = unit + a;
 	triangleNodes[1].x = unit + (a << 1); triangleNodes[1].y = unit + (a << 1);
 	triangleNodes[2].x = unit + a; triangleNodes[2].y = unit + (a << 1);
 
-	incenter = drawPolygon(pDC, triangleNodes, 3, RGB(115, 3, 252), RGB(3, 15, 252), -1);
+	incenter = drawPolygon(pDC, triangleNodes, 3, RGB(161, 3, 252), RGB(3, 15, 252), -1);
 	radius = unit * 1.4;
-	rotation = -0.24;
+	rotation = 0;
 	drawInpolygon(pDC, incenter, 5, radius, rotation, RGB(3, 15, 252));
 	delete incenter;
 
@@ -206,7 +208,7 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 
 	incenter = drawPolygon(pDC, triangleNodes, 3, RGB(3, 15, 252), RGB(3, 15, 252), HS_FDIAGONAL);
 	radius = unit * 1.4;
-	rotation = -0.24;
+	rotation = 0;
 	drawInpolygon(pDC, incenter, 7, radius, rotation, RGB(3, 15, 252));
 	delete incenter;
 
@@ -220,7 +222,7 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 
 	// pink romb
 	quadrilateralNodes[0].x = unit; quadrilateralNodes[0].y = unit + a;
-	quadrilateralNodes[1].x = unit + (a >> 1); quadrilateralNodes[1].y = unit;
+	quadrilateralNodes[1].x = unit + (a >> 1); quadrilateralNodes[1].y = unit + a;
 	quadrilateralNodes[2].x = unit + a; quadrilateralNodes[2].y = unit + (a >> 1);
 	quadrilateralNodes[3].x = unit + (a >> 1); quadrilateralNodes[3].y = unit + (a >> 1);
 
@@ -238,6 +240,9 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 			pDC->LineTo(i, 500);
 		}
 	}
+
+	delete[] triangleNodes; triangleNodes = 0;
+	delete[] quadrilateralNodes; quadrilateralNodes = 0;
 
 	pDC->SelectObject(oldPen);
 }
@@ -300,7 +305,7 @@ void CLV1GDITangramView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	CView::OnKeyUp(nChar, nRepCnt, nFlags);
 
-	if (nChar == 0x47)
+	if (nChar == 0x47 && nRepCnt < 2) // on 'g' key; single click
 	{
 		gridOn = !gridOn;
 		Invalidate();
