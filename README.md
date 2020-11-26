@@ -23,6 +23,7 @@ Za crtanje pravilnih mnogouglova koristiti jednačine: x=r*cos(alfa); y=r*sin(al
 Pojedinačni delovi figure treba da se dodiruju ali ne smeju da se preklapaju
 Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedinačnih delova figure
 
+<img src="RG/Lab/lab1.png">
 
 ## Zaštita informacija
 
@@ -31,3 +32,4 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 #### Zad A1, B1
 
 ARC4, f-je za kriptovanje, dekriptovanje, upis i čitanje iz fajla
+
