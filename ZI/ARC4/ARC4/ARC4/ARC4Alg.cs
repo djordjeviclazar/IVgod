@@ -35,7 +35,8 @@ namespace ARC4
             int g = 0, t;
             k = 0;
 
-            byte[] info = ReadAllBytes(filename);
+            //byte[] info = ReadAllBytes(filename);
+            byte[] info = ReadAllBytesBmp(filename, out byte[] header); // B2 test
             byte[] result = new byte[info.Length];
 
             for (int i = 0; i < info.Length; i++)
@@ -52,7 +53,8 @@ namespace ARC4
                 result[i] = BitConverter.GetBytes(t ^ info[i])[0] ;
             }
 
-            WriteAllBytes(resultFile, result);
+            WriteAllBytesBmp(resultFile, result, header); // B2 test
+            //WriteAllBytes(resultFile, result);
         }
 
         public void Decrypt(String filename, String resultFile, byte[] key)
