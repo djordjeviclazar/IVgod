@@ -33,3 +33,6 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 
 ARC4, f-je za kriptovanje, dekriptovanje, upis i čitanje iz fajla
 
+#### Zad A2, B2
+
+Bifid, f-je za kriptovanje, dekriptovanje, upis i čitanje iz .bmp fajla
