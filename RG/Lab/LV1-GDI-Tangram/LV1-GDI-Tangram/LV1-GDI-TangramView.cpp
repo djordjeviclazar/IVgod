@@ -197,7 +197,7 @@ void CLV1GDITangramView::OnDraw(CDC* pDC)
 
 	incenter = drawPolygon(pDC, triangleNodes, 3, RGB(161, 3, 252), RGB(3, 15, 252), -1);
 	radius = unit * 1.4;
-	rotation = 0;
+	rotation = 0; // rotated because node is on apscise; roughly 0,24 radians
 	drawInpolygon(pDC, incenter, 5, radius, rotation, RGB(3, 15, 252));
 	delete incenter;
 
