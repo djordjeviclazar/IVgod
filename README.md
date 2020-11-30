@@ -25,6 +25,10 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 
 <img src="RG/Lab/lab1.png">
 
+#### LV02 - GDI - TRANSFORMACIJE - ZADATAK (28.11.2020 - 03.12.2020)
+
+<img src="RG/Lab/lab2.png">
+
 ## Zaštita informacija
 
 ### Domaći
