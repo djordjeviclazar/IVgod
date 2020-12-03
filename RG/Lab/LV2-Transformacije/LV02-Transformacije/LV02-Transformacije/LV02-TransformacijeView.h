@@ -7,6 +7,16 @@
 
 class CLV02TransformacijeView : public CView
 {
+// Grid and background
+private:
+	bool gridOn = false;
+	const int unit = 25; // pixels
+
+	void drawBackground(CDC* pDC, int height, int width, COLORREF color);
+	void drawGrid(CDC* pDC);
+	void drawVase(CDC* pDC);
+	void signature(CDC* pDC, int x, int y, int rotation, COLORREF color, int textWidth, int textHeight);
+
 protected: // create from serialization only
 	CLV02TransformacijeView() noexcept;
 	DECLARE_DYNCREATE(CLV02TransformacijeView)
@@ -43,6 +53,8 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in LV02-TransformacijeView.cpp

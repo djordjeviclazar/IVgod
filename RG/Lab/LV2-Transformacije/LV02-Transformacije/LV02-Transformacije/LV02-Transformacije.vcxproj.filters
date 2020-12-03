@@ -83,5 +83,11 @@
     <None Include="res\LV02Transformacije.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\cactus_part.emf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cactus_part_light.emf">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
