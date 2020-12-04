@@ -140,7 +140,7 @@ void CLV02TransformacijeView::OnDraw(CDC* pDC)
 
 	// TODO: add draw code for native data here
 
-	drawBackground(pDC, 500, 500, RGB(3, 225, 250));
+	drawBackground(pDC, 500, 500, RGB(135, 206, 235)); //RGB(3, 225, 250)
 
 	/* TODO: Draw cactus */
 	drawCactus(pDC);
