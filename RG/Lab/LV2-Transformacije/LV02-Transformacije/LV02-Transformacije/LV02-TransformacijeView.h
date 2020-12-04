@@ -4,6 +4,7 @@
 
 #pragma once
 
+#define PI 3.1415926535
 
 class CLV02TransformacijeView : public CView
 {
@@ -16,6 +17,26 @@ private:
 	void drawGrid(CDC* pDC);
 	void drawVase(CDC* pDC);
 	void signature(CDC* pDC, int x, int y, int rotation, COLORREF color, int textWidth, int textHeight);
+
+// Vertices and edges
+	const int radius = 10; // pixels
+	const int firstCenterX = 250, firstCenterY = 425; // center of rotation RIGHT/LEFT
+	const double rotationAngle = PI / 32.;
+	const long edgeHeight = 70, edgeWidth = 60; // pixels
+	int rotateRight = 0; // RIGHT++, LEFT--
+	int rotateRight2 = 0; // RIGHT2++, LEFT2--
+
+	void drawNode(CDC* pDC, POINT* center);
+	void drawCactusPart(CDC* pDC, POINT* center, double factor, bool dark);
+	void drawCactus(CDC* pDC);
+	void drawLeftPart(CDC* pDC, POINT* center);
+	void drawRightPart(CDC* pDC, POINT* center);
+	void drawDoubleRotatingPart(CDC* pDC, POINT* center);
+
+	void modifyWorldTransformRotate(CDC* pDC, double angle, DWORD mode);
+	void modifyWorldTransformTranslate(CDC* pDC, float eDx, float eDy, DWORD mode);
+	void setWorldTransformRotate(CDC* pDC, double angle, DWORD mode);
+	void setWorldTransformTranslate(CDC* pDC, float eDx, float eDy, DWORD mode);
 
 protected: // create from serialization only
 	CLV02TransformacijeView() noexcept;

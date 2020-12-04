@@ -102,6 +102,7 @@ void CLV02TransformacijeView::signature(CDC* pDC, int x, int y, int rotation, CO
 	currentFont.CreatePointFontIndirect(&p, pDC);*/
 
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
+	pDC->TextOutW(x + 3, y + 3, CString("16559 Lazar Djordjevic"));
 	COLORREF oldTextColor = pDC->SetTextColor(color);
 	pDC->TextOutW(x, y, CString("16559 Lazar Djordjevic"));
 
@@ -142,6 +143,7 @@ void CLV02TransformacijeView::OnDraw(CDC* pDC)
 	drawBackground(pDC, 500, 500, RGB(3, 225, 250));
 
 	/* TODO: Draw cactus */
+	drawCactus(pDC);
 
 	drawVase(pDC);
 	drawGrid(pDC);
@@ -219,9 +221,272 @@ void CLV02TransformacijeView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	CView::OnKeyUp(nChar, nRepCnt, nFlags);
 
-	if (nChar == 0x47 && nRepCnt < 2) // on 'g' key; single click
+	/*if (nChar == 0x47 && nRepCnt < 2) // on 'g' key; single click
 	{
 		gridOn = !gridOn;
 		Invalidate();
+	}*/
+	switch (nChar)
+	{
+		case 0x41:
+		{
+			rotateRight--;
+			Invalidate();
+		}
+		break;
+		case 0x44:
+		{
+			rotateRight++;
+			Invalidate();
+		}
+		break;
+		case 0x51:
+		{
+			rotateRight2--;
+			Invalidate();
+		}
+		break;
+		case 0x45:
+		{
+			rotateRight2++;
+			Invalidate();
+		}
+		break;
+		case 0x47:
+		{
+			gridOn = !gridOn;
+			Invalidate();
+		}
+		break;
+	default:
+		break;
 	}
+
+}
+
+void CLV02TransformacijeView::drawNode(CDC* pDC, POINT* center)
+{
+	CPen* oldPen, * currentPen = new CPen(PS_SOLID, 0, RGB(252, 252, 252));
+	CBrush* oldBrush, * currentBrush = new CBrush(RGB(43, 223, 43));
+
+	oldPen = (CPen*)pDC->SelectObject(currentPen);
+	oldBrush = (CBrush*)pDC->SelectObject(currentBrush);
+	pDC->Ellipse(center->x - radius, center->y - radius, center->x + radius, center->y + radius);
+
+	pDC->SelectObject(oldPen);
+	pDC->SelectObject(oldBrush);
+}
+
+void CLV02TransformacijeView::drawCactusPart(CDC* pDC, POINT* center, double factor, bool dark)
+{
+	CString fileName = dark ? CString("res/cactus_part.emf") : CString("res/cactus_part_light.emf");
+	HENHMETAFILE cactusPart = GetEnhMetaFile(fileName);
+
+	/*
+	* Default: node is under cactus part, spine is 7px
+	* Transformation is performed before function call
+	*/
+
+	RECT partRect;
+	partRect.left = center->x - ((long)(edgeWidth * factor + 0.5) / 2.);
+	partRect.right = ((long)(edgeWidth * factor + 0.5) / 2.) + center->x;
+	partRect.bottom = center->y - (radius - 7);
+	partRect.top = partRect.bottom - edgeHeight;
+
+	pDC->PlayMetaFile(cactusPart, &partRect);
+
+	DeleteEnhMetaFile(cactusPart);
+}
+
+void CLV02TransformacijeView::drawCactus(CDC* pDC)
+{
+	int oldMode = pDC->SetGraphicsMode(GM_ADVANCED);
+	XFORM oldMatrix;
+	pDC->GetWorldTransform(&oldMatrix);
+
+
+	// whole cactus is rotated with LEFT/RIGHT
+	// center of rotation is firstCenter
+	// this transformation is used while drawing every part except first node
+	double angle = rotationAngle * rotateRight;
+
+	setWorldTransformTranslate(pDC, firstCenterX, firstCenterY, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -firstCenterX, -firstCenterY, MWT_LEFTMULTIPLY);
+
+	// drawing center part:
+	POINT p;
+	p.x = firstCenterX;
+	p.y = firstCenterY;
+
+	drawCactusPart(pDC, &p, 1., false);
+	drawNode(pDC, &p); // center of circle is center of rotation
+	p.y -= 3 * unit;
+	drawCactusPart(pDC, &p, 0.33333, true);
+	
+	
+	// drawing left part:
+	drawLeftPart(pDC, &p);
+	// drawing right part
+	drawRightPart(pDC, &p);
+	
+	drawNode(pDC, &p);
+	
+	pDC->SetWorldTransform(&oldMatrix);
+	pDC->SetGraphicsMode(oldMode);
+}
+
+void CLV02TransformacijeView::drawLeftPart(CDC* pDC, POINT* center)
+{
+	int oldMode = pDC->SetGraphicsMode(GM_ADVANCED);
+	XFORM oldMatrix;
+	pDC->GetWorldTransform(&oldMatrix);
+
+	// rotate left:
+	double angle = -(rotationAngle * 8);
+	modifyWorldTransformTranslate(pDC, center->x, center->y, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -center->x, -center->y, MWT_LEFTMULTIPLY);
+
+	// draw:
+	drawCactusPart(pDC, center, 0.33333, true);
+	POINT p, p1; p1.x = 100; p.y = 100;
+	p.y = center->y - (3 * unit);
+	p.x = center->x;
+	drawCactusPart(pDC, &p, 1., true);
+	drawNode(pDC, &p);
+	
+	pDC->SetWorldTransform(&oldMatrix);
+	pDC->SetGraphicsMode(oldMode);
+}
+
+void CLV02TransformacijeView::drawRightPart(CDC* pDC, POINT* center)
+{
+	int oldMode = pDC->SetGraphicsMode(GM_ADVANCED);
+	XFORM oldMatrix;
+	pDC->GetWorldTransform(&oldMatrix);
+
+	// rotate left:
+	double angle = (rotationAngle * 8);
+	modifyWorldTransformTranslate(pDC, center->x, center->y, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -center->x, -center->y, MWT_LEFTMULTIPLY);
+
+	// draw:
+	drawCactusPart(pDC, center, 0.33333, true);
+	POINT p;
+	p.y = center->y - 3 * unit;
+	p.x = center->x;
+	//drawNode(pDC, &p);
+	
+	//left part:
+	drawLeftPart(pDC, &p);
+	// double rotating part:
+	drawDoubleRotatingPart(pDC, &p);
+	// right part:
+	modifyWorldTransformTranslate(pDC, p.x, p.y, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -p.x, -p.y, MWT_LEFTMULTIPLY);
+	drawCactusPart(pDC, &p, 0.33333, true);
+
+	// node:
+	drawNode(pDC, &p);
+	
+	pDC->SetWorldTransform(&oldMatrix);
+	pDC->SetGraphicsMode(oldMode);
+}
+
+void CLV02TransformacijeView::drawDoubleRotatingPart(CDC* pDC, POINT* center)
+{
+	int oldMode = pDC->SetGraphicsMode(GM_ADVANCED);
+	XFORM oldMatrix;
+	pDC->GetWorldTransform(&oldMatrix);
+
+	// second rotation:
+	double angle = rotationAngle * rotateRight2;
+
+	modifyWorldTransformTranslate(pDC, center->x, center->y, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -center->x, -center->y, MWT_LEFTMULTIPLY);
+
+	// draw:
+	drawCactusPart(pDC, center, 0.33333, false);
+	POINT p;
+	p.y = center->y - 3 * unit;
+	p.x = center->x;
+
+	// rotate left:
+	angle = -(rotationAngle * 8) + PI;
+	modifyWorldTransformTranslate(pDC, p.x, p.y, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -p.x, -p.y, MWT_LEFTMULTIPLY);
+
+	drawCactusPart(pDC, center, 0.66667, true); // left part
+
+	// rotate right
+	angle = -(angle * 2);
+	modifyWorldTransformTranslate(pDC, p.x, p.y, MWT_LEFTMULTIPLY);
+	modifyWorldTransformRotate(pDC, angle, MWT_LEFTMULTIPLY);
+	modifyWorldTransformTranslate(pDC, -p.x, -p.y, MWT_LEFTMULTIPLY);
+
+	drawCactusPart(pDC, center, 0.66667, true); // right part
+
+	//pDC->SetWorldTransform(&oldMatrix);
+	drawNode(pDC, &p);
+
+
+	pDC->SetGraphicsMode(oldMode);
+	pDC->SetWorldTransform(&oldMatrix);
+}
+
+void CLV02TransformacijeView::modifyWorldTransformRotate(CDC* pDC, double angle, DWORD mode)
+{
+	XFORM matrix;
+	matrix.eM11 = cos(angle);
+	matrix.eM12 = sin(angle);
+	matrix.eM21 = -sin(angle);
+	matrix.eM22 = cos(angle);
+	matrix.eDx = 0;
+	matrix.eDy = 0;
+
+	pDC->ModifyWorldTransform(&matrix, mode);
+}
+
+void CLV02TransformacijeView::modifyWorldTransformTranslate(CDC* pDC, float eDx, float eDy, DWORD mode)
+{
+	XFORM matrix;
+	matrix.eM11 = (FLOAT)1.;
+	matrix.eM12 = (FLOAT)0.;
+	matrix.eM21 = (FLOAT)0.;
+	matrix.eM22 = (FLOAT)1.;
+	matrix.eDx = (FLOAT)eDx;
+	matrix.eDy = (FLOAT)eDy;
+
+	pDC->ModifyWorldTransform(&matrix, mode);
+}
+
+void CLV02TransformacijeView::setWorldTransformRotate(CDC* pDC, double angle, DWORD mode)
+{
+	XFORM matrix;
+	matrix.eM11 = cos(angle);
+	matrix.eM12 = sin(angle);
+	matrix.eM21 = -sin(angle);
+	matrix.eM22 = cos(angle);
+	matrix.eDx = 0;
+	matrix.eDy = 0;
+
+	pDC->SetWorldTransform(&matrix);
+}
+
+void CLV02TransformacijeView::setWorldTransformTranslate(CDC* pDC, float eDx, float eDy, DWORD mode)
+{
+	XFORM matrix;
+	matrix.eM11 = (FLOAT)1.;
+	matrix.eM12 = (FLOAT)0.;
+	matrix.eM21 = (FLOAT)0.;
+	matrix.eM22 = (FLOAT)1.;
+	matrix.eDx = (FLOAT)eDx;
+	matrix.eDy = (FLOAT)eDy;
+
+	pDC->SetWorldTransform(&matrix);
 }
