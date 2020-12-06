@@ -33,8 +33,8 @@ cifra = [0-9]
 %%
 
 // pravila
-\(\* { yybegin( KOMENTAR ); }
-<KOMENTAR>~"*)" { yybegin( YYINITIAL ); }
+"comm" { yybegin( KOMENTAR ); }
+<KOMENTAR>~"~comm" { yybegin( YYINITIAL ); }
 
 [\t\n\r ] { ; }
 \( { return new Yytoken( sym.LEFTPAR, yytext(), yyline, yycolumn ); }
@@ -43,6 +43,7 @@ cifra = [0-9]
 //operatori
 \+ { return new Yytoken( sym.PLUS,yytext(), yyline, yycolumn ); }
 \* { return new Yytoken( sym.MUL,yytext(), yyline, yycolumn ); }
+\- { return new Yytoken( sym.MINUS, yytext(), yyline, yycolumn); }
 //separatori
 ; { return new Yytoken( sym.SEMICOLON, yytext(), yyline, yycolumn ); }
 : { return new Yytoken( sym.COLON, yytext(), yyline, yycolumn ); }
@@ -56,6 +57,7 @@ cifra = [0-9]
 {slovo}({slovo}|{cifra})* { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }
 //konstante
 {cifra}+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
-'[^]' { return new Yytoken( sym.CONST,yytext(), yyline, yycolumn ); }
+{slovo}+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
+-?[0-9]+\.[0-9]+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
 //obrada gresaka
 . { if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() ); }
