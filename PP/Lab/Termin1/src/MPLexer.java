@@ -64,11 +64,13 @@ class MPLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\2\1\2\2\1\1\22\0\1\1\1\0\1\3"+
-    "\5\0\1\4\1\5\1\6\1\7\1\10\1\11\1\12"+
-    "\1\0\12\13\1\14\1\15\1\0\1\16\3\0\32\17"+
-    "\6\0\2\17\1\20\11\17\1\21\1\17\1\22\13\17"+
-    "\3\0\1\23\6\0\1\2\u01a2\0\2\2\326\0\u0100\2";
+    "\11\0\1\1\1\2\2\3\1\2\22\0\1\1\1\0"+
+    "\1\4\5\0\1\5\1\6\1\7\1\10\1\11\1\12"+
+    "\1\13\1\0\12\14\1\15\1\16\1\0\1\17\3\0"+
+    "\32\20\6\0\1\21\1\22\1\23\1\22\1\24\1\22"+
+    "\1\25\4\22\1\26\1\27\1\22\1\30\1\22\1\31"+
+    "\1\32\1\33\1\34\1\35\5\22\3\0\1\36\6\0"+
+    "\1\3\u01a2\0\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -96,12 +98,13 @@ class MPLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\2\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\1\12\1\13\1\14\2\15\4\0"+
-    "\1\16\1\17\1\15\1\0\2\12\1\15\1\0\1\20"+
-    "\1\0\1\21";
+    "\1\7\1\1\1\10\1\11\1\12\1\13\1\14\5\15"+
+    "\1\1\2\0\1\11\2\0\1\16\1\14\4\15\1\0"+
+    "\1\11\4\15\1\0\1\17\2\15\1\20\1\0\1\21"+
+    "\1\15\1\22\1\15\1\23";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[32];
+    int [] result = new int[50];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -126,13 +129,16 @@ class MPLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\24\0\50\0\50\0\74\0\50\0\50\0\50"+
-    "\0\50\0\50\0\120\0\50\0\144\0\170\0\50\0\214"+
-    "\0\240\0\264\0\310\0\334\0\360\0\50\0\u0104\0\u0118"+
-    "\0\u012c\0\50\0\360\0\u0140\0\u0154\0\214\0\u0168\0\50";
+    "\0\0\0\37\0\76\0\76\0\135\0\76\0\76\0\76"+
+    "\0\76\0\76\0\174\0\76\0\233\0\272\0\76\0\331"+
+    "\0\370\0\u0117\0\u0136\0\u0155\0\u0174\0\370\0\u0193\0\135"+
+    "\0\135\0\u01b2\0\u01d1\0\76\0\u01f0\0\u020f\0\u022e\0\u024d"+
+    "\0\u026c\0\u028b\0\u01d1\0\u02aa\0\u02c9\0\u02e8\0\u0307\0\u0326"+
+    "\0\370\0\u0345\0\u0364\0\370\0\u0383\0\370\0\u03a2\0\76"+
+    "\0\u03c1\0\370";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[32];
+    int [] result = new int[50];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -155,20 +161,27 @@ class MPLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\1\4\1\0\1\5\1\6\1\7\1\10\1\11"+
+    "\1\3\2\4\1\0\1\5\1\6\1\7\1\10\1\11"+
     "\1\12\1\13\1\14\1\15\1\16\1\17\1\3\1\20"+
-    "\1\21\2\20\1\3\23\2\1\22\43\0\4\23\14\0"+
-    "\1\24\22\0\1\25\1\15\26\0\1\26\20\0\1\27"+
-    "\3\0\4\20\14\0\1\27\3\0\3\20\1\30\1\0"+
-    "\20\2\1\31\2\2\1\22\3\0\1\32\13\0\4\23"+
-    "\13\0\1\25\1\24\23\0\1\33\23\0\1\27\3\0"+
-    "\4\27\14\0\1\27\3\0\2\20\1\34\1\20\1\0"+
-    "\22\2\1\35\1\22\13\0\1\27\3\0\2\20\1\36"+
-    "\1\20\1\0\21\2\1\37\1\2\1\22\21\2\1\40"+
-    "\1\2\1\22";
+    "\2\21\1\22\1\23\1\24\1\25\7\21\1\26\36\2"+
+    "\1\27\37\0\2\30\2\0\1\31\32\30\14\0\1\32"+
+    "\35\0\1\33\1\15\41\0\1\34\33\0\1\35\3\0"+
+    "\1\20\15\21\21\0\16\21\21\0\10\21\1\36\5\21"+
+    "\21\0\11\21\1\37\4\21\21\0\12\21\1\40\3\21"+
+    "\21\0\4\21\1\41\11\21\1\0\23\2\1\42\12\2"+
+    "\1\27\13\0\1\33\1\32\36\0\1\43\36\0\1\35"+
+    "\3\0\1\35\36\0\7\21\1\44\6\21\21\0\15\21"+
+    "\1\45\21\0\4\21\1\46\11\21\21\0\13\21\1\47"+
+    "\2\21\1\0\30\2\1\50\5\2\1\27\20\0\7\21"+
+    "\1\51\6\21\21\0\1\21\1\52\14\21\21\0\1\21"+
+    "\1\53\14\21\21\0\13\21\1\54\2\21\1\0\27\2"+
+    "\1\55\6\2\1\27\20\0\6\21\1\56\7\21\21\0"+
+    "\14\21\1\57\1\21\1\0\27\2\1\60\6\2\1\27"+
+    "\20\0\4\21\1\61\11\21\21\0\12\21\1\62\3\21"+
+    "\1\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[380];
+    int [] result = new int[992];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -212,11 +225,11 @@ class MPLexer {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\2\0\2\11\1\1\5\11\1\1\1\11\2\1\1\11"+
-    "\2\1\4\0\1\11\2\1\1\0\1\11\2\1\1\0"+
-    "\1\1\1\0\1\11";
+    "\7\1\2\0\1\1\2\0\1\11\5\1\1\0\5\1"+
+    "\1\0\4\1\1\0\2\1\1\11\2\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[32];
+    int [] result = new int[50];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -715,123 +728,137 @@ Yytoken getKW()
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [63] { if (yytext() != null && yytext().length() > 0) System.out.println( \"ERROR: \" + yytext() ); }");
+            System.out.println("action [70] { if (yytext() != null && yytext().length() > 0) System.out.println( \"ERROR: \" + yytext() ); }");
             { if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() );
             }
             // fall through
-          case 18: break;
+          case 20: break;
           case 2:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [39] { ; }");
+            System.out.println("action [40] { ; }");
             { ;
             }
             // fall through
-          case 19: break;
+          case 21: break;
           case 3:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [40] { return new Yytoken( sym.LEFTPAR, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [41] { return new Yytoken( sym.LEFTPAR, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.LEFTPAR, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 20: break;
+          case 22: break;
           case 4:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [41] { return new Yytoken( sym.RIGHTPAR, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [42] { return new Yytoken( sym.RIGHTPAR, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.RIGHTPAR, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 21: break;
+          case 23: break;
           case 5:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [45] { return new Yytoken( sym.MUL,yytext(), yyline, yycolumn ); }");
+            System.out.println("action [46] { return new Yytoken( sym.MUL,yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.MUL,yytext(), yyline, yycolumn );
             }
             // fall through
-          case 22: break;
+          case 24: break;
           case 6:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [44] { return new Yytoken( sym.PLUS,yytext(), yyline, yycolumn ); }");
+            System.out.println("action [45] { return new Yytoken( sym.PLUS,yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.PLUS,yytext(), yyline, yycolumn );
             }
             // fall through
-          case 23: break;
+          case 25: break;
           case 7:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [50] { return new Yytoken( sym.COMMA, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [53] { return new Yytoken( sym.COMMA, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.COMMA, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 24: break;
+          case 26: break;
           case 8:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [46] { return new Yytoken( sym.MINUS, yytext(), yyline, yycolumn); }");
-            { return new Yytoken( sym.MINUS, yytext(), yyline, yycolumn);
-            }
-            // fall through
-          case 25: break;
-          case 9:
-            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [51] { return new Yytoken( sym.DOT, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [54] { return new Yytoken( sym.DOT, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.DOT, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 26: break;
-          case 10:
+          case 27: break;
+          case 9:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [59] { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [65] { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 27: break;
-          case 11:
+          case 28: break;
+          case 10:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [49] { return new Yytoken( sym.COLON, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [52] { return new Yytoken( sym.COLON, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.COLON, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 28: break;
-          case 12:
+          case 29: break;
+          case 11:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [48] { return new Yytoken( sym.SEMICOLON, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [51] { return new Yytoken( sym.SEMICOLON, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.SEMICOLON, yytext(), yyline, yycolumn );
             }
             // fall through
-          case 29: break;
-          case 13:
-            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [55] { return getKW(); }");
-            { return getKW();
-            }
-            // fall through
           case 30: break;
-          case 14:
+          case 12:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [52] { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn ); }");
-            { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn );
-            }
-            // fall through
-          case 31: break;
-          case 15:
-            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [57] { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }");
+            System.out.println("action [59] { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }");
             { return new Yytoken(sym.ID, yytext(),yyline, yycolumn );
             }
             // fall through
-          case 32: break;
-          case 16:
+          case 31: break;
+          case 13:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [36] { yybegin( KOMENTAR ); }");
-            { yybegin( KOMENTAR );
+            System.out.println("action [62] { return getKW(); }");
+            { return getKW();
+            }
+            // fall through
+          case 32: break;
+          case 14:
+            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+            System.out.println("action [55] { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn ); }");
+            { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn );
             }
             // fall through
           case 33: break;
-          case 17:
+          case 15:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [37] { yybegin( YYINITIAL ); }");
-            { yybegin( YYINITIAL );
+            System.out.println("action [37] { yybegin( KOMENTAR ); }");
+            { yybegin( KOMENTAR );
             }
             // fall through
           case 34: break;
+          case 16:
+            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+            System.out.println("action [47] { return new Yytoken( sym.LESS, yytext(), yyline, yycolumn); }");
+            { return new Yytoken( sym.LESS, yytext(), yyline, yycolumn);
+            }
+            // fall through
+          case 35: break;
+          case 17:
+            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+            System.out.println("action [49] { return new Yytoken( sym.EQUAL, yytext(), yyline, yycolumn); }");
+            { return new Yytoken( sym.EQUAL, yytext(), yyline, yycolumn);
+            }
+            // fall through
+          case 36: break;
+          case 18:
+            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+            System.out.println("action [38] { yybegin( YYINITIAL ); }");
+            { yybegin( YYINITIAL );
+            }
+            // fall through
+          case 37: break;
+          case 19:
+            System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+            System.out.println("action [48] { return new Yytoken( sym.GREATER, yytext(), yyline, yycolumn); }");
+            { return new Yytoken( sym.GREATER, yytext(), yyline, yycolumn);
+            }
+            // fall through
+          case 38: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

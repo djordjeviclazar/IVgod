@@ -28,6 +28,7 @@ Yytoken getKW()
 %xstate KOMENTAR
 //makroi
 slovo = [a-zA-Z]
+velikoSlovo = [A-Z]
 cifra = [0-9]
 
 %%
@@ -43,7 +44,9 @@ cifra = [0-9]
 //operatori
 \+ { return new Yytoken( sym.PLUS,yytext(), yyline, yycolumn ); }
 \* { return new Yytoken( sym.MUL,yytext(), yyline, yycolumn ); }
-\- { return new Yytoken( sym.MINUS, yytext(), yyline, yycolumn); }
+"less" { return new Yytoken( sym.LESS, yytext(), yyline, yycolumn); }
+"greater" { return new Yytoken( sym.GREATER, yytext(), yyline, yycolumn); }
+"equal" { return new Yytoken( sym.EQUAL, yytext(), yyline, yycolumn); }
 //separatori
 ; { return new Yytoken( sym.SEMICOLON, yytext(), yyline, yycolumn ); }
 : { return new Yytoken( sym.COLON, yytext(), yyline, yycolumn ); }
@@ -51,13 +54,17 @@ cifra = [0-9]
 \. { return new Yytoken( sym.DOT, yytext(), yyline, yycolumn ); }
 := { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn ); }
 
-//kljucne reci
-{slovo}+ { return getKW(); }
+
 //identifikatori
-{slovo}({slovo}|{cifra})* { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }
+{velikoSlovo}({velikoSlovo}|{cifra})* { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }
+
+//kljucne reci
+\~?{slovo}+ { return getKW(); }
+
 //konstante
 {cifra}+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
-\"{slovo}+\" { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
+\".*\" { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
 -?[0-9]+\.[0-9]+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
+
 //obrada gresaka
 . { if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() ); }

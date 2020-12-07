@@ -12,13 +12,16 @@ public class KWTable {
         mTable.put("int", new Integer(sym.INTEGER));
         mTable.put("while", new Integer(sym.WHILE));
         mTable.put("deployment", new Integer(sym.DEPLOYMENT));
+        mTable.put("~deployment", new Integer(sym.DEPLOYMENTEND));
         mTable.put("server", new Integer(sym.SERVER));
+        mTable.put("~server", new Integer(sym.SERVEREND));
         mTable.put("task", new Integer(sym.TASK));
+        mTable.put("~task", new Integer(sym.TASKEND));
         mTable.put("serverId", new Integer(sym.SERVERID));
-        mTable.put("task", new Integer(sym.TASKID));
+        mTable.put("taskId", new Integer(sym.TASKID));
         mTable.put("executedOn", new Integer(sym.EXACUTEDON));
         mTable.put("model", new Integer(sym.MODEL));
-        mTable.put("comm", new Integer(sym.COMMENT));
+        mTable.put("~model", new Integer(sym.MODELEND));
     }
 
     /**
