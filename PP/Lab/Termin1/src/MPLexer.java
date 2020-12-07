@@ -728,7 +728,7 @@ Yytoken getKW()
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [70] { if (yytext() != null && yytext().length() > 0) System.out.println( \"ERROR: \" + yytext() ); }");
+            System.out.println("action [75] { if (yytext() != null && yytext().length() > 0) System.out.println( \"ERROR: \" + yytext() ); }");
             { if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() );
             }
             // fall through
@@ -784,7 +784,7 @@ Yytoken getKW()
           case 27: break;
           case 9:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [65] { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }");
+            System.out.println("action [70] { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }");
             { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn );
             }
             // fall through
@@ -812,8 +812,11 @@ Yytoken getKW()
           case 31: break;
           case 13:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [62] { return getKW(); }");
-            { return getKW();
+            System.out.println("action [62] { Yytoken a = getKW();"+ZZ_NL+"              if (a.m_index >= 0)"+ZZ_NL+"                { return a; }"+ZZ_NL+"              System.out.println( \"ERROR: \" + yytext() ); }");
+            { Yytoken a = getKW();
+              if (a.m_index >= 0)
+                { return a; }
+              System.out.println( "ERROR: " + yytext() );
             }
             // fall through
           case 32: break;

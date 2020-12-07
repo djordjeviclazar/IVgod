@@ -59,7 +59,12 @@ cifra = [0-9]
 {velikoSlovo}({velikoSlovo}|{cifra})* { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }
 
 //kljucne reci
-\~?{slovo}+ { return getKW(); }
+\~?{slovo}+ {
+              Yytoken a = getKW();
+              if (a.m_index >= 0)
+                { return a; }
+              System.out.println( "ERROR: " + yytext() );
+            }
 
 //konstante
 {cifra}+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }

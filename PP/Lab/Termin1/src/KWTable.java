@@ -33,7 +33,11 @@ public class KWTable {
             return ((Integer) symbol).intValue();
 
         // Ako rec nije pronadjena u tabeli kljucnih reci radi se o identifikatoru
-        return sym.ID;
+        // return sym.ID;
+        // !!!!!
+        // U ovom primeru svi ID imaju velika slova i cifre, za šta postoji regex
+        // -1 označava grešku da se ne bi propagirala do sintaksnog analizatora
+        return -1;
     }
 
 
