@@ -1,7 +1,14 @@
-program
+comm program
 begin
  (*ovo je komentar*)
  var a:integer b:char;
  a:=356;
  b:='c'
-end
+end ~comm
+
+abcA : int; w : double; sad : string;
+abcA := -2.22321; w := 2; sad := "fajdnfls";
+
+while (abcA less w) :
+    adcA := abcA + 1;
+

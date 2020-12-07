@@ -57,7 +57,7 @@ cifra = [0-9]
 {slovo}({slovo}|{cifra})* { return new Yytoken(sym.ID, yytext(),yyline, yycolumn ); }
 //konstante
 {cifra}+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
-{slovo}+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
+\"{slovo}+\" { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
 -?[0-9]+\.[0-9]+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
 //obrada gresaka
 . { if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() ); }
