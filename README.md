@@ -39,7 +39,14 @@ ARC4, f-je za kriptovanje, dekriptovanje, upis i čitanje iz fajla
 
 #### Zad A2, B2
 
-Bifid, f-je za kriptovanje, dekriptovanje, upis i čitanje iz .bmp fajla
+Bifid, f-je za kriptovanje, dekriptovanje, 
+upis i čitanje iz .bmp fajla
+
+#### Zad A3, B3
+
+RSA, f-je za kriptovanje, dekriptovanje, 
+CRC za proveru validnosti, 
+optimalnije čitanje iz fajla (fajlovi 100MB, kriptuju se blokovi)
 
 ## Programski prevodioci
 
