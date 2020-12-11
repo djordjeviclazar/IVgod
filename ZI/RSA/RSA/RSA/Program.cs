@@ -10,6 +10,10 @@ namespace RSA
     {
         static void Main(string[] args)
         {
+            RSAAlg alg = new RSAAlg();
+            alg.GenerateSmallKey();
+            alg.Crypt("Testfiles/B2A.bmp", "Testfiles/B2ACrypted.bmp");
+            alg.Crypt("Testfiles/B2ACrypted.bmp", "Testfiles/B2ADecrypted.bmp");
         }
     }
 }
