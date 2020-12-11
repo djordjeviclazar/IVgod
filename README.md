@@ -99,3 +99,15 @@ kojem prvi znak ne može da bude cifra), a konstante mogu biti:
 ''<niz_znakova>''
 Komentari u ovom programskom jeziku počinju simbolom comm i završavaju se simbolom
 ~comm
+
+## Veštačka inteligencije
+
+### Lab
+
+#### Termin1
+
+Napisati funkciju koja svaki od prvih n elemenata liste atoma uvećava za 1, a preostale umanjuje za 1. Zadatak realizovati u okviru jedne funkcije.
+
+Zaglavlje funkcije: (promeni n lista)
+
+Primeri poziva: (promeni ’4 ’(5 8 3 8 1 8 6 7 9)) => (6 9 4 9 0 7 5 6 8)
