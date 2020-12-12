@@ -2,12 +2,6 @@
 
 ## Računarska grafika
 
-### Domaći
-
-#### Termin 1
-
-#### Termin 2
-
 ### Lab
 
 #### LV01 - GDI - TANGRAM - ZADATAK (18.11.2020 - 24.11.2020)
@@ -16,7 +10,7 @@
 
 Korišćenjem funkcija GDI-ja potrebno je iscrtati figuru kao na slici (dimenzija 500x500 piksela).
 Implementirati fukcionalnost uključivanja/isključivanja iscrtavanja mreže (grid-a) na pritisak tastera po izboru
-Za crtanje pravilnih mnogouglova koristiti jednačine: x=r*cos(alfa); y=r*sin(alfa)
+Za crtanje pravilnih mnogouglova koristiti jednačine: ***x=r\*cos(alfa); y=r\*sin(alfa)***
 
 ##### Napomena:
 
@@ -28,6 +22,10 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 #### LV02 - GDI - TRANSFORMACIJE - ZADATAK (28.11.2020 - 03.12.2020)
 
 <img src="RG/Lab/lab2.png">
+
+#### LV03 - GDI - BITMAPE - MONAPUZZLE - ZADATAK (05.12.2020 - 12.12.2020)
+
+<img src="RG/Lab/lab3.png">
 
 ## Zaštita informacija
 
@@ -54,60 +52,58 @@ optimalnije čitanje iz fajla (fajlovi 100MB, kriptuju se blokovi)
 
 #### Zad1
 
-##### Grupa 6
+**Grupa 6**
 
-Kreirati jflex specifikaciju za generisanje leksičkog analizatora domenski-specifičnog jezika iz oblasti
-upravljanja računarskim infrastrukturama koji je definisan datom gramatikom. Task je apstrakcija
-zadatka koji obavlja neki Server, a Mapping je alokacija zadatka serveru. Demand izražava zahteve
-zadatka za resursima, a Capacity izražava mogućnost servera da izvršava zadatke (koji imaju manji ili
-jednak Demand).
-Model → model Body ~model
-Body → Declarations Statements Deployment
-Declarations → VariableDeclaration
-VariableDeclaration → VariableDeclaration ; Variable | Variable
-Variable → ID ∶ Type ;
-Type → int | double | string
-Statements → Statements ; Statement | Statement
-Statement → Assignment | WhileStatement
-WhileStatement → while ( RelExpression ) : Statements
-RelExpression → Term RelOp Term | Term
-Term → ID | CONST
-RelOp → less | equal | greater
-Assignment → ID ∶= Expression
-Deployment → deployment TaskList ServerList ~deployment
-ServerList → ServerList ; ServerDef | ServerDef
-ServerDef → server ServerName , Capacity ~server
-ServerName → serverId ID
-Capacity → Term
-TaskList → TaskList ; TaskDef | TaskDef
-TaskDef → task TaskName , Demand , Mapping ~task
-TaskName → taskId ID
-Demand → Term
-Mapping → executedOn ID
-Expression → Expression + Term | Expression * Term | Term
-Elektronski fakultet u Nišu
-KATEDRA ZA RAČUNARSTVO
-Programski prevodioci
-Laboratorijska vežba 1.
-Terminalni simbol ID u ovom programskom jeziku označava identifikator (niz velikih slova i cifara u
-kojem prvi znak ne može da bude cifra), a konstante mogu biti:
-4. Konstante tipa int:
-<niz_cifara>
-5. Konstante tipa double:
-[−]<niz_cifara>.<niz_cifara>
-6. Konstante tipa string:
-''<niz_znakova>''
-Komentari u ovom programskom jeziku počinju simbolom comm i završavaju se simbolom
-~comm
+Kreirati **jflex** specifikaciju za generisanje leksičkog analizatora domenski-specifičnog jezika iz oblasti
+upravljanja računarskim infrastrukturama koji je definisan datom gramatikom. **Task** je apstrakcija
+zadatka koji obavlja neki **Server**, a **Mapping** je alokacija zadatka serveru. **Demand** izražava zahteve
+zadatka za resursima, a **Capacity** izražava mogućnost servera da izvršava zadatke (koji imaju manji ili
+jednak **Demand**). <br />
 
-## Veštačka inteligencije
+Model → **model** Body **~model** <br />
+Body → Declarations Statements Deployment <br />
+Declarations → VariableDeclaration <br />
+VariableDeclaration → VariableDeclaration **;** Variable | Variable <br />
+Variable → **ID** ∶ Type **;** <br />
+Type → **int** | **double** | **string** <br />
+Statements → Statements **;** Statement | Statement <br />
+Statement → Assignment | WhileStatement <br />
+WhileStatement → **while** **(** RelExpression **)** **:** Statements <br />
+RelExpression → Term RelOp Term | Term <br />
+Term → **ID** | **CONST** <br />
+RelOp → **less** | **equal** | **greater** <br />
+Assignment → **ID** ∶= Expression <br />
+Deployment → **deployment** TaskList ServerList **~deployment** <br />
+ServerList → ServerList **;** ServerDef | ServerDef <br />
+ServerDef → **server** ServerName **,** Capacity **~server** <br />
+ServerName → **serverId ID** <br />
+Capacity → Term <br />
+TaskList → TaskList **;** TaskDef | TaskDef <br />
+TaskDef → **task** TaskName **,** Demand **,** Mapping **~task** <br />
+TaskName → **taskId ID** <br />
+Demand → Term <br />
+Mapping → **executedOn ID** <br />
+Expression → Expression **+** Term | Expression **\*** Term | Term <br />
+
+Terminalni simbol **ID** u ovom programskom jeziku označava identifikator (niz velikih slova i cifara u
+kojem prvi znak ne može da bude cifra), a konstante mogu biti: <br />
+\4. Konstante tipa **int**: <br />
+<niz_cifara> <br />
+\5. Konstante tipa **double**: <br />
+\[−]<niz_cifara>.<niz_cifara> <br />
+\6. Konstante tipa **string**: <br />
+''<niz_znakova>'' <br />
+Komentari u ovom programskom jeziku počinju simbolom **comm** i završavaju se simbolom
+**~comm**
+
+## Veštačka inteligencija
 
 ### Lab
 
 #### Termin1
 
-Napisati funkciju koja svaki od prvih n elemenata liste atoma uvećava za 1, a preostale umanjuje za 1. Zadatak realizovati u okviru jedne funkcije.
+Napisati funkciju koja svaki od prvih n elemenata liste atoma uvećava za 1, a preostale umanjuje za \1. Zadatak realizovati u okviru jedne funkcije.
 
-Zaglavlje funkcije: (promeni n lista)
+Zaglavlje funkcije: (**promeni** n lista)
 
-Primeri poziva: (promeni ’4 ’(5 8 3 8 1 8 6 7 9)) => (6 9 4 9 0 7 5 6 8)
+Primeri poziva: (**promeni** *’4 ’(5 8 3 8 1 8 6 7 9)*) => *(6 9 4 9 0 7 5 6 8)*
