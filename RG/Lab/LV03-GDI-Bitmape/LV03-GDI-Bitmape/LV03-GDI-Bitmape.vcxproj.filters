@@ -39,6 +39,9 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LV03-GDI-Bitmape.cpp">
@@ -54,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,6 +81,36 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\11.dib">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\9.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DImage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LV03-GDI-Bitmape.h" />
     <ClInclude Include="LV03-GDI-BitmapeDoc.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DImage.cpp" />
     <ClCompile Include="LV03-GDI-Bitmape.cpp" />
     <ClCompile Include="LV03-GDI-BitmapeDoc.cpp" />
     <ClCompile Include="LV03-GDI-BitmapeView.cpp" />
@@ -211,6 +213,16 @@
     <None Include="res\LV03GDIBitmape.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\1.bmp" />
+    <Image Include="res\11.dib" />
+    <Image Include="res\2.bmp" />
+    <Image Include="res\3.bmp" />
+    <Image Include="res\4.bmp" />
+    <Image Include="res\5.bmp" />
+    <Image Include="res\6.bmp" />
+    <Image Include="res\7.bmp" />
+    <Image Include="res\8.bmp" />
+    <Image Include="res\9.bmp" />
     <Image Include="res\LV03-GDI-Bitmape.ico" />
     <Image Include="res\LV03-GDI-BitmapeDoc.ico" />
     <Image Include="res\Toolbar.bmp" />
