@@ -66,6 +66,7 @@ cifra = [0-9]
               if (a.m_index >= 0)
                 { return a; }
               System.out.println( "ERROR: " + yytext() );
+              return new Yytoken( sym.ERROR, yytext(), yyline, yycolumn );
             }
 
 //konstante
@@ -74,4 +75,8 @@ cifra = [0-9]
 -?[0-9]+\.[0-9]+ { return new Yytoken( sym.CONST, yytext(), yyline, yycolumn ); }
 
 //obrada gresaka
-. { if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() ); }
+. { 
+    if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() );
+    
+    return new Yytoken( sym.ERROR, yytext(), yyline, yycolumn ); 
+  }

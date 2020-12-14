@@ -1,4 +1,5 @@
-public class sym {
+public class sym
+{
 
     /*
      * Simboli koji se koriste u sintaksnom analizatoru
@@ -15,6 +16,7 @@ public class sym {
     public final static int LEFTPAR = 9;
     public final static int RIGHTPAR = 10;
     public final static int EOF = 11;
+
 
     /*
      * Simboli koji su se koristili u prvom zadatku
@@ -40,5 +42,7 @@ public class sym {
     public final static int TASKEND = 29;
     public final static int COMMA = 30;
     public final static int DOT = 31;
+
+    public final static int ERROR = 32; // da bi se zalo koja da je greška u leksičkom analizatoru
 
 }
