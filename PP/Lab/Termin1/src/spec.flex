@@ -53,8 +53,8 @@ cifra = [0-9]
 , { return new Yytoken( sym.COMMA, yytext(), yyline, yycolumn ); }
 \. { return new Yytoken( sym.DOT, yytext(), yyline, yycolumn ); }
 := { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn ); }
-\{ { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn ); }
-\} { return new Yytoken( sym.ASSIGN, yytext(), yyline, yycolumn ); }
+\{ { return new Yytoken( sym.LEFTCURVEDPAR, yytext(), yyline, yycolumn ); }
+\} { return new Yytoken( sym.RIGHTCURVEDPAR, yytext(), yyline, yycolumn ); }
 
 
 //identifikatori

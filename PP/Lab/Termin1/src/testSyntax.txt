@@ -1,0 +1,9 @@
+ABC := 2;
+
+while(ABC less 5):
+{
+    POM := 7; 
+    ABC := POM;
+    ABC := 2;
+    ABC := 2
+}

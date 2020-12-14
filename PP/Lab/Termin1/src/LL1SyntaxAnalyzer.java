@@ -30,7 +30,7 @@ public class LL1SyntaxAnalyzer
                     {5, 4, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13},
                     {6, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13},
                     {13, 7, 7, 13, 13, 13, 13, 13, 13, 13, 13, 13},
-                    {13, 8, 8, 13, 13, 13, 13, 13, 13, 13, 9, 13},
+                    {13, 13, 13, 8, 13, 13, 13, 13, 13, 13, 9, 13},
                     {13, 10, 11, 13, 13, 13, 13, 13, 13, 13, 13, 13},
                     {13, 12, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13},
                     {0, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13},
@@ -67,20 +67,27 @@ public class LL1SyntaxAnalyzer
     {
         // inicijalizacija:
         Stack<Integer> magacin = new Stack<>();
-        magacin.push(sym.EOF);
+        magacin.push(sym.EOF + 8);
         magacin.push(Neterminali.Statements);
         boolean acc = false, error = false;
 
-        int akcija = -1; // kod akcije iz sintaksne tabele koja treba da se izvrši
+        Yytoken token = getNextToken(lexer);
+        if (token == null)
+        {
+            return;
+        }
+        int akcija; // kod akcije iz sintaksne tabele koja treba da se izvrši
         // -1 ako treba da se uzme vrednost iz sintaksne tabele
         // (desio se pop)
+
         // sintaksna analiza:
         do
         {
+            /*
             if (akcija == -1)
             {
                 // novi token
-                Yytoken token = lexer.next_token();
+                token = lexer.next_token();
                 if (token.m_index == sym.ERROR)
                 {
                     System.out.println("ERROR on line: " + token.m_line);
@@ -88,63 +95,86 @@ public class LL1SyntaxAnalyzer
 
                     return; // ne nastavljamo nakon greške
                 }
+            }           
+            */
+            akcija = sintaksnaTabela[magacin.peek()][token.m_index];
+            switch (akcija)
+            {
+                case 0:
+                    pop(magacin);
 
-                akcija = sintaksnaTabela[magacin.peek()][token.m_index];
-                switch (akcija)
-                {
-                    case 0:
-                        pop(magacin);
-                        akcija = -1;
-                        break;
-                    case 1:
-                        smena1(magacin);
-                        break;
-                    case 2:
-                        smena2(magacin);
-                        break;
-                    case 3:
-                        smena3(magacin);
-                        break;
-                    case 4:
-                        smena4(magacin);
-                        break;
-                    case 5:
-                        smena5(magacin);
-                        break;
-                    case 6:
-                        smena6(magacin);
-                        break;
-                    case 7:
-                        smena7(magacin);
-                        break;
-                    case 8:
-                        smena8(magacin);
-                        break;
-                    case 9:
-                        smena9(magacin);
-                        break;
-                    case 10:
-                        smena10(magacin);
-                        break;
-                    case 11:
-                        smena11(magacin);
-                        break;
-                    case 12:
-                        smena12(magacin);
-                        break;
-                    case 13:
-                        errorPrint(magacin, token);
-                        error = true;
-                        break;
-                    case 14:
-                        accept(magacin);
-                        acc = true;
-                        break;
-                }
+                    token = getNextToken(lexer);
+                    if (token == null)
+                    {
+                        return;
+                    }
+                    break;
+                case 1:
+                    smena1(magacin);
+                    break;
+                case 2:
+                    smena2(magacin);
+                    break;
+                case 3:
+                    smena3(magacin);
+                    break;
+                case 4:
+                    smena4(magacin);
+                    break;
+                case 5:
+                    smena5(magacin);
+                    break;
+                case 6:
+                    smena6(magacin);
+                    break;
+                case 7:
+                    smena7(magacin);
+                    break;
+                case 8:
+                    smena8(magacin);
+                    break;
+                case 9:
+                    smena9(magacin);
+                    break;
+                case 10:
+                    smena10(magacin);
+                    break;
+                case 11:
+                    smena11(magacin);
+                    break;
+                case 12:
+                    smena12(magacin);
+                    break;
+                case 13:
+                    errorPrint(magacin, token);
+                    error = true;
+                    break;
+                case 14:
+                    accept(magacin);
+                    acc = true;
+                    break;
+                default:
+                    System.out.println("UNKNOWN ERROR");
+                    break;
             }
 
 
         } while (!(acc || error));
+    }
+
+    private static Yytoken getNextToken(MPLexer lexer) throws IOException
+    {
+        Yytoken token = lexer.next_token();
+
+        if (token.m_index == sym.ERROR)
+        {
+            System.out.println("ERROR on line: " + token.m_line);
+            System.out.println("This sequence doesn't match any token: " + token.m_text);
+
+            return null; // ne nastavljamo nakon greške
+        }
+
+        return token;
     }
 
     private static void accept(Stack<Integer> magacin)
@@ -162,20 +192,20 @@ public class LL1SyntaxAnalyzer
     {
         magacin.pop();
         magacin.push(Neterminali.Term);
-        magacin.push(sym.ASSIGN);
-        magacin.push(sym.ID);
+        magacin.push(sym.ASSIGN + 8);
+        magacin.push(sym.ID + 8);
     }
 
     private static void smena11(Stack<Integer> magacin)
     {
         magacin.pop();
-        magacin.push(sym.CONST);
+        magacin.push(sym.CONST + 8);
     }
 
     private static void smena10(Stack<Integer> magacin)
     {
         magacin.pop();
-        magacin.push(sym.ID);
+        magacin.push(sym.ID + 8);
     }
 
     private static void smena9(Stack<Integer> magacin)
@@ -187,7 +217,7 @@ public class LL1SyntaxAnalyzer
     {
         magacin.pop();
         magacin.push(Neterminali.Term);
-        magacin.push(sym.LESS);
+        magacin.push(sym.LESS + 8);
     }
 
     private static void smena7(Stack<Integer> magacin)
@@ -200,14 +230,14 @@ public class LL1SyntaxAnalyzer
     private static void smena6(Stack<Integer> magacin)
     {
         magacin.pop();
-        magacin.push(sym.RIGHTCURVEDPAR);
+        magacin.push(sym.RIGHTCURVEDPAR + 8);
         magacin.push(Neterminali.Statements);
-        magacin.push(sym.LEFTCURVEDPAR);
-        magacin.push(sym.COLON);
-        magacin.push(sym.RIGHTPAR);
+        magacin.push(sym.LEFTCURVEDPAR + 8);
+        magacin.push(sym.COLON + 8);
+        magacin.push(sym.RIGHTPAR + 8);
         magacin.push(Neterminali.RelExpression);
-        magacin.push(sym.LEFTPAR);
-        magacin.push(sym.WHILE);
+        magacin.push(sym.LEFTPAR + 8);
+        magacin.push(sym.WHILE + 8);
     }
 
     private static void smena5(Stack<Integer> magacin)
