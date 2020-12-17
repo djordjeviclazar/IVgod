@@ -27,6 +27,10 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 
 <img src="RG/Lab/lab3.png">
 
+#### LV04 - OPENGL - TRANSFORMACIJE
+
+<img src="RG/Lab/lab4.png">
+
 ## Zaštita informacija
 
 ### Domaći
@@ -99,6 +103,8 @@ Komentari u ovom programskom jeziku počinju simbolom **comm** i završavaju se 
 ## Veštačka inteligencija
 
 ### Lab
+
+#### Pripema1 (Examples/lab1/EasyFunctionsLab1Examples)
 
 #### Termin1
 
