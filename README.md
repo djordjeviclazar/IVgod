@@ -106,6 +106,8 @@ Komentari u ovom programskom jeziku počinju simbolom **comm** i završavaju se 
 
 #### Pripema1 (Examples/lab1/EasyFunctionsLab1Examples)
 
+#### Pripema2 (Examples/lab2/Lab2Examples)
+
 #### Termin1
 
 Napisati funkciju koja svaki od prvih n elemenata liste atoma uvećava za 1, a preostale umanjuje za \1. Zadatak realizovati u okviru jedne funkcije.
@@ -113,3 +115,21 @@ Napisati funkciju koja svaki od prvih n elemenata liste atoma uvećava za 1, a p
 Zaglavlje funkcije: (**promeni** n lista)
 
 Primeri poziva: (**promeni** *’4 ’(5 8 3 8 1 8 6 7 9)*) => *(6 9 4 9 0 7 5 6 8)*
+
+#### Termin2
+
+Definisati funkcije:
+
+a. list_oduzimanje, za oduzimanje elemenata 2 liste, tako da se od prvog elementa prve liste oduzima poslednji element druge liste i tako redom.
+
+(**list_oduzimanje** *'(4 5 6) '(1 2 3)*) -> *(1 3 5)*
+
+
+
+b. min, koja pronalazi najmanji element prave liste.
+
+(**min** *'(3 6 1 8 9)*) -> *1*
+
+(**min** *'(((5 6) 9) 3 6 4 (7 1))*) -> *1*
+
+Zadatke je potrebno rešiti rekurzijom. Svaki zadatak realizovati u okviru jedne funkcije.
