@@ -69,16 +69,16 @@ void CGLRenderer::DrawScene(CDC *pDC)
 	glBegin(GL_LINES);
 	{
 		glColor3f(1.0, 0.0, 0.0); //x
-		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(-10.0, 0.0, 0.0);
+		glVertex3f(0.0, 0.0, -1.0);
+		glVertex3f(10.0, 0.1, -1.0);
 
 		glColor3f(0.0, 1.0, 0.0); //y
-		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, -10.0, 0.0);
+		glVertex3f(0.0, 0.0, -1.0);
+		glVertex3f(0.0, 10.0, -1.0);
 
 		glColor3f(0.0, 0.0, 1.0); //z
-		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 0.0, -10.0);
+		glVertex3f(2.0, 0.2, -1.0);
+		glVertex3f(0.9, 0.0, -10.0);
 	}
 	glEnd();
 
@@ -87,10 +87,10 @@ void CGLRenderer::DrawScene(CDC *pDC)
 	glBegin(GL_POINTS);
 	{
 		glColor3f(0.5, 0.0, 0.0);
-		glVertex3f(0.3, 0.2, 0.0);
-		glVertex3f(0.2, 3.0, 0.0);
-		glVertex3f(2.0, 6.0, -7.0);
-		glVertex3f(2., -3.0, -8.0);
+		glVertex3f(0.3, 0.2, -1.0);
+		glVertex3f(0.2, 0.3, -1.0);
+		glVertex3f(0.0, 0.0, -1.0);
+		glVertex3f(2., -3.0, -1.0);
 
 	}
 	glEnd();
