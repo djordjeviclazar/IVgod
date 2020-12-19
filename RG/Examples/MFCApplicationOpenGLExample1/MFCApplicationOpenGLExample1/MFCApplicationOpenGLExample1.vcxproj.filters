@@ -39,6 +39,21 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GL\GL.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL\GLAUX.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL\GLU.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL\glut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplicationOpenGLExample1.cpp">
@@ -54,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

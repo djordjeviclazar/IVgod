@@ -27,6 +27,10 @@ BEGIN_MESSAGE_MAP(CMFCApplicationOpenGLExample1View, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_CREATE()
+	ON_WM_SIZE()
+	ON_WM_DESTROY()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CMFCApplicationOpenGLExample1View construction/destruction
@@ -51,7 +55,7 @@ BOOL CMFCApplicationOpenGLExample1View::PreCreateWindow(CREATESTRUCT& cs)
 
 // CMFCApplicationOpenGLExample1View drawing
 
-void CMFCApplicationOpenGLExample1View::OnDraw(CDC* /*pDC*/)
+void CMFCApplicationOpenGLExample1View::OnDraw(CDC* pDC)
 {
 	CMFCApplicationOpenGLExample1Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -59,6 +63,16 @@ void CMFCApplicationOpenGLExample1View::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: add draw code for native data here
+	m_glRenderer.DrawScene(pDC);
+}
+
+void CMFCApplicationOpenGLExample1View::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+
+	CDC* pDC = GetDC();
+	m_glRenderer.PrepareScene(pDC);
+	ReleaseDC(pDC);
 }
 
 
@@ -103,3 +117,49 @@ CMFCApplicationOpenGLExample1Doc* CMFCApplicationOpenGLExample1View::GetDocument
 
 
 // CMFCApplicationOpenGLExample1View message handlers
+
+
+int CMFCApplicationOpenGLExample1View::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+	CDC* pDC = GetDC();
+	m_glRenderer.CreateGLContext(pDC);
+	ReleaseDC(pDC);
+
+	return 0;
+}
+
+
+void CMFCApplicationOpenGLExample1View::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	CDC* pDC = GetDC();
+	m_glRenderer.Reshape(pDC, cx, cy);
+	ReleaseDC(pDC);
+}
+
+
+void CMFCApplicationOpenGLExample1View::OnDestroy()
+{
+	CView::OnDestroy();
+
+	// TODO: Add your message handler code here
+	CDC* pDC = GetDC();
+	m_glRenderer.DestroyScene(pDC);
+	ReleaseDC(pDC);
+}
+
+
+BOOL CMFCApplicationOpenGLExample1View::OnEraseBkgnd(CDC* pDC)
+{
+	return TRUE;
+
+	// TODO: Add your message handler code here and/or call default
+
+	//return CView::OnEraseBkgnd(pDC);
+}

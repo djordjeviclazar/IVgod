@@ -96,6 +96,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -184,6 +186,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GLRenderer.h" />
+    <ClInclude Include="GL\GL.H" />
+    <ClInclude Include="GL\GLAUX.H" />
+    <ClInclude Include="GL\GLU.H" />
+    <ClInclude Include="GL\glut.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MFCApplicationOpenGLExample1.h" />
     <ClInclude Include="MFCApplicationOpenGLExample1Doc.h" />
@@ -193,6 +200,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MFCApplicationOpenGLExample1.cpp" />
     <ClCompile Include="MFCApplicationOpenGLExample1Doc.cpp" />
