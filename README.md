@@ -100,6 +100,27 @@ kojem prvi znak ne može da bude cifra), a konstante mogu biti: <br />
 Komentari u ovom programskom jeziku počinju simbolom **comm** i završavaju se simbolom
 **~comm**
 
+#### Zad2
+
+<img src="PP/Lab/Tekst zadataka/lab2.png">
+
+**Grupa 6**
+
+
+Statements → Statements **;** Statement | Statement
+Statement → Assignment | WhileStatement
+WhileStatement → **while (** RelExpression **) : {** Statements **}**
+RelExpression → Term **less** Term | Term
+Term → **ID | CONST**
+Assignment → **ID :=** Term
+
+#### Zad3
+
+<img src="PP/Lab/Tekst zadataka/lab3.png">
+
+<img src="PP/Lab/Tekst zadataka/lab3_grupa6.png">
+
+
 ## Veštačka inteligencija
 
 ### Lab
