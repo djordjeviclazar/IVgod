@@ -1,5 +1,12 @@
 #pragma once
 
+#define PI 3.14159
+#define SPHERE_X(r, alpha, beta) r * cos(alpha) * cos(beta)
+#define SPHERE_Y(r, alpha) r * sin(alpha)
+#define SPHERE_Z(r, alpha, beta) r * cos(alpha) * sin(beta)
+#define CIRCLE_X(r, alpha) r * cos(alpha)
+#define CIRCLE_Z(r, alpha) r * sin(alpha)
+
 class CGLRenderer
 {
 public:
@@ -15,4 +22,8 @@ public:
 protected:
 	HGLRC	 m_hrc; //OpenGL Rendering Context 
 
+private:
+	void drawSphere(float radius);
+	void drawCylinder(float radius, float height);
+	void drawPrism(float radius, float height, int sides);
 };
