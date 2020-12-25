@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Refferences:
+ * https://dejanstojanovic.net/aspnet/2018/march/download-file-in-chunks-in-parallel-in-c/
+ */
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
