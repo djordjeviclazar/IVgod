@@ -11,6 +11,39 @@ namespace ARC4
 {
     public class ARC4Alg
     {
+        private byte[] S, K;
+        private int g, t, k;
+
+        public ARC4Alg(byte[] key)
+        {
+            setKey(key);
+        }
+
+        public void setKey(byte[] key)
+        {
+            K = new byte[256];
+            S = new byte[256];
+
+            byte br = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                S[i] = br++;
+                K[i] = key[i % key.Length];
+            }
+            int k = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                k = (k + S[i] + K[i]) % 256;
+
+                byte pom = S[i];
+                S[i] = S[k];
+                S[k] = pom;
+            }
+
+            g = 0;
+            k = 0;
+        }
+
         // A1:
         public void Crypt(String filename, String resultFile, byte[] key)
         {
@@ -61,5 +94,33 @@ namespace ARC4
         {
             Crypt(filename, resultFile, key);
         }
+
+        public byte[] CryptBlock(byte[] plainText)
+        {
+            
+            byte[] result = new byte[plainText.Length];
+
+            for (int i = 0; i < plainText.Length; i++)
+            {
+                g = (g + 1) % 256;
+                k = (k + S[g]) % 256;
+
+                byte pom = S[g];
+                S[g] = S[k];
+                S[k] = pom;
+
+                t = S[(S[g] + S[k]) % 256];
+
+                result[i] = BitConverter.GetBytes(t ^ plainText[i])[0];
+            }
+
+            return result;
+        }
+
+        public byte[] DecryptBlock(byte[] plainText)
+        {
+            return CryptBlock(plainText);
+        }
+
     }
 }
