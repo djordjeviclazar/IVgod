@@ -11,38 +11,44 @@ namespace ARC4
 {
     public class ARC4Alg
     {
-        private byte[] S, K;
-        private int g, t, k;
+        //private byte[] S, K;
+        //private int g, t, k;
 
-        public ARC4Alg(byte[] key)
-        {
-            setKey(key);
-        }
+        //public ARC4Alg(byte[] key)
+        //{
+        //    setKey(key);
+        //}
 
-        public void setKey(byte[] key)
-        {
-            K = new byte[256];
-            S = new byte[256];
+        //public void setKey(byte[] key)
+        //{
+        //    K = new byte[256];
+        //    S = new byte[256];
 
-            byte br = 0;
-            for (int i = 0; i < 256; i++)
-            {
-                S[i] = br++;
-                K[i] = key[i % key.Length];
-            }
-            int k = 0;
-            for (int i = 0; i < 256; i++)
-            {
-                k = (k + S[i] + K[i]) % 256;
+        //    byte br = 0;
+        //    for (int i = 0; i < 256; i++)
+        //    {
+        //        S[i] = br++;
+        //        K[i] = key[i % key.Length];
+        //    }
+        //    int k = 0;
+        //    for (int i = 0; i < 256; i++)
+        //    {
+        //        k = (k + S[i] + K[i]) % 256;
 
-                byte pom = S[i];
-                S[i] = S[k];
-                S[k] = pom;
-            }
+        //        byte pom = S[i];
+        //        S[i] = S[k];
+        //        S[k] = pom;
+        //    }
 
-            g = 0;
-            k = 0;
-        }
+        //    g = 0;
+        //    k = 0;
+        //}
+
+        //public void reset()
+        //{
+        //    g = 0;
+        //    k = 0;
+        //}
 
         // A1:
         public void Crypt(String filename, String resultFile, byte[] key)
@@ -95,10 +101,29 @@ namespace ARC4
             Crypt(filename, resultFile, key);
         }
 
-        public byte[] CryptBlock(byte[] plainText)
+        public byte[] CryptBlock(byte[] plainText, byte[] key)
         {
-            
+            byte[] K = new byte[256], S = new byte[256];
+
+            byte br = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                S[i] = br++;
+                K[i] = key[i % key.Length];
+            }
+            int k = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                k = (k + S[i] + K[i]) % 256;
+
+                byte pom = S[i];
+                S[i] = S[k];
+                S[k] = pom;
+            }
+
             byte[] result = new byte[plainText.Length];
+            int g = 0, t;
+            k = 0;
 
             for (int i = 0; i < plainText.Length; i++)
             {
@@ -117,9 +142,9 @@ namespace ARC4
             return result;
         }
 
-        public byte[] DecryptBlock(byte[] plainText)
+        public byte[] DecryptBlock(byte[] plainText, byte[] key)
         {
-            return CryptBlock(plainText);
+            return CryptBlock(plainText, key);
         }
 
     }

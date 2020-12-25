@@ -23,7 +23,7 @@ namespace CBC
             }
 
             //Crypt:
-            ARC4Alg alg = new ARC4Alg(key);
+            ARC4Alg alg = new ARC4Alg();
             FileInfo fileInfo = new FileInfo(filename);
             long fileSize = fileInfo.Length;
 
@@ -47,7 +47,7 @@ namespace CBC
                             modifiedText[k] = BitConverter.GetBytes(initVector[k] ^ plainText[k])[0];
                         }
 
-                        byte[] cipher = alg.CryptBlock(modifiedText);
+                        byte[] cipher = alg.CryptBlock(modifiedText, key);
                         writer.Write(cipher);
 
                         // prepare IV:
@@ -55,12 +55,11 @@ namespace CBC
                     }
                 }
             }
-
         }
 
         public void Decrypt(String filename, String resultFile, byte[] key, int blockSize)
         {
-            ARC4Alg alg = new ARC4Alg(key);
+            ARC4Alg alg = new ARC4Alg();
             FileInfo fileInfo = new FileInfo(filename);
             long fileSize = fileInfo.Length;
 
@@ -79,7 +78,7 @@ namespace CBC
                         }
                         
 
-                        byte[] modifiedText = alg.DecryptBlock(cipher);
+                        byte[] modifiedText = alg.DecryptBlock(cipher, key);
 
                         byte[] decoded = new byte[cipher.Length];
 
