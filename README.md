@@ -159,3 +159,7 @@ b. min, koja pronalazi najmanji element prave liste.
 (**min** *'(((5 6) 9) 3 6 4 (7 1))*) -> *1*
 
 Zadatke je potrebno rešiti rekurzijom. Svaki zadatak realizovati u okviru jedne funkcije.
+
+#### Termin3
+
+<img src="VI/Lab/Tekst zadataka/lab3.png">
