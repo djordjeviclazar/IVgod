@@ -163,3 +163,5 @@ Zadatke je potrebno rešiti rekurzijom. Svaki zadatak realizovati u okviru jedne
 #### Termin3
 
 <img src="VI/Lab/Tekst zadataka/lab3.png">
+
+* Napomena: za heuristiku misli se na broj grana od početnog čvora (prosleđenog kao argument) do čvora do kog smo stigli prilikom obilaska
