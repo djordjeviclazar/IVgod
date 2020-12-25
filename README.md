@@ -50,6 +50,11 @@ RSA, f-je za kriptovanje, dekriptovanje,
 CRC za proveru validnosti, 
 optimalnije čitanje iz fajla (fajlovi 100MB, kriptuju se blokovi)
 
+#### Zad A4, B4
+
+Primeniti CBC mod kodera na neki od prethodnih algoritama za kodiranje (ARC4),
+Paralelizovati kodiranje, čitanje i upis
+
 ## Programski prevodioci
 
 ### Lab
