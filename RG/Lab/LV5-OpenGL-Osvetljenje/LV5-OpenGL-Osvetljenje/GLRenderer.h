@@ -24,14 +24,15 @@ protected:
 	HGLRC	 m_hrc; //OpenGL Rendering Context 
 
 public:
-	
+	bool firstRotation;
+	bool normalsOn = true;
 
 	void moveEye(CPoint point);
 
 private:
 	CPoint startPoint;
 	float cameraSensitivity = 0.5;
-	bool firstRotation;
+	
 	float currentLength;
 	// angles:
 	float yaw;
@@ -39,8 +40,13 @@ private:
 	// eye:
 	float eyeX, eyeY, eyeZ;
 
-	float unit = 5.;
+	float unit = 2.5;
 
-	// materials:
-	CGLMaterial material;
+	
+
+	void drawWalls();
+	void drawHalfSphere(float radius);
+	void drawCylinderSide(float radiusDown, float radiusUp, float height);
+	void drawPrism(float radiusDown, float radiusUp, float height);
+	void drawConeSide(float radiusDown, float radiusUp, float height);
 };

@@ -37,6 +37,7 @@ void CGLMaterial::Select()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffusev);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularv);
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininessf);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissionv);
 }
 
 void CGLMaterial::SetAmbient(float r, float g, float b, float alpha)

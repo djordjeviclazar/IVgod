@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CGLMaterial.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="LV5-OpenGL-Osvetljenje.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CGLMaterial.cpp" />
     <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="LV5-OpenGL-Osvetljenje.cpp" />
     <ClCompile Include="LV5-OpenGL-OsvetljenjeDoc.cpp" />

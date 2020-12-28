@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CLV5OpenGLOsvetljenjeView, CView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CLV5OpenGLOsvetljenjeView construction/destruction
@@ -194,4 +195,13 @@ void CLV5OpenGLOsvetljenjeView::OnMouseMove(UINT nFlags, CPoint point)
 
 	
 	
+}
+
+
+BOOL CLV5OpenGLOsvetljenjeView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return true;
+
+	//return CView::OnEraseBkgnd(pDC);
 }
