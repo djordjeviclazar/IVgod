@@ -113,15 +113,15 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	{
 		glColor3f(1.0, 0.0, 0.0); //x
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(unit * 4.0, 0.0, 0.0);
+		glVertex3f(unit * 6.0, 0.0, 0.0);
 
 		glColor3f(0.0, 1.0, 0.0); //y
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, unit * 4.0, 0.0);
+		glVertex3f(0.0, unit * 6.0, 0.0);
 
 		glColor3f(0.0, 0.0, 1.0); //z
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 0.0, unit * 4.0);
+		glVertex3f(0.0, 0.0, unit * 6.0);
 	}
 	glEnd();
 

@@ -3,6 +3,8 @@
 *  https://learnopengl.com/Getting-started/Camera
 */
 
+#include "CGLMaterial.h"
+
 #pragma once
 
 #define PI 3.14159
@@ -22,6 +24,11 @@ protected:
 	HGLRC	 m_hrc; //OpenGL Rendering Context 
 
 public:
+	
+
+	void moveEye(CPoint point);
+
+private:
 	CPoint startPoint;
 	float cameraSensitivity = 0.5;
 	bool firstRotation;
@@ -34,7 +41,6 @@ public:
 
 	float unit = 5.;
 
-	void moveEye(CPoint point);
-
-private:
+	// materials:
+	CGLMaterial material;
 };
