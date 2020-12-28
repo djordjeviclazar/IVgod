@@ -33,11 +33,19 @@
 #define CYLINDER_SIDE_NY 0
 #define CYLINDER_SIDE_NZ(alpha) sin(alpha)
 
+#define VECTOR_LENGTH(x, y, z) sqrt(x * x + y * y + z * z)
 
-
+#define RADIANS(angle) angle * PI / 180
 CGLRenderer::CGLRenderer()
 {
-	
+	eyeZ = 0.;
+	eyeX = eyeY = 4 * unit;
+
+	// start angle:
+	yaw = asinf(eyeZ);
+	pitch = asinf(RADIANS(eyeY / sqrt(eyeX * eyeX + eyeY * eyeY)));
+
+	currentLength = VECTOR_LENGTH(eyeX, eyeY, eyeZ);
 }
 
 CGLRenderer::~CGLRenderer(void)
@@ -75,7 +83,7 @@ void CGLRenderer::PrepareScene(CDC* pDC)
 {
 	wglMakeCurrent(pDC->m_hDC, m_hrc);
 	//---------------------------------
-	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClearColor(0.3, 0.7, 0.9, 0.0);
 	//---------------------------------
 	wglMakeCurrent(NULL, NULL);
 }
@@ -84,7 +92,7 @@ void CGLRenderer::DrawScene(CDC* pDC)
 {
 	wglMakeCurrent(pDC->m_hDC, m_hrc);
 	//---------------------------------
-	glClearColor(0.3, 0.7, 0.9, 0.0);
+	//glClearColor(0.3, 0.7, 0.9, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -92,9 +100,10 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	glEnable(GL_DEPTH_TEST);
 	glLoadIdentity();
 
-	gluLookAt(10.0, 10.0, 10.,
-		0.0, 0.0, 0.0,
+	gluLookAt(eyeX, eyeY, eyeZ,
+		0.0, unit, 0.0,
 		0.0, 1.0, 0.0);
+	//gluLookAt(15, 15, 0, 0, 5, 0, 0, 1, 0);
 
 
 	glLineWidth(0.5);
@@ -104,15 +113,15 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	{
 		glColor3f(1.0, 0.0, 0.0); //x
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(10.0, 0.0, 0.0);
+		glVertex3f(unit * 4.0, 0.0, 0.0);
 
 		glColor3f(0.0, 1.0, 0.0); //y
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 10.0, 0.0);
+		glVertex3f(0.0, unit * 4.0, 0.0);
 
 		glColor3f(0.0, 0.0, 1.0); //z
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 0.0, 10.0);
+		glVertex3f(0.0, 0.0, unit * 4.0);
 	}
 	glEnd();
 
@@ -156,4 +165,38 @@ void CGLRenderer::DestroyScene(CDC* pDC)
 		wglDeleteContext(m_hrc);
 		m_hrc = NULL;
 	}
+}
+
+void CGLRenderer::moveEye(CPoint point)
+{
+	if (firstRotation)
+	{
+		startPoint.x = point.x;
+		startPoint.y = point.y;
+		firstRotation = false;
+	}
+
+	float offsetX = (startPoint.x - point.x) * cameraSensitivity;
+	float offsetY = (startPoint.y - point.y) * cameraSensitivity;
+	startPoint.x = point.x;
+	startPoint.y = point.y;
+
+	float newPitch = pitch + offsetY;
+	yaw = yaw + offsetX;
+
+	pitch = newPitch > 89.0 ? 89. : (newPitch < -89.0 ? -89.0 : newPitch);
+
+	// new coordinates:
+	// oposite sign;  mouse right -> look left:
+	double newEyeX = -cos(RADIANS(yaw)) * cos(RADIANS(pitch));
+	double newEyeZ = sin(RADIANS(yaw))* cos(RADIANS(pitch));
+
+	// mouse up -> look down:
+	double newEyeY = -sin(RADIANS(pitch));
+
+	// normalize:
+
+	eyeX = newEyeX * currentLength;
+	eyeY = newEyeY * currentLength;
+	eyeZ = newEyeZ * currentLength;
 }

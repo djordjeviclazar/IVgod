@@ -1,11 +1,13 @@
+/*
+* Refferences: 
+*  https://learnopengl.com/Getting-started/Camera
+*/
+
 #pragma once
 
 #define PI 3.14159
 class CGLRenderer
 {
-public:
-	
-
 public:
 	CGLRenderer(void);
 	virtual ~CGLRenderer(void);
@@ -18,6 +20,21 @@ public:
 
 protected:
 	HGLRC	 m_hrc; //OpenGL Rendering Context 
+
+public:
+	CPoint startPoint;
+	float cameraSensitivity = 0.5;
+	bool firstRotation;
+	float currentLength;
+	// angles:
+	float yaw;
+	float pitch;
+	// eye:
+	float eyeX, eyeY, eyeZ;
+
+	float unit = 5.;
+
+	void moveEye(CPoint point);
 
 private:
 };

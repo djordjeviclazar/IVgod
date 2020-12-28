@@ -10,6 +10,7 @@ class CLV5OpenGLOsvetljenjeView : public CView
 {
 private: 
 	CGLRenderer m_glRenderer;
+	bool rotateView = false;
 
 protected: // create from serialization only
 	CLV5OpenGLOsvetljenjeView() noexcept;

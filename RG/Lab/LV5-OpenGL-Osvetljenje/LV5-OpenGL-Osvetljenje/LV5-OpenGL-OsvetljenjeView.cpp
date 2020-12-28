@@ -162,6 +162,10 @@ void CLV5OpenGLOsvetljenjeView::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 
 	CView::OnLButtonDown(nFlags, point);
+
+	//m_glRenderer.startPoint.x = point.x;
+	//m_glRenderer.startPoint.y = point.y;
+	//rotateView = true;
 }
 
 
@@ -170,12 +174,24 @@ void CLV5OpenGLOsvetljenjeView::OnLButtonUp(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 
 	CView::OnLButtonUp(nFlags, point);
+
+	//rotateView = false;
+	m_glRenderer.firstRotation = true;
 }
 
 
 void CLV5OpenGLOsvetljenjeView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
+	//if (rotateView )
+	if (nFlags & MK_LBUTTON)
+	{
+		m_glRenderer.moveEye(point);
+		Invalidate();
+	}
 
 	CView::OnMouseMove(nFlags, point);
+
+	
+	
 }
