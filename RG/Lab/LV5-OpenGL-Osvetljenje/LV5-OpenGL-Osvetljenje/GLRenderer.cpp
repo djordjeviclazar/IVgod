@@ -170,10 +170,10 @@ void CGLRenderer::DrawScene(CDC* pDC)
 		CGLMaterial materialVase;
 
 		
-		materialVase.SetAmbient(0.5, 0.5, 0.9, 1.);
-		materialVase.SetDiffuse(0.2, 0.2, 0.9, 1.);
-		materialVase.SetShininess(50.);
-		materialVase.SetSpecular(1., 1., 1., 1.);
+		materialVase.SetAmbient(0.7, 0.5, 0.85, 1.);
+		materialVase.SetDiffuse(0.2, 0.2, 0.5, 1.);
+		materialVase.SetShininess(90.);
+		materialVase.SetSpecular(0.5, 0.2, 0.3, 1.);
 		materialVase.Select();
 
 
@@ -570,7 +570,7 @@ void CGLRenderer::drawConeSide(float radiusDown, float radiusUp, float height)
 	float verticesAll[6 * 720];
 	u_short sideIndices[360 * 2 + 2];
 
-	if (radiusDown != radiusUp)
+	//if (radiusDown != radiusUp)
 	{
 		// Big cone units:
 
@@ -606,55 +606,18 @@ void CGLRenderer::drawConeSide(float radiusDown, float radiusUp, float height)
 				glColor3f(0., 1., 0.);
 				glBegin(GL_LINES);
 				{
-					glVertex3f(verticesAll[i], verticesAll[i + 1], verticesAll[i + 2]);
-					glVertex3f(verticesAll[i + 3], verticesAll[i + 4], verticesAll[i + 5]);
-
-					glVertex3f(verticesAll[i + 6], verticesAll[i + 7], verticesAll[i + 8]);
-					glVertex3f(verticesAll[i + 9], verticesAll[i + 10], verticesAll[i + 11]);
-				}
-				glEnd();
-
-				glEnable(GL_LIGHTING);
-			}
-
-			alpha++;
-		}
-	}
-	else
-	{
-		float alpha = 0.0f;
-		for (int i = 0; i < 6 * 720; i += 12)
-		{
-			verticesAll[i] = CIRCLE_X(radiusDown, alpha);
-			verticesAll[i + 1] = 0;
-			verticesAll[i + 2] = CIRCLE_Z(radiusDown, alpha);
-			verticesAll[i + 3] = CYLINDER_SIDE_NX(alpha);
-			verticesAll[i + 4] = CYLINDER_SIDE_NY;
-			verticesAll[i + 5] = CYLINDER_SIDE_NZ(alpha);
-
-
-			verticesAll[i + 6] = CIRCLE_X(radiusUp, alpha);
-			verticesAll[i + 7] = height;
-			verticesAll[i + 8] = CIRCLE_Z(radiusUp, alpha);
-			verticesAll[i + 9] = CYLINDER_SIDE_NX(alpha);
-			verticesAll[i + 10] = CYLINDER_SIDE_NY;
-			verticesAll[i + 11] = CYLINDER_SIDE_NZ(alpha);
-
-			// draw normals:
-			if (normalsOn)
-			{
-				glDisable(GL_LIGHTING);
-
-				glColor3f(0., 1., 0.);
-				glBegin(GL_LINES);
-				{
 					float inten = (VECTOR_LENGTH(verticesAll[i + 3], verticesAll[i + 4], verticesAll[i + 5]));
 					glVertex3f(verticesAll[i], verticesAll[i + 1], verticesAll[i + 2]);
-					glVertex3f(verticesAll[i] * inten, verticesAll[i + 1] * inten, verticesAll[i + 2] * inten);
+					glVertex3f(verticesAll[i] + verticesAll[i] / 4,
+									verticesAll[i + 1] + verticesAll[i + 1] / 4,
+									verticesAll[i + 2] + verticesAll[i + 2] / 4);
 
 					inten = (VECTOR_LENGTH(verticesAll[i + 9], verticesAll[i + 10], verticesAll[i + 11]));
 					glVertex3f(verticesAll[i + 6], verticesAll[i + 7], verticesAll[i + 8]);
-					glVertex3f(verticesAll[i + 6] * inten, verticesAll[i + 7] * inten, verticesAll[i + 8] * inten);
+					glVertex3f(verticesAll[i + 6] + verticesAll[i + 9] / 4,
+								verticesAll[i + 7] + verticesAll[i + 10] / 4,
+								verticesAll[i + 8] + verticesAll[i + 11] / 4);
+					//glVertex3f(15, 15, 15);
 				}
 				glEnd();
 
