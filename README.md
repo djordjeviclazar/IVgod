@@ -61,6 +61,9 @@ Paralelizovati kodiranje, čitanje i upis
 
 ## Programski prevodioci
 
+* Zad1-3 folder PP/Lab/Termin1*
+* Dokumentacija: PP/Dokumenti*
+
 ### Lab
 
 #### Zad1
@@ -129,6 +132,9 @@ Assignment → **ID :=** Term
 
 <img src="PP/Lab/Tekst zadataka/lab3_grupa6.png">
 
+#### Zad4
+
+<img src="PP/Lab/Tekst zadataka/lab4.png">
 
 ## Veštačka inteligencija
 
