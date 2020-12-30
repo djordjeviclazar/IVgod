@@ -45,11 +45,11 @@ cifra = [0-9]
 \) { return new Symbol( sym.RIGHTPAR); }
 
 //operatori
-\+ { return new Symbol( sym.PLU); }
-\* { return new Symbol( sym.MU); }
-"less" { return new Symbol( sym.LESS; }
-"greater" { return new Symbol( sym.GREATER; }
-"equal" { return new Symbol( sym.EQUAL; }
+\+ { return new Symbol( sym.PLUS); }
+\* { return new Symbol( sym.MUL); }
+"less" { return new Symbol( sym.LESS); }
+"greater" { return new Symbol( sym.GREATER); }
+"equal" { return new Symbol( sym.EQUAL); }
 
 //separatori
 ; { return new Symbol( sym.SEMICOLON); }
