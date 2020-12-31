@@ -1,0 +1,385 @@
+//import section
+
+import java_cup.runtime.*;
+import java.io.*;
+
+parser code {:
+
+   public int errNo = 0;
+
+   public static void main( String[] args )
+   {
+      try
+	  {
+		   FileReader file = new FileReader( args[0] );
+		   Scanner scanner = new MPLexer( file );
+		   MPParser_error_recovery parser = new MPParser_error_recovery( scanner );
+		   parser.parse();
+		   if ( parser.errNo == 0 )
+		      System.out.println( "Analiza zavrsena. U kodu nema gresaka." );
+		   else
+		      System.out.println( "Analiza zavrsena. Broj gresaka: " + parser.errNo );
+	  }
+	  catch( Exception e )
+	  {
+		   e.printStackTrace();
+	  }
+   }
+   
+   public int getLine()
+   {
+   	  return (( MPLexer) getScanner()).getLine();
+   }
+:};
+
+// terminals:
+terminal MODEL, MODELEND, WHILE, SEMICOLON, ID, CONST, LESS, EQUAL, GREATER, ASSIGN, COLON, INTEGER, DOUBLE, STRING;
+terminal DEPLOYMENT, DEPLOYMENTEND, SERVER, SERVEREND, SERVERID, TASK, TASKEND, TASKID, EXECUTEDON, PLUS, MUL;
+terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA;
+
+// nonterminals:
+nonterminal Model, Body, Declarations, VariableDeclaration, Variable;
+nonterminal Type, Statements, Statement, WhileStatement, RelExpression, Term, RelOp, Assignment, Deployment;
+nonterminal ServerList, ServerDef, ServerName, Capacity, TaskList, TaskDef, TaskName, Demand,Mapping,Expression;
+
+precedence left PLUS;
+precedence left MUL;
+
+// grammar:
+Model ::= MODEL Body MODELEND
+    {:
+        System.out.println("Prepoznate deklaracije promenljivih"); 
+        :}
+    // errors:
+    | MODEL Body error
+    {:
+            System.out.println("Greška u liniji " + parser.getLine() + ". \r\n~model nedostaje. ");
+            parser.errNo++;
+        :}
+    | error
+    {:
+            System.out.println("Greška u liniji " + parser.getLine() + ". \r\nMODEL uvek na početku. ");
+            parser.errNo++;
+        :};
+
+Body ::= Declarations Statements Deployment
+    {:
+            System.out.println("Prepoznato telo modela");
+        :}
+    // errors:
+    | error Statements Deployment
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nDeklaracije su obavezne na početku. ");
+             parser.errNo++;
+        :}
+    | Declarations error Deployment
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nPre Deployment bloka obavezan blok naredbi ");
+             parser.errNo++;
+        :};
+
+Declarations ::= VariableDeclaration
+    {:
+            System.out.println("Prepoznata deklaracija");
+        :}; 
+
+VariableDeclaration ::= VariableDeclaration SEMICOLON Variable 
+    {:
+            System.out.println("Prepoznate deklaracije promenljivih");
+        :}
+    | Variable
+    {:
+            System.out.println("Prepoznate deklaracije promenljivih");
+        :}; 
+
+Variable ::= ID COLON Type SEMICOLON
+    {:
+            System.out.println("Prepoznata deklaracija promenljive");
+        :}
+    // errors:
+    | ID COLON Type error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano ';'");
+             parser.errNo++;
+        :}
+    | ID COLON error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan tip promenljive");
+             parser.errNo++;
+        :}
+    | ID error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano ':'");
+             parser.errNo++;
+        :}; 
+Type ::= INTEGER
+    {:
+            System.out.println("Prepoznat tip int");
+        :} 
+    | DOUBLE
+    {:
+            System.out.println("Prepoznat tip double");
+        :} 
+    | STRING
+    {:
+            System.out.println("Prepoznat tip string");
+        :}; 
+    
+Statements ::= Statements SEMICOLON Statement
+    {:
+            System.out.println("Prepoznat niz naredbi");
+        :} 
+    | Statement
+    {:
+            System.out.println("Prepoznat niz naredbi");
+        :}; 
+    
+Statement ::= Assignment
+    {:
+            System.out.println("Prepoznata naredba");
+        :} 
+    | WhileStatement
+    {:
+            System.out.println("Prepoznata naredba");
+        :}; 
+    
+WhileStatement ::= WHILE LEFTPAR RelExpression RIGHTPAR COLON LEFTCURVEDPAR Statements RIGHTCURVEDPAR
+    {:
+            System.out.println("Prepoznata while petlja");
+        :}
+    // errors:
+    | WHILE LEFTPAR RelExpression RIGHTPAR COLON LEFTCURVEDPAR Statements error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano '}'");
+             parser.errNo++;
+        :}
+    | WHILE LEFTPAR RelExpression RIGHTPAR COLON LEFTCURVEDPAR error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan niz naredbi");
+             parser.errNo++;
+        :}
+    | WHILE LEFTPAR RelExpression RIGHTPAR COLON error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano '{'");
+             parser.errNo++;
+        :}
+    | WHILE LEFTPAR RelExpression RIGHTPAR error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano ':'");
+             parser.errNo++;
+        :}
+    | WHILE LEFTPAR RelExpression error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano ')'");
+             parser.errNo++;
+        :}
+    | WHILE LEFTPAR error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan logički izraz");
+             parser.errNo++;
+        :}
+    | WHILE error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivano '('");
+             parser.errNo++;
+        :};
+ 
+RelExpression ::= Term RelOp Term
+    {:
+            System.out.println("Prepoznat izraz");
+        :} 
+    | Term
+    {:
+            System.out.println("Prepoznat izraz");
+        :}; 
+    
+Term ::= ID
+    {:
+            System.out.println("Prepoznat identifikator");
+        :} 
+    | CONST
+    {:
+            System.out.println("Prepoznata konstanta");
+        :}
+    // errors:
+    | ID COLON Type error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivana konstanta ili identifikator");
+             parser.errNo++;
+        :};
+     
+RelOp ::= LESS
+    {:
+            System.out.println("Prepoznat relacioni operator less");
+        :} 
+    | EQUAL
+    {:
+            System.out.println("Prepoznat relacioni operator equal");
+        :} 
+    | GREATER
+    {:
+            System.out.println("Prepoznat relacioni operator greater");
+        :};
+     
+Assignment ::= ID ASSIGN Expression
+    {:
+            System.out.println("Prepoznata dodela");
+        :}
+    // errors:
+    | ID ASSIGN error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan izraz sa desne strane dodele");
+             parser.errNo++;
+        :}
+    | ID error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekuje se ':='");
+             parser.errNo++;
+        :}; 
+
+Deployment ::= DEPLOYMENT TaskList ServerList DEPLOYMENTEND
+    {:
+            System.out.println("Prepoznat deployment");
+        :}
+    // errors:
+    | DEPLOYMENT TaskList ServerList error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan ~deloyment");
+             parser.errNo++;
+        :}
+    | error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan deployment");
+             parser.errNo++;
+        :};
+ 
+ServerList ::= ServerList SEMICOLON ServerDef
+    {:
+            System.out.println("Prepoznata lista servera");
+        :} 
+    | ServerDef
+    {:
+            System.out.println("Prepoznata lista servera");
+        :};
+     
+ServerDef ::= SERVER ServerName COMMA Capacity SERVEREND
+    {:
+            System.out.println("Prepoznata definicija servera");
+        :}
+    // errors:
+    | SERVER ServerName COMMA Capacity error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan ~server");
+             parser.errNo++;
+        :}
+    | SERVER ServerName error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekuje se ',' pre definicije kapaciteta");
+             parser.errNo++;
+        :}
+    | error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan server");
+             parser.errNo++;
+        :}; 
+
+ServerName ::= SERVERID ID
+    {:
+            System.out.println("Prepoznato imenovanje servera");
+        :}; 
+
+Capacity ::= Term
+    {:
+            System.out.println("Prepoznato definisanje kapaciteta servera");
+        :}; 
+
+TaskList ::= TaskList SEMICOLON TaskDef
+    {:
+            System.out.println("Prepoznata lista poslova");
+        :} 
+    | TaskDef
+    {:
+            System.out.println("Prepoznata lista poslova");
+        :};
+     
+TaskDef ::= TASK TaskName COMMA Demand COMMA Mapping TASKEND
+    {:
+            System.out.println("Prepoznata definicija posla");
+        :}
+    // errors:
+    | TASK TaskName COMMA Demand COMMA Mapping error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan ~task");
+             parser.errNo++;
+        :}
+    | TASK TaskName COMMA Demand error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekuje se ',' pre definicije mapiranja");
+             parser.errNo++;
+        :}
+    | TASK TaskName error
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekuje se ',' pre definicije bloka zahteva");
+             parser.errNo++;
+        :}
+    | error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan task");
+             parser.errNo++;
+        :};
+ 
+TaskName ::= TASKID ID
+    {:
+            System.out.println("Prepoznato imenovanje posla");
+        :}
+    // errors:
+    | TASKID error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan identifikator kod definicije imena posla");
+             parser.errNo++;
+        :}
+    | error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekuje se taskId");
+             parser.errNo++;
+        :};
+ 
+Demand ::= Term
+    {:
+            System.out.println("Prepoznat zahtev");
+        :}
+    // errors:
+    | error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivana definicija zahteva");
+             parser.errNo++;
+        :};
+ 
+Mapping ::= EXECUTEDON ID
+    {:
+            System.out.println("Prepoznato mapiranje");
+        :}
+    // errors:
+    | EXECUTEDON error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan identifikator kod definicije mapiranja");
+             parser.errNo++;
+        :}
+    | error 
+    {:
+             System.out.println("Greška u liniji " + parser.getLine() + ". \r\nOčekivan executedOn");
+             parser.errNo++;
+        :};
+ 
+Expression ::= Expression PLUS Term
+    {:
+            System.out.println("Prepoznato sabiranje");
+        :} 
+    | Expression MUL Term
+    {:
+            System.out.println("Prepoznato množenje");
+        :} 
+    | Term
+    {:
+            System.out.println("Prepoznat izraz");
+        :}; 

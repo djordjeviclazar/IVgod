@@ -391,6 +391,11 @@ class MPLexer implements java_cup.runtime.Scanner
         return new Symbol(kwTable.find(yytext()));
     }
 
+    int getLine()
+    {
+        return yyline;
+    }
+
 
     /**
      * Creates a new scanner
@@ -850,7 +855,7 @@ class MPLexer implements java_cup.runtime.Scanner
                 {
                     case 1:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [84] { if (yytext() != null && yytext().length() > 0) System.out.println( \"error: \" + yytext() );" + ZZ_NL + "    " + ZZ_NL + "    return new Symbol( sym.error); }");
+                        System.out.println("action [89] { if (yytext() != null && yytext().length() > 0) System.out.println( \"error: \" + yytext() );" + ZZ_NL + "    " + ZZ_NL + "    return new Symbol( sym.error); }");
                     {
                         if (yytext() != null && yytext().length() > 0) System.out.println("error: " + yytext());
 
@@ -861,7 +866,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 2:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [46] { ; }");
+                        System.out.println("action [51] { ; }");
                     {
                         ;
                     }
@@ -870,7 +875,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 3:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [47] { return new Symbol( sym.LEFTPAR); }");
+                        System.out.println("action [52] { return new Symbol( sym.LEFTPAR); }");
                     {
                         return new Symbol(sym.LEFTPAR);
                     }
@@ -879,7 +884,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 4:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [48] { return new Symbol( sym.RIGHTPAR); }");
+                        System.out.println("action [53] { return new Symbol( sym.RIGHTPAR); }");
                     {
                         return new Symbol(sym.RIGHTPAR);
                     }
@@ -888,7 +893,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 5:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [52] { return new Symbol( sym.MUL); }");
+                        System.out.println("action [57] { return new Symbol( sym.MUL); }");
                     {
                         return new Symbol(sym.MUL);
                     }
@@ -897,7 +902,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 6:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [51] { return new Symbol( sym.PLUS); }");
+                        System.out.println("action [56] { return new Symbol( sym.PLUS); }");
                     {
                         return new Symbol(sym.PLUS);
                     }
@@ -906,7 +911,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 7:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [60] { return new Symbol( sym.COMMA); }");
+                        System.out.println("action [65] { return new Symbol( sym.COMMA); }");
                     {
                         return new Symbol(sym.COMMA);
                     }
@@ -915,7 +920,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 8:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [79] { return new Symbol( sym.CONST, yyline, new Integer(yytext())); }");
+                        System.out.println("action [84] { return new Symbol( sym.CONST, yyline, new Integer(yytext())); }");
                     {
                         return new Symbol(sym.CONST, yyline, new Integer(yytext()));
                     }
@@ -924,7 +929,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 9:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [59] { return new Symbol( sym.COLON); }");
+                        System.out.println("action [64] { return new Symbol( sym.COLON); }");
                     {
                         return new Symbol(sym.COLON);
                     }
@@ -933,7 +938,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 10:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [58] { return new Symbol( sym.SEMICOLON); }");
+                        System.out.println("action [63] { return new Symbol( sym.SEMICOLON); }");
                     {
                         return new Symbol(sym.SEMICOLON);
                     }
@@ -942,7 +947,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 11:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [67] { return new Symbol(sym.ID, yyline, yytext()); }");
+                        System.out.println("action [72] { return new Symbol(sym.ID, yyline, yytext()); }");
                     {
                         return new Symbol(sym.ID, yyline, yytext());
                     }
@@ -951,7 +956,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 12:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [70] { Symbol a = getKW();" + ZZ_NL + "              if (a.sym >= 0)" + ZZ_NL + "                { return a; }" + ZZ_NL + "              System.out.println( \"error: \" + yytext() );" + ZZ_NL + "              return new Symbol( sym.error); }");
+                        System.out.println("action [75] { Symbol a = getKW();" + ZZ_NL + "              if (a.sym >= 0)" + ZZ_NL + "                { return a; }" + ZZ_NL + "              System.out.println( \"error: \" + yytext() );" + ZZ_NL + "              return new Symbol( sym.error); }");
                     {
                         Symbol a = getKW();
                         if (a.sym >= 0)
@@ -966,7 +971,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 13:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [62] { return new Symbol( sym.LEFTCURVEDPAR); }");
+                        System.out.println("action [67] { return new Symbol( sym.LEFTCURVEDPAR); }");
                     {
                         return new Symbol(sym.LEFTCURVEDPAR);
                     }
@@ -975,7 +980,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 14:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [63] { return new Symbol( sym.RIGHTCURVEDPAR); }");
+                        System.out.println("action [68] { return new Symbol( sym.RIGHTCURVEDPAR); }");
                     {
                         return new Symbol(sym.RIGHTCURVEDPAR);
                     }
@@ -984,7 +989,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 15:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [80] { return new Symbol( sym.CONST, yyline, new String(yytext())); }");
+                        System.out.println("action [85] { return new Symbol( sym.CONST, yyline, new String(yytext())); }");
                     {
                         return new Symbol(sym.CONST, yyline, new String(yytext()));
                     }
@@ -993,7 +998,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 16:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [61] { return new Symbol( sym.ASSIGN); }");
+                        System.out.println("action [66] { return new Symbol( sym.ASSIGN); }");
                     {
                         return new Symbol(sym.ASSIGN);
                     }
@@ -1002,7 +1007,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 17:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [81] { return new Symbol( sym.CONST, yyline, new Double(yytext())); }");
+                        System.out.println("action [86] { return new Symbol( sym.CONST, yyline, new Double(yytext())); }");
                     {
                         return new Symbol(sym.CONST, yyline, new Double(yytext()));
                     }
@@ -1011,7 +1016,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 18:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [43] { yybegin( KOMENTAR ); }");
+                        System.out.println("action [48] { yybegin( KOMENTAR ); }");
                     {
                         yybegin(KOMENTAR);
                     }
@@ -1020,7 +1025,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 19:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [53] { return new Symbol( sym.LESS); }");
+                        System.out.println("action [58] { return new Symbol( sym.LESS); }");
                     {
                         return new Symbol(sym.LESS);
                     }
@@ -1029,7 +1034,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 20:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [55] { return new Symbol( sym.EQUAL); }");
+                        System.out.println("action [60] { return new Symbol( sym.EQUAL); }");
                     {
                         return new Symbol(sym.EQUAL);
                     }
@@ -1038,7 +1043,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 21:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [44] { yybegin( YYINITIAL ); }");
+                        System.out.println("action [49] { yybegin( YYINITIAL ); }");
                     {
                         yybegin(YYINITIAL);
                     }
@@ -1047,7 +1052,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         break;
                     case 22:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [54] { return new Symbol( sym.GREATER); }");
+                        System.out.println("action [59] { return new Symbol( sym.GREATER); }");
                     {
                         return new Symbol(sym.GREATER);
                     }

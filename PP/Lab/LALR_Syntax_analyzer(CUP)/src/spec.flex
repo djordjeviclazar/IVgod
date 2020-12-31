@@ -27,6 +27,11 @@ Symbol getKW()
 {
 	return new Symbol( kwTable.find( yytext()));
 }
+
+int getLine()
+{
+    return yyline;
+}
 %}
 
 //stanja

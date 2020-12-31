@@ -2,8 +2,8 @@
 REM ********   PODESAVANJA - MENJA STUDENT *********
 set JCUP_HOME="E:\Programi\JCup\java_cup_v10k"
 set JAVA_HOME="C:\Program Files\Java\jdk-11.0.2"
-set PARSER_CLASS_NAME="MPParser_without_errors"
-set CUP_SPEC_NAME="MPParser_without_errors.cup"
+set PARSER_CLASS_NAME="MPParser_error_recovery"
+set CUP_SPEC_NAME="MPParser_error_recovery.cup"
 
 
 REM ********   POZIV JAVA CUP APLIKACIJE  ***********
