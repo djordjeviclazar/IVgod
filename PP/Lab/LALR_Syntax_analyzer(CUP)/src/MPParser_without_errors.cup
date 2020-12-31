@@ -13,7 +13,7 @@ parser code {:
 	  {
 		   FileReader file = new FileReader( args[0] );
 		   Scanner scanner = new MPLexer( file );
-		   MPParser parser = new MPParser( scanner );
+		   MPParser_without_errors parser = new MPParser_without_errors( scanner );
 		   parser.parse();
 		   if ( parser.errNo == 0 )
 		      System.out.println( "Analiza zavrsena. U kodu nema gresaka." );

@@ -69,8 +69,8 @@ cifra = [0-9]
               Symbol a = getKW();
               if (a.sym >= 0)
                 { return a; }
-              System.out.println( "ERROR: " + yytext() );
-              return new Symbol( sym.ERROR);
+              System.out.println( "error: " + yytext() );
+              return new Symbol( sym.error);
             }
 
 //konstante
@@ -80,7 +80,7 @@ cifra = [0-9]
 
 //obrada gresaka
 . { 
-    if (yytext() != null && yytext().length() > 0) System.out.println( "ERROR: " + yytext() );
+    if (yytext() != null && yytext().length() > 0) System.out.println( "error: " + yytext() );
     
-    return new Symbol( sym.ERROR); 
+    return new Symbol( sym.error); 
   }

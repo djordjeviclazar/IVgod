@@ -1,10 +1,12 @@
 import java.util.Hashtable;
 
-public class KWTable {
+public class KWTable
+{
 
     private Hashtable mTable;
 
-    public KWTable() {
+    public KWTable()
+    {
         // Inicijalizcaija hash tabele koja pamti kljucne reci
         mTable = new Hashtable();
         mTable.put("double", new Integer(sym.DOUBLE));
@@ -19,7 +21,7 @@ public class KWTable {
         mTable.put("~task", new Integer(sym.TASKEND));
         mTable.put("serverId", new Integer(sym.SERVERID));
         mTable.put("taskId", new Integer(sym.TASKID));
-        mTable.put("executedOn", new Integer(sym.EXACUTEDON));
+        mTable.put("executedOn", new Integer(sym.EXECUTEDON));
         mTable.put("model", new Integer(sym.MODEL));
         mTable.put("~model", new Integer(sym.MODELEND));
     }
@@ -27,7 +29,8 @@ public class KWTable {
     /**
      * Vraca ID kljucne reci
      */
-    public int find(String keyword) {
+    public int find(String keyword)
+    {
         Object symbol = mTable.get(keyword);
         if (symbol != null)
             return ((Integer) symbol).intValue();
