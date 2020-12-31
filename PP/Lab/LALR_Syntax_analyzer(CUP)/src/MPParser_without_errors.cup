@@ -30,7 +30,7 @@ parser code {:
 // terminals:
 terminal MODEL, MODELEND, WHILE, SEMICOLON, ID, CONST, LESS, EQUAL, GREATER, ASSIGN, COLON, INTEGER, DOUBLE, STRING;
 terminal DEPLOYMENT, DEPLOYMENTEND, SERVER, SERVEREND, SERVERID, TASK, TASKEND, TASKID, EXECUTEDON, PLUS, MUL;
-terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR;
+terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA;
 
 // nonterminals:
 nonterminal Model, Body, Declarations, VariableDeclaration, Variable;
@@ -155,7 +155,7 @@ ServerList ::= ServerList SEMICOLON ServerDef
             System.out.println("Prepoznata lista servera");
         :};
      
-ServerDef ::= SERVER ServerName SEMICOLON Capacity SERVEREND
+ServerDef ::= SERVER ServerName COMMA Capacity SERVEREND
     {:
             System.out.println("Prepoznata definicija servera");
         :}; 
@@ -179,7 +179,7 @@ TaskList ::= TaskList SEMICOLON TaskDef
             System.out.println("Prepoznata lista poslova");
         :};
      
-TaskDef ::= TASK TaskName SEMICOLON Demand SEMICOLON Mapping TASKEND
+TaskDef ::= TASK TaskName COMMA Demand COMMA Mapping TASKEND
     {:
             System.out.println("Prepoznata definicija posla");
         :};

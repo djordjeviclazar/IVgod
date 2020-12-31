@@ -58,7 +58,6 @@ cifra = [0-9]
 ; { return new Symbol( sym.SEMICOLON); }
 : { return new Symbol( sym.COLON); }
 , { return new Symbol( sym.COMMA); }
-\. { return new Symbol( sym.DOT); }
 := { return new Symbol( sym.ASSIGN); }
 \{ { return new Symbol( sym.LEFTCURVEDPAR); }
 \} { return new Symbol( sym.RIGHTCURVEDPAR); }
