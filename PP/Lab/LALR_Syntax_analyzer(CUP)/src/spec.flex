@@ -5,7 +5,10 @@
 // sekcija opcija i deklaracija
 %class MPLexer  
 
-%cup
+//%cup
+%implements java_cup.runtime.Scanner
+%function next_token
+%type java_cup.runtime.Symbol
 
 %function next_token
 %line
