@@ -15,10 +15,10 @@ parser code {:
 		   Scanner scanner = new MPLexer( file );
 		   MPParser_without_errors parser = new MPParser_without_errors( scanner );
 		   parser.parse();
-		   if ( parser.errNo == 0 )
-		      System.out.println( "Analiza zavrsena. U kodu nema gresaka." );
-		   else
-		      System.out.println( "Analiza zavrsena. Broj gresaka: " + parser.errNo );
+//		   if ( parser.errNo == 0 )
+//		      System.out.println( "Analiza zavrsena. U kodu nema gresaka." );
+//		   else
+//		      System.out.println( "Analiza zavrsena. Broj gresaka: " + parser.errNo );
 	  }
 	  catch( Exception e )
 	  {
