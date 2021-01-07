@@ -13,10 +13,10 @@ model
     comm Identifikatori imaju samo velika slova i cifre ~comm
     ABCA := -2.22321; W := 2; SAD := "fajdnfls?*!";
 
-    while ABCA less W :
+    while (ABCA less W) :
     {
         ABCA := ABCA + 1;
-        ABCA := ABCA + W;
+        ABCA := ABCA + W
     }
     
     deployment

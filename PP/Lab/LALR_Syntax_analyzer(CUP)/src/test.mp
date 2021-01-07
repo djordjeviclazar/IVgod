@@ -9,7 +9,7 @@ end ~comm
 model
 
     ABCA : int;
-     comm W : double; SAD : string; ~comm
+    comm W : double; SAD : string; ~comm
     comm Identifikatori imaju samo velika slova i cifre ~comm
     ABCA := -2.22321; W := 2; SAD := "fajdnfls?*!";
 

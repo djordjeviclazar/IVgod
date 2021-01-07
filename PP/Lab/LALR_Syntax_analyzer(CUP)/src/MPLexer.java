@@ -121,8 +121,8 @@ class MPLexer implements java_cup.runtime.Scanner
             "\2\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6" +
                     "\1\7\1\1\1\10\1\11\1\12\1\13\5\14\1\15" +
                     "\1\16\1\1\2\0\1\17\2\0\1\20\1\13\4\14" +
-                    "\1\0\1\21\4\14\1\0\1\22\2\14\1\23\1\0" +
-                    "\1\24\1\14\1\25\1\14\1\26";
+                    "\1\0\1\17\4\14\1\0\1\21\2\14\1\22\1\0" +
+                    "\1\23\1\14\1\24\1\14\1\25";
 
     private static int[] zzUnpackAction()
     {
@@ -862,7 +862,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.error);
                     }
                     // fall through
-                    case 23:
+                    case 22:
                         break;
                     case 2:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -871,7 +871,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         ;
                     }
                     // fall through
-                    case 24:
+                    case 23:
                         break;
                     case 3:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -880,7 +880,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.LEFTPAR);
                     }
                     // fall through
-                    case 25:
+                    case 24:
                         break;
                     case 4:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -889,7 +889,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.RIGHTPAR);
                     }
                     // fall through
-                    case 26:
+                    case 25:
                         break;
                     case 5:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -898,7 +898,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.MUL);
                     }
                     // fall through
-                    case 27:
+                    case 26:
                         break;
                     case 6:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -907,7 +907,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.PLUS);
                     }
                     // fall through
-                    case 28:
+                    case 27:
                         break;
                     case 7:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -916,7 +916,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.COMMA);
                     }
                     // fall through
-                    case 29:
+                    case 28:
                         break;
                     case 8:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -925,7 +925,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.CONST, yyline, new Integer(yytext()));
                     }
                     // fall through
-                    case 30:
+                    case 29:
                         break;
                     case 9:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -934,7 +934,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.COLON);
                     }
                     // fall through
-                    case 31:
+                    case 30:
                         break;
                     case 10:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -943,16 +943,16 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.SEMICOLON);
                     }
                     // fall through
-                    case 32:
+                    case 31:
                         break;
                     case 11:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [72] { return new Symbol(sym.ID, yyline, yytext()); }");
+                        System.out.println("action [72] { return new Symbol(sym.ID); }");
                     {
-                        return new Symbol(sym.ID, yyline, yytext());
+                        return new Symbol(sym.ID);
                     }
                     // fall through
-                    case 33:
+                    case 32:
                         break;
                     case 12:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -967,7 +967,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.error);
                     }
                     // fall through
-                    case 34:
+                    case 33:
                         break;
                     case 13:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -976,7 +976,7 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.LEFTCURVEDPAR);
                     }
                     // fall through
-                    case 35:
+                    case 34:
                         break;
                     case 14:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -985,16 +985,16 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.RIGHTCURVEDPAR);
                     }
                     // fall through
-                    case 36:
+                    case 35:
                         break;
                     case 15:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [85] { return new Symbol( sym.CONST, yyline, new String(yytext())); }");
+                        System.out.println("action [85] { return new Symbol( sym.CONST); }");
                     {
-                        return new Symbol(sym.CONST, yyline, new String(yytext()));
+                        return new Symbol(sym.CONST);
                     }
                     // fall through
-                    case 37:
+                    case 36:
                         break;
                     case 16:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
@@ -1003,61 +1003,52 @@ class MPLexer implements java_cup.runtime.Scanner
                         return new Symbol(sym.ASSIGN);
                     }
                     // fall through
-                    case 38:
+                    case 37:
                         break;
                     case 17:
-                        System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
-                        System.out.println("action [86] { return new Symbol( sym.CONST, yyline, new Double(yytext())); }");
-                    {
-                        return new Symbol(sym.CONST, yyline, new Double(yytext()));
-                    }
-                    // fall through
-                    case 39:
-                        break;
-                    case 18:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
                         System.out.println("action [48] { yybegin( KOMENTAR ); }");
                     {
                         yybegin(KOMENTAR);
                     }
                     // fall through
-                    case 40:
+                    case 38:
                         break;
-                    case 19:
+                    case 18:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
                         System.out.println("action [58] { return new Symbol( sym.LESS); }");
                     {
                         return new Symbol(sym.LESS);
                     }
                     // fall through
-                    case 41:
+                    case 39:
                         break;
-                    case 20:
+                    case 19:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
                         System.out.println("action [60] { return new Symbol( sym.EQUAL); }");
                     {
                         return new Symbol(sym.EQUAL);
                     }
                     // fall through
-                    case 42:
+                    case 40:
                         break;
-                    case 21:
+                    case 20:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
                         System.out.println("action [49] { yybegin( YYINITIAL ); }");
                     {
                         yybegin(YYINITIAL);
                     }
                     // fall through
-                    case 43:
+                    case 41:
                         break;
-                    case 22:
+                    case 21:
                         System.out.println("line: " + (yyline + 1) + " " + "col: " + (yycolumn + 1) + " " + "match: --" + zzToPrintable(yytext()) + "--");
                         System.out.println("action [59] { return new Symbol( sym.GREATER); }");
                     {
                         return new Symbol(sym.GREATER);
                     }
                     // fall through
-                    case 44:
+                    case 42:
                         break;
                     default:
                         zzScanError(ZZ_NO_MATCH);

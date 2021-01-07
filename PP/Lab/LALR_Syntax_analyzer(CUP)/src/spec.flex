@@ -69,7 +69,7 @@ cifra = [0-9]
 
 
 //identifikatori
-{velikoSlovo}({velikoSlovo}|{cifra})* { return new Symbol(sym.ID, yyline, yytext()); }
+{velikoSlovo}({velikoSlovo}|{cifra})* { return new Symbol(sym.ID); } //, yyline, yytext()
 
 //kljucne reci
 \~?{slovo}+ {
@@ -82,8 +82,8 @@ cifra = [0-9]
 
 //konstante
 {cifra}+ { return new Symbol( sym.CONST, yyline, new Integer(yytext())); }
-\".*\" { return new Symbol( sym.CONST, yyline, new String(yytext())); }
--?[0-9]+\.[0-9]+ { return new Symbol( sym.CONST, yyline, new Double(yytext())); }
+\".*\" { return new Symbol( sym.CONST);} //, yyline, new String(yytext()) 
+-?[0-9]+\.[0-9]+ { return new Symbol( sym.CONST);} //, yyline, new Double(yytext()) 
 
 //obrada gresaka
 . { 
