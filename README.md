@@ -175,3 +175,9 @@ Zadatke je potrebno rešiti rekurzijom. Svaki zadatak realizovati u okviru jedne
 <img src="VI/Lab/Tekst zadataka/lab3.png">
 
 * Napomena: za heuristiku misli se na broj grana od početnog čvora (prosleđenog kao argument) do čvora do kog smo stigli prilikom obilaska
+
+#### Termin4
+
+<img src="VI/Lab/Tekst zadataka/lab4.png">
+
+* Napomena: fajl nazvati Ime_Prezime_br.indeksa, obavezno pozvati f-je koje su implementirane u fajlu
