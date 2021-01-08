@@ -180,4 +180,4 @@ Zadatke je potrebno rešiti rekurzijom. Svaki zadatak realizovati u okviru jedne
 
 <img src="VI/Lab/Tekst zadataka/lab4.png">
 
-* Napomena: fajl nazvati Ime_Prezime_br.indeksa, obavezno pozvati f-je koje su implementirane u fajlu
+* Napomena: Rezultat je lista poteza koji dovode do ciljnog stanja, fajl nazvati Ime_Prezime_br.indeksa, obavezno pozvati f-je koje su implementirane u fajlu
