@@ -4,6 +4,7 @@
 */
 
 #include "DImage.h"
+#include "CGLMaterial.h"
 
 #pragma once
 
@@ -24,7 +25,7 @@ protected:
 	HGLRC	 m_hrc; //OpenGL Rendering Context 
 
 public:
-	bool firstRotation;
+	bool firstRotation = true;
 
 	void moveEye(CPoint point);
 

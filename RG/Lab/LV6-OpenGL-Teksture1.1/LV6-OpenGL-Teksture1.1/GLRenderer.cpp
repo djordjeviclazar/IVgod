@@ -127,6 +127,29 @@ void CGLRenderer::DrawScene(CDC* pDC)
 
 	glColor3f(1., 1., 1.);
 
+	CGLMaterial materialDefault;
+	materialDefault.Select();
+
+	// set global
+	GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 1. };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+	//glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
+	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+
+	float light_ambient[] = { 0.5, 0.5, 0.5, 1. };
+	float light_diffuse[] = { 1., 1., 1., 1. };
+	float light_emission[] = { 1., 1., 1., 1. };
+	float light_specular[] = { 0., 0., 0., 1. };
+	float light_position[] = { unit, unit, 0., 0. };
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_EMISSION, light_emission);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
+
 	// draw:
 	drawTruck(14, 7, 5, unit / 2.);
 	drawGround(unit / 2.);
@@ -146,7 +169,7 @@ void CGLRenderer::Reshape(CDC* pDC, int w, int h)
 	double aspect = (double)w / (double)h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, aspect, 0.1, 100);
+	gluPerspective(65.0, aspect, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	//---------------------------------
 	wglMakeCurrent(NULL, NULL);
@@ -213,6 +236,8 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 
 	glColor3f(1., 1., 1.);
 
+	glDisable(GL_LIGHTING);
+
 	glPushMatrix();
 	{
 		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, localUnit);
@@ -244,6 +269,8 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
 	glPopMatrix();
+
+	glEnable(GL_LIGHTING);
 
 	glDeleteTextures(1, &texId);
 	glDisable(GL_TEXTURE_2D);
@@ -1033,16 +1060,16 @@ void CGLRenderer::drawGround(int localUnit)
 	glBegin(GL_QUADS);
 	{
 		glTexCoord2f(3., 6.);
-		glVertex3d(unit * 10, -1.4 * localUnit, unit * 10);
+		glVertex3d(unit * 10, -0.9 * localUnit, unit * 10);
 
 		glTexCoord2f(3., 0);
-		glVertex3d(unit * 10, -1.4 * localUnit, -unit * 10);
+		glVertex3d(unit * 10, -0.9 * localUnit, -unit * 10);
 
 		glTexCoord2f(0, 0);
-		glVertex3d(-unit * 10, -1.4 * localUnit, -unit * 10);
+		glVertex3d(-unit * 10, -0.9 * localUnit, -unit * 10);
 
 		glTexCoord2f(0, 6.);
-		glVertex3d(-unit * 10, -1.4 * localUnit, unit * 10);
+		glVertex3d(-unit * 10, -0.9 * localUnit, unit * 10);
 	}
 	glEnd();
 

@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CGLMaterial.h" />
     <ClInclude Include="DImage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GLRenderer.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CGLMaterial.cpp" />
     <ClCompile Include="DImage.cpp" />
     <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="LV6-OpenGL-Teksture1.1.cpp" />
