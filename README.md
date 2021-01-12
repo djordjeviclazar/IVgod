@@ -65,8 +65,8 @@ Paralelizovati kodiranje, čitanje i upis
 
 ## Programski prevodioci
 
-* Zad1-3 folder PP/Lab/Termin1*
-* Dokumentacija: PP/Dokumenti*
+*Zad1-3 folder PP/Lab/Termin1*
+*Dokumentacija: PP/Dokumenti*
 
 ### Lab
 
