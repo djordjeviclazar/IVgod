@@ -986,7 +986,7 @@ void CGLRenderer::drawWheel(float radius, float height, float textureCenterX, fl
 	{
 		// vertices:
 		textureVertices[i] = CIRCLE_X(textureRadius, alpha) + textureCenterX;
-		textureVertices[i + 1] = CIRCLE_Z(textureRadius, alpha) + textureCenterX;
+		textureVertices[i + 1] = CIRCLE_Z(textureRadius, alpha) + textureCenterY;
 
 		alpha++;
 	}
