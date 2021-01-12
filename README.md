@@ -31,9 +31,13 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 
 <img src="RG/Lab/lab4.png">
 
-#### LV05 - OPENGL -OSVETLJENJE
+#### LV05 - OPENGL - OSVETLJENJE
 
 <img src="RG/Lab/lab5.png">
+
+#### LV06 - OPENGL - TEKSTURE
+
+<img src="RG/Lab/lab6.png">
 
 ## Zaštita informacija
 
