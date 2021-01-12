@@ -3,6 +3,7 @@
 *  https://learnopengl.com/Getting-started/Camera
 */
 
+#include "DImage.h"
 
 #pragma once
 
@@ -40,4 +41,14 @@ private:
 
 	float unit = 2.5;
 	float textureUnit = 1. / 16.;
+
+
+	void drawTruck(int height, int width, int depth, int unit);
+	void drawBody(int height, int width, int depth, int localUnit);
+	void drawElipsoid(int radiusX, int radiusY, int radiusZ);
+	void drawWheel(float radius, float height, float textureCenterX, float textureCenterY, float textureRadius);
+	void drawGround(int localUnit);
+
+	UINT LoadTexture(char* fileName);
+	UINT LoadTextureRepeat(char* fileName);
 };

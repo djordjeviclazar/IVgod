@@ -89,5 +89,11 @@
     <Image Include="res\Toolbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\tekstura1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tekstura2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

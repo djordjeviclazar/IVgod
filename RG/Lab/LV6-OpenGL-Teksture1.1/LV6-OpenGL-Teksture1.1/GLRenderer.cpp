@@ -102,7 +102,7 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	glLoadIdentity();
 
 	gluLookAt(eyeX, eyeY, eyeZ,
-		0.0, 5., 0.0,
+		0.0, 0., 0.0,
 		0.0, 1.0, 0.0);
 
 
@@ -113,46 +113,23 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	{
 		glColor3f(1.0, 0.0, 0.0); //x
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(unit * 6.0, 0.0, 0.0);
+		glVertex3f(unit * 16.0, 0.0, 0.0);
 
 		glColor3f(0.0, 1.0, 0.0); //y
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, unit * 6.0, 0.0);
+		glVertex3f(0.0, unit * 16.0, 0.0);
 
 		glColor3f(0.0, 0.0, 1.0); //z
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 0.0, unit * 6.0);
+		glVertex3f(0.0, 0.0, unit * 16.0);
 	}
 	glEnd();
 
 	glColor3f(1., 1., 1.);
 
 	// draw:
-	glPushMatrix();
-	{
-		// set global
-		GLfloat lmodel_ambient[] = { 0.2, 0.2, 0.2, 1. };
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
-		//glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
-		//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-
-		float light_ambient[] = { 0.1, 0.1, 0.1, 1. };
-		float light_diffuse[] = { 1., 1., 1., 1. };
-		float light_emission[] = { 1., 1., 1., 1. };
-		float light_specular[] = { 0., 0., 0., 1. };
-		float light_position[] = { unit * 10 / 2, unit * 10. / 2, unit * 10 / 2, 0. };
-		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-		glLightfv(GL_LIGHT0, GL_EMISSION, light_emission);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
-		glEnable(GL_LIGHT0);
-		glEnable(GL_LIGHTING);
-
-		
-	}
-	glPopMatrix();
+	drawTruck(14, 7, 5, unit / 2.);
+	drawGround(unit / 2.);
 
 
 	glFlush();
@@ -219,4 +196,898 @@ void CGLRenderer::moveEye(CPoint point)
 	eyeX = newEyeX * currentLength;
 	eyeY = newEyeY * currentLength;
 	eyeZ = newEyeZ * currentLength;
+}
+
+void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
+{
+	glEnable(GL_TEXTURE_2D);
+	UINT texId = LoadTexture("res/tekstura1.bmp");
+
+	drawBody(height, width, depth, localUnit);
+	glPushMatrix();
+	{
+		glTranslatef(2 * localUnit, 5 * localUnit, 0.);
+		drawElipsoid(5 * localUnit, 2 * localUnit, 3 * localUnit);
+	}
+	glPopMatrix();
+
+	glColor3f(1., 1., 1.);
+
+	glPushMatrix();
+	{
+		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, localUnit);
+		glRotatef(90., 1., 0., 0.);
+		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+	}
+	glPopMatrix();
+
+	glPushMatrix();
+	{
+		glTranslatef(1.5 * localUnit, 0.5 * localUnit, localUnit);
+		glRotatef(90., 1., 0., 0.);
+		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+	}
+	glPopMatrix();
+
+	glPushMatrix();
+	{
+		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, -localUnit * 2);
+		glRotatef(90., 1., 0., 0.);
+		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+	}
+	glPopMatrix();
+
+	glPushMatrix();
+	{
+		glTranslatef(1.5 * localUnit, 0.5 * localUnit, -localUnit * 2);
+		glRotatef(90., 1., 0., 0.);
+		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+	}
+	glPopMatrix();
+
+	glDeleteTextures(1, &texId);
+	glDisable(GL_TEXTURE_2D);
+}
+
+void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
+{
+	const int n = 19 << 4;
+	float vertices[n];
+	//float indices[38];
+	float textureStart = 0.5;
+
+	int vertex, p;
+
+	for (int i = 0; i < 2; i ++)
+	{
+		int ind = i * (n >> 1);
+		int pom = i == 0 ? 1 : -1;
+		p = ind;
+
+		// vertex 1:
+		{
+			// coord.
+			vertices[ind++] = -7. * localUnit;
+			vertices[ind++] = 0;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = -0.33;
+			vertices[ind++] = -0.33;
+			vertices[ind++] = 0.33 * pom;
+
+			// texture
+			vertices[ind++] = 0;
+			vertices[ind++] = textureStart + textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 2:
+		{
+			// coord.
+			vertices[ind++] = -6. * localUnit;
+			vertices[ind++] = 0;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = textureUnit;
+			vertices[ind++] = textureStart + textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 3:
+		{
+			// coord.
+			vertices[ind++] = -6. * localUnit;
+			vertices[ind++] = localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = textureUnit;
+			vertices[ind++] = textureStart + 2 * textureUnit;
+
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 4:
+		{
+			// coord.
+			vertices[ind++] = -5. * localUnit;
+			vertices[ind++] = 2 * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 2 * textureUnit;
+			vertices[ind++] = textureStart + 3 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 5:
+		{
+			// coord.
+			vertices[ind++] = -4. * localUnit;
+			vertices[ind++] = 2 * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 3 * textureUnit;
+			vertices[ind++] = textureStart + 3 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 6:
+		{
+			// coord.
+			vertices[ind++] = -3. * localUnit;
+			vertices[ind++] = localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 4 * textureUnit;
+			vertices[ind++] = textureStart + 2 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 7:
+		{
+			// coord.
+			vertices[ind++] = -3. * localUnit;
+			vertices[ind++] = 0;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 4 * textureUnit;
+			vertices[ind++] = textureStart + textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 8:
+		{
+			// coord.
+			vertices[ind++] = 0.;
+			vertices[ind++] = 0;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 7 * textureUnit;
+			vertices[ind++] = textureStart + textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 9:
+		{
+			// coord.
+			vertices[ind++] = 0.;
+			vertices[ind++] = localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 7 * textureUnit;
+			vertices[ind++] = textureStart + 2 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 10:
+		{
+			// coord.
+			vertices[ind++] = localUnit;
+			vertices[ind++] = 2 * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 8 * textureUnit;
+			vertices[ind++] = textureStart + 3 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 11:
+		{
+			// coord.
+			vertices[ind++] = 2. * localUnit;
+			vertices[ind++] = 2 * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 9 * textureUnit;
+			vertices[ind++] = textureStart + 3 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 12:
+		{
+			// coord.
+			vertices[ind++] = 3. * localUnit;
+			vertices[ind++] = localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 10 * textureUnit;
+			vertices[ind++] = textureStart + 2 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 13:
+		{
+			// coord.
+			vertices[ind++] = 3. * localUnit;
+			vertices[ind++] = 0;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = -0.5 * pom;
+
+			// texture
+			vertices[ind++] = 10 * textureUnit;
+			vertices[ind++] = textureStart + textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 14:
+		{
+			// coord.
+			vertices[ind++] = 7. * localUnit;
+			vertices[ind++] = 0;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.33;
+			vertices[ind++] = -0.33;
+			vertices[ind++] = 0.33 * pom;
+
+			// texture
+			vertices[ind++] = 14 * textureUnit;
+			vertices[ind++] = textureStart + textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 15:
+		{
+			// coord.
+			vertices[ind++] = 7. * localUnit;
+			vertices[ind++] = 3. * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+		// normal
+		vertices[ind++] = 0.33;
+		vertices[ind++] = 0.33;
+		vertices[ind++] = 0.33 * pom;
+
+		// texture
+		vertices[ind++] = 14 * textureUnit;
+		vertices[ind++] = textureStart + 4 * textureUnit;
+
+		//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+		//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+		//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 16:
+		{
+		// coord.
+		vertices[ind++] = -3. * localUnit;
+		vertices[ind++] = 3. * localUnit;
+		vertices[ind++] = depth / 2. * pom;
+
+		// normal
+		vertices[ind++] = 0.33;
+		vertices[ind++] = 0.33;
+		vertices[ind++] = 0.33 * pom;
+
+		// texture
+		vertices[ind++] = 4 * textureUnit;
+		vertices[ind++] = textureStart + 4 * textureUnit;
+
+		//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+		//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+		//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 17:
+		{
+			// coord.
+			vertices[ind++] = -3. * localUnit;
+			vertices[ind++] = 7. * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.33;
+			vertices[ind++] = 0.33;
+			vertices[ind++] = 0.33 * pom;
+
+			// texture
+			vertices[ind++] = 4 * textureUnit;
+			vertices[ind++] = textureStart + 8 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 18:
+		{
+			// coord.
+			vertices[ind++] = -5. * localUnit;
+			vertices[ind++] = 7. * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.33;
+			vertices[ind++] = 0.33;
+			vertices[ind++] = 0.33 * pom;
+
+			// texture
+			vertices[ind++] = 2 * textureUnit;
+			vertices[ind++] = textureStart + 8 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// vertex 19:
+		{
+			// coord.
+			vertices[ind++] = -7. * localUnit;
+			vertices[ind++] = 5. * localUnit;
+			vertices[ind++] = depth / 2. * pom;
+
+			// normal
+			vertices[ind++] = 0.33;
+			vertices[ind++] = 0.33;
+			vertices[ind++] = 0.33 * pom;
+
+			// texture
+			vertices[ind++] = 0 * textureUnit;
+			vertices[ind++] = textureStart + 6 * textureUnit;
+
+			//glNormal3d(vertices[ind - 5], vertices[ind - 4], vertices[ind - 3]);
+			//glTexCoord2f(vertices[ind - 2], vertices[ind - 1]);
+			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
+		}
+
+		// draw all polygons with textures:
+		{
+			vertex = 0;
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 0;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 2;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 18;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 2;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 3;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 17;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 18;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 4;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 5;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 8;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 9;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 5;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 6;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 7;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 8;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 10;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 11;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 13;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 14;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 11;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 12;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 13;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 14;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 15;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 4;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 10;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+
+			glBegin(GL_POLYGON);
+			{
+				vertex = p + 8 * 3;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 4;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 15;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 16;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+				vertex = p + 8 * 17;
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+			}
+			glEnd();
+		}
+	}
+
+	// draw all polygons without textures:
+	glDisable(GL_TEXTURE_2D);
+	vertex = 0, p = n >> 1;
+	for (int i = 0; i < 19; i++)
+	{
+		glBegin(GL_POLYGON);
+		{
+			vertex = 8 * i;
+			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+			vertex = 8 * ((i + 1) % 19);
+			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+			vertex = p + 8 * ((i + 1) % 19);
+			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+
+			vertex = p + 8 * i;
+			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
+			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
+		}
+		glEnd();
+	}
+	glEnable(GL_TEXTURE_2D);
+
+	/*for (int i = 0; i < 38; i++)
+	{
+		indices[i] = i;
+	}*/
+
+	/*glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	{
+		glVertexPointer(3, GL_FLOAT, 8 * sizeof(float), &vertices[0]);
+		glNormalPointer(GL_FLOAT, 8 * sizeof(float), &vertices[3]);
+		//glTexCoordPointer(2, GL_FLOAT, 8 * sizeof(float), &vertices[6]);
+
+		glDrawElements(GL_POLYGON, 19, GL_UNSIGNED_SHORT, &indices[0]);
+
+		glVertexPointer(3, GL_FLOAT, 8 * sizeof(float), &vertices[n >> 1]);
+		glNormalPointer(GL_FLOAT, 8 * sizeof(float), &vertices[(n >> 1) + 3]);
+		//glTexCoordPointer(2, GL_FLOAT, 8 * sizeof(float), &vertices[(n >> 1) + 6]);
+
+		glDrawElements(GL_POLYGON, 19, GL_UNSIGNED_SHORT, &indices[0]);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);*/
+}
+
+void CGLRenderer::drawElipsoid(int radiusX, int radiusY, int radiusZ)
+{
+	glBegin(GL_QUAD_STRIP);
+	{
+		float texUnit = 1. / 360;
+
+		for (int i = -90; i < 90; i++)
+		{
+			int iTexture = i + 90;
+
+			float alphaOdd = (i)*M_PI / 180.; // angle for odd vertices
+			float alphaEven = (i + 1) * M_PI / 180.; // angle for even vertices
+			for (int k = 0; k < 360; k++)
+			{
+				float betaOdd = k * M_PI / 180.; // angle for odd vertices
+				float betaEven = k * M_PI / 180.; // angle for even vertices
+
+				glNormal3f(SPHERE_NX(alphaOdd, betaOdd), SPHERE_NY(alphaOdd), SPHERE_NZ(alphaOdd, betaOdd));
+				glTexCoord2f(1. - k * texUnit, iTexture * texUnit);
+				glVertex3f(SPHERE_X(radiusX, alphaOdd, betaOdd),
+					SPHERE_Y(radiusY, alphaOdd),
+					SPHERE_Z(radiusZ, alphaOdd, betaOdd));
+
+				glNormal3f(SPHERE_NX(alphaEven, betaEven), SPHERE_NY(alphaEven), SPHERE_NZ(alphaEven, betaEven));
+				glTexCoord2f(1. - (k + 1) * texUnit, (iTexture + 1) * texUnit);
+				glVertex3f(SPHERE_X(radiusX, alphaEven, betaEven),
+					SPHERE_Y(radiusY, alphaEven),
+					SPHERE_Z(radiusZ, alphaEven, betaEven));
+			}
+		}
+	}
+	glEnd();
+}
+
+void CGLRenderer::drawWheel(float radius, float height, float textureCenterX, float textureCenterY, float textureRadius)
+{
+	float verticesDown[3 * 361]; //, verticesUp[3 * 361], verticesAll[3 * 720];
+	//u_short baseIndices[362];
+	//u_short sideIndices[360 * 2 + 2];
+	float textureVertices[2 * 361];
+
+	// koord pocetak == centar baze, za ovu gornju samo + height
+	verticesDown[0] = 0;
+	verticesDown[1] = 0;
+	verticesDown[2] = 0;
+	/*verticesUp[0] = 0;
+	verticesUp[1] = height;
+	verticesUp[2] = 0;*/
+
+	float alpha = 0.0f;
+	for (int i = 3; i < 361 * 3; i += 3)
+	{
+		// vertices:
+		verticesDown[i] = CIRCLE_X(radius, alpha);
+		verticesDown[i + 1] = 0;
+		verticesDown[i + 2] = CIRCLE_Z(radius, alpha);
+
+		alpha++;
+	}
+
+	textureVertices[0] = textureCenterX;
+	textureVertices[1] = textureCenterY;
+
+	alpha = 0.0f;
+	for (int i = 2; i < 361 * 2; i += 2)
+	{
+		// vertices:
+		textureVertices[i] = CIRCLE_X(textureRadius, alpha) + textureCenterX;
+		textureVertices[i + 1] = CIRCLE_Z(textureRadius, alpha) + textureCenterX;
+
+		alpha++;
+	}
+
+	int k = 0;
+	glBegin(GL_TRIANGLE_FAN);// downbase
+	for (int i = 0; i < 3 * 361; i += 3)
+	{
+		glTexCoord2f(textureVertices[k], textureVertices[k + 1]);
+		glVertex3d(verticesDown[i], verticesDown[i + 1], verticesDown[i + 2]);
+
+		k += 2;
+	}
+	glEnd();
+
+	k = 0;
+	glBegin(GL_TRIANGLE_FAN);// upbase
+	for (int i = 0; i < 3 * 361; i += 3)
+	{
+		glTexCoord2f(textureVertices[k], textureVertices[k + 1]);
+		glVertex3d(verticesDown[i], verticesDown[i + 1] + height, verticesDown[i + 2]);
+
+		k += 2;
+	}
+	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
+	k = 0;
+	glBegin(GL_TRIANGLE_FAN);// side
+	for (int i = 0; i < 3 * 361; i += 3)
+	{
+		glVertex3d(verticesDown[i], verticesDown[i + 1], verticesDown[i + 2]);
+		glVertex3d(verticesDown[i], verticesDown[i + 1] + height, verticesDown[i + 2]);
+	}
+	glEnd();
+	glEnable(GL_TEXTURE_2D);
+}
+
+void CGLRenderer::drawGround(int localUnit)
+{
+	glEnable(GL_TEXTURE_2D);
+	UINT texId = LoadTextureRepeat("res/tekstura2.bmp");
+
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2f(3., 6.);
+		glVertex3d(unit * 10, -1.4 * localUnit, unit * 10);
+
+		glTexCoord2f(3., 0);
+		glVertex3d(unit * 10, -1.4 * localUnit, -unit * 10);
+
+		glTexCoord2f(0, 0);
+		glVertex3d(-unit * 10, -1.4 * localUnit, -unit * 10);
+
+		glTexCoord2f(0, 6.);
+		glVertex3d(-unit * 10, -1.4 * localUnit, unit * 10);
+	}
+	glEnd();
+
+	glDeleteTextures(1, &texId);
+	glDisable(GL_TEXTURE_2D);
+}
+
+UINT CGLRenderer::LoadTexture(char* fileName)
+{
+	UINT texID;
+	DImage img;
+	img.Load(CString(fileName));
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	glGenTextures(1, &texID);
+	glBindTexture(GL_TEXTURE_2D, texID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_LINEAR_MIPMAP_LINEAR);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, img.Width(), img.Height(),
+		GL_BGRA_EXT, GL_UNSIGNED_BYTE, img.GetDIBBits());
+	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.Width(), img.Height(), 0,
+	GL_BGRA_EXT, GL_UNSIGNED_BYTE, img.GetDIBBits());*/
+	return texID;
+}
+
+UINT CGLRenderer::LoadTextureRepeat(char* fileName)
+{
+	UINT texID;
+	DImage img;
+	img.Load(CString(fileName));
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	glGenTextures(1, &texID);
+	glBindTexture(GL_TEXTURE_2D, texID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_LINEAR_MIPMAP_LINEAR);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, img.Width(), img.Height(),
+		GL_BGRA_EXT, GL_UNSIGNED_BYTE, img.GetDIBBits());
+	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.Width(), img.Height(), 0,
+	GL_BGRA_EXT, GL_UNSIGNED_BYTE, img.GetDIBBits());*/
+	return texID;
 }

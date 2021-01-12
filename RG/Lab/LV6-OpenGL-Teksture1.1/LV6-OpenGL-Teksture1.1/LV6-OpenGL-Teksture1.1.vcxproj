@@ -217,6 +217,8 @@
   <ItemGroup>
     <Image Include="res\LV6-OpenGL-Teksture1.1.ico" />
     <Image Include="res\LV6-OpenGL-Teksture1.1Doc.ico" />
+    <Image Include="res\tekstura1.bmp" />
+    <Image Include="res\tekstura2.bmp" />
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
