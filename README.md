@@ -65,8 +65,8 @@ Paralelizovati kodiranje, čitanje i upis
 
 ## Programski prevodioci
 
-* Zad1-3 folder PP/Lab/Termin1*
-* Dokumentacija: PP/Dokumenti*
+*Zad1-3 folder PP/Lab/Termin1*
+*Dokumentacija: PP/Dokumenti*
 
 ### Lab
 
@@ -178,10 +178,10 @@ Zadatke je potrebno rešiti rekurzijom. Svaki zadatak realizovati u okviru jedne
 
 <img src="VI/Lab/Tekst zadataka/lab3.png">
 
-* Napomena: za heuristiku misli se na broj grana od početnog čvora (prosleđenog kao argument) do čvora do kog smo stigli prilikom obilaska *
+*Napomena: za heuristiku misli se na broj grana od početnog čvora (prosleđenog kao argument) do čvora do kog smo stigli prilikom obilaska*
 
 #### Termin4
 
 <img src="VI/Lab/Tekst zadataka/lab4.png">
 
-* Napomena: Rezultat je lista poteza koji dovode do ciljnog stanja, fajl nazvati Ime_Prezime_br.indeksa, obavezno pozvati f-je koje su implementirane u fajlu *
+*Napomena: Rezultat je lista poteza koji dovode do ciljnog stanja, fajl nazvati Ime_Prezime_br.indeksa, obavezno pozvati f-je koje su implementirane u fajlu*
