@@ -131,16 +131,16 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	materialDefault.Select();
 
 	// set global
-	GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 1. };
+	GLfloat lmodel_ambient[] = { 0.7, 0.7, 0.7, 1. };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
-	//glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
-	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 
-	float light_ambient[] = { 0.5, 0.5, 0.5, 1. };
+	float light_ambient[] = { 0.9, 0.9, 0.9, 1. };
 	float light_diffuse[] = { 1., 1., 1., 1. };
 	float light_emission[] = { 1., 1., 1., 1. };
-	float light_specular[] = { 0.2, 0.2, 0.2, 1. };
-	float light_position[] = { unit, unit, 0., 0. };
+	float light_specular[] = { 0., 0., 0., 1. };
+	float light_position[] = { unit, unit, unit / 5., 0. };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glLightfv(GL_LIGHT0, GL_EMISSION, light_emission);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -169,7 +169,7 @@ void CGLRenderer::Reshape(CDC* pDC, int w, int h)
 	double aspect = (double)w / (double)h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, aspect, 0.1, 100);
+	gluPerspective(55.0, aspect, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	//---------------------------------
 	wglMakeCurrent(NULL, NULL);
@@ -243,7 +243,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 	{
 		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, depth / 2. - 1.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
-		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+		drawWheel(1.3 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
 	glPopMatrix();
 
@@ -251,7 +251,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 	{
 		glTranslatef(1.5 * localUnit, 0.5 * localUnit, depth / 2. - 1.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
-		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+		drawWheel(1.3 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
 	glPopMatrix();
 
@@ -259,7 +259,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 	{
 		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, -depth / 2. + 0.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
-		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+		drawWheel(1.3 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
 	glPopMatrix();
 
@@ -267,7 +267,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 	{
 		glTranslatef(1.5 * localUnit, 0.5 * localUnit, -depth / 2. + 0.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
-		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
+		drawWheel(1.3 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
 	glPopMatrix();
 
@@ -289,7 +289,7 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 	for (int i = 0; i < 2; i ++)
 	{
 		int ind = i * (n >> 1);
-		int pom = i == 0 ? 1 : -1;
+		int pom = i == 0 ? -1 : 1;
 		p = ind;
 
 		// vertex 1:
@@ -825,6 +825,7 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 
 				vertex = p + 8 * 12;
 				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+				glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
 				glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
 				glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
 
@@ -900,22 +901,167 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 		glBegin(GL_POLYGON);
 		{
 			vertex = 8 * i;
-			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+			if (i == 16)
+			{
+				glNormal3d(0., 1., 0.);
+			}
+			else
+			{
+				if (i == 15)
+				{
+					glNormal3d(0.5, 0., .5);
+				}
+				else
+				{
+					if (i == 18)
+					{
+						glNormal3d(-1., 0., 0.);
+					}
+					else
+					{
+						if (i == 17)
+						{
+							glNormal3d(-0.5, 1.0, .0);
+						}
+						else
+						{
+							if (i == 7 || i == 1)
+							{
+								glNormal3d(1., -.5, .0);
+							}
+							else
+							{
+								glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+							}
+						}
+					}
+				}
+			}
 			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
 			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
 
 			vertex = 8 * ((i + 1) % 19);
-			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+			if (i == 16)
+			{
+				glNormal3d(0., 1., 0.);
+			}
+			else
+			{
+				if (i == 15)
+				{
+					glNormal3d(0.5, 0., .5);
+				}
+				else
+				{
+					if (i == 18)
+					{
+						glNormal3d(-1., 0., 0.);
+					}
+					else
+					{
+						if (i == 17)
+						{
+							glNormal3d(-0.5, 1.0, .0);
+						}
+						else
+						{
+							if (i == 7 || i == 1)
+							{
+								glNormal3d(1., -.5, .0);
+							}
+							else
+							{
+								glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+							}
+						}
+					}
+				}
+			}
+			
 			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
 			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
 
 			vertex = p + 8 * ((i + 1) % 19);
-			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+
+			if (i == 16)
+			{
+				glNormal3d(0., 1., 0.);
+			}
+			else
+			{
+				if (i == 15)
+				{
+					glNormal3d(0.5, 0., .5);
+				}
+				else
+				{
+					if (i == 13)
+					{
+						glNormal3d(1., 0., 0.);
+					}
+					else
+					{
+						if (i == 17)
+						{
+							glNormal3d(-0.5, 1.0, .0);
+						}
+						else
+						{
+							if (i == 7 || i == 1)
+							{
+								glNormal3d(1., -.5, .0);
+							}
+							else
+							{
+								glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+							}
+						}
+					}
+				}
+			}
+			
 			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
 			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
 
 			vertex = p + 8 * i;
-			glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+
+			if (i == 16)
+			{
+				glNormal3d(0., 1., 0.);
+			}
+			else
+			{
+				if (i == 15)
+				{
+					glNormal3d(0.5, 0., 0.5);
+				}
+				else
+				{
+					if (i == 13)
+					{
+						glNormal3d(1., 0., .0);
+					}
+					else
+					{
+						if (i == 17)
+						{
+							glNormal3d(1., -.5, .0);
+						}
+						else
+						{
+							if (i == 7 || i == 1)
+							{
+								glNormal3d(0.5, -1.0, .0);
+							}
+							else
+							{
+								glNormal3d(vertices[vertex + 3], vertices[vertex + 4], vertices[vertex + 5]);
+							}
+						}
+					}
+				}
+			}
+			
 			//glTexCoord2f(vertices[vertex + 6], vertices[vertex + 7]);
 			glVertex3d(vertices[vertex], vertices[vertex + 1], vertices[vertex + 2]);
 		}
