@@ -39,7 +39,7 @@
 CGLRenderer::CGLRenderer()
 {
 	eyeZ = 0.;
-	eyeX = eyeY = 4 * unit;
+	eyeX = eyeY = 5 * unit;
 
 	// start angle:
 	yaw = asinf(eyeZ);
@@ -102,7 +102,7 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	glLoadIdentity();
 
 	gluLookAt(eyeX, eyeY, eyeZ,
-		0.0, 0., 0.0,
+		0.0, 0.0, 0.0,
 		0.0, 1.0, 0.0);
 
 
@@ -139,7 +139,7 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	float light_ambient[] = { 0.5, 0.5, 0.5, 1. };
 	float light_diffuse[] = { 1., 1., 1., 1. };
 	float light_emission[] = { 1., 1., 1., 1. };
-	float light_specular[] = { 0., 0., 0., 1. };
+	float light_specular[] = { 0.2, 0.2, 0.2, 1. };
 	float light_position[] = { unit, unit, 0., 0. };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glLightfv(GL_LIGHT0, GL_EMISSION, light_emission);
@@ -151,7 +151,7 @@ void CGLRenderer::DrawScene(CDC* pDC)
 	glEnable(GL_LIGHTING);
 
 	// draw:
-	drawTruck(14, 7, 5, unit / 2.);
+	drawTruck(14, 7, 7, unit / 2.);
 	drawGround(unit / 2.);
 
 
@@ -169,7 +169,7 @@ void CGLRenderer::Reshape(CDC* pDC, int w, int h)
 	double aspect = (double)w / (double)h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(65.0, aspect, 0.1, 100);
+	gluPerspective(45.0, aspect, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	//---------------------------------
 	wglMakeCurrent(NULL, NULL);
@@ -229,8 +229,9 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 	drawBody(height, width, depth, localUnit);
 	glPushMatrix();
 	{
-		glTranslatef(2 * localUnit, 5 * localUnit, 0.);
-		drawElipsoid(5 * localUnit, 2 * localUnit, 3 * localUnit);
+		glTranslatef(2 * localUnit, 5 * localUnit, 0.); 
+		glRotatef(180., 0., 1., 0.);
+		drawElipsoid(5 * localUnit, 2 * localUnit, (depth / 2) * localUnit);
 	}
 	glPopMatrix();
 
@@ -240,7 +241,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 
 	glPushMatrix();
 	{
-		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, localUnit);
+		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, depth / 2. - 1.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
 		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
@@ -248,7 +249,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 
 	glPushMatrix();
 	{
-		glTranslatef(1.5 * localUnit, 0.5 * localUnit, localUnit);
+		glTranslatef(1.5 * localUnit, 0.5 * localUnit, depth / 2. - 1.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
 		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
@@ -256,7 +257,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 
 	glPushMatrix();
 	{
-		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, -localUnit * 2);
+		glTranslatef(-4.5 * localUnit, 0.5 * localUnit, -depth / 2. + 0.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
 		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
@@ -264,7 +265,7 @@ void CGLRenderer::drawTruck(int height, int width, int depth, int localUnit)
 
 	glPushMatrix();
 	{
-		glTranslatef(1.5 * localUnit, 0.5 * localUnit, -localUnit * 2);
+		glTranslatef(1.5 * localUnit, 0.5 * localUnit, -depth / 2. + 0.5 * localUnit);
 		glRotatef(90., 1., 0., 0.);
 		drawWheel(1.4 * localUnit, localUnit, 6. * textureUnit, 14.5 * textureUnit, 1.5 * textureUnit);
 	}
@@ -657,8 +658,8 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 			vertices[ind++] = depth / 2. * pom;
 
 			// normal
-			vertices[ind++] = 0.33;
-			vertices[ind++] = 0.33;
+			vertices[ind++] = -0.165;
+			vertices[ind++] = 0.5;
 			vertices[ind++] = 0.33 * pom;
 
 			// texture
@@ -678,8 +679,8 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 			vertices[ind++] = depth / 2. * pom;
 
 			// normal
-			vertices[ind++] = 0.33;
-			vertices[ind++] = 0.33;
+			vertices[ind++] = -0.5;
+			vertices[ind++] = 0.165;
 			vertices[ind++] = 0.33 * pom;
 
 			// texture
@@ -691,6 +692,7 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 			//glVertex3d(vertices[ind - 8], vertices[ind - 7], vertices[ind - 6]);
 		}
 
+		//glDisable(GL_LIGHTING);
 		// draw all polygons with textures:
 		{
 			vertex = 0;
@@ -886,6 +888,8 @@ void CGLRenderer::drawBody(int height, int width, int depth, int localUnit)
 			}
 			glEnd();
 		}
+		//glEnable(GL_LIGHTING);
+
 	}
 
 	// draw all polygons without textures:
