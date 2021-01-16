@@ -12,7 +12,8 @@ public class SymbolTable
 
     public SymbolTable()
     {
-        types = new Type("string", Type.STRING, null);
+        types = new Type("unknown", Type.UNKNOWN, types);
+        types = new Type("string", Type.STRING, types);
         types = new Type("double", Type.DOUBLE, types);
         types = new Type("integer", Type.INTEGER, types);
         variables = null;

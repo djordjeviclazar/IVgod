@@ -51,13 +51,15 @@ terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA;
 
 // nonterminals:
 nonterminal Model, Body, Declarations, VariableDeclaration;
-nonterminal String Variable, Type, Expression, RelExpression, Term, Assignment, Deployment;
+nonterminal String Variable;
+nonterminal Type Type;
+nonterminal Integer Expression, RelExpression, Term, Assignment, Deployment;
 
 nonterminal Statements, Statement, WhileStatement, RelOp;
 nonterminal ServerList, ServerDef, ServerName, Capacity, TaskList, TaskDef, TaskName, Demand,Mapping;
 
 // special:
-nonterminal Constant CONST;
+nonterminal Integer CONST;
 
 precedence left PLUS;
 precedence left MUL;
@@ -91,19 +93,28 @@ Variable ::= ID:id COLON Type:type SEMICOLON
     {:
             System.out.println("Prepoznata deklaracija promenljive");
             
-            
+            boolean e = !parser.symbolTable.addVar(id, type);
+            if (e)
+            {
+                parser.errNo++;
+                System.out.println("Promenljiva '" + id + "' je već definisana");
+            }
         :}; 
-Type ::= INTEGER
+Type ::= INTEGER:t
     {:
             System.out.println("Prepoznat tip int");
+            RESULT = parser.symbolTable.getType( "integer" );
         :} 
-    | DOUBLE
+    | DOUBLE:t
     {:
             System.out.println("Prepoznat tip double");
+            RESULT = parser.symbolTable.getType( "double" );
         :} 
-    | STRING
+    | STRING:t
     {:
             System.out.println("Prepoznat tip string");
+            RESULT = parser.symbolTable.getType( "string" );
+            
         :}; 
     
 Statements ::= Statements SEMICOLON Statement
@@ -124,27 +135,68 @@ Statement ::= Assignment
             System.out.println("Prepoznata naredba");
         :}; 
     
-WhileStatement ::= WHILE LEFTPAR RelExpression RIGHTPAR COLON LEFTCURVEDPAR Statements RIGHTCURVEDPAR
+WhileStatement ::= WHILE LEFTPAR RelExpression:relexp RIGHTPAR COLON LEFTCURVEDPAR Statements RIGHTCURVEDPAR
     {:
             System.out.println("Prepoznata while petlja");
+            
+            if (relexp != Type.INTEGER)
+            {
+                parser.errNo++;
+                System.out.println("Uslov u while petlji mora biti tipa INTEGER");
+            }
         :};
  
-RelExpression ::= Term RelOp Term
+RelExpression ::= Term:t1 RelOp Term:t2
     {:
             System.out.println("Prepoznat izraz");
+            
+            int t = -1;
+            if (t1 == Type.INTEGER || t2 == Type.INTEGER || t1 == Type.DOUBLE || t2 == Type.DOUBLE)
+            {
+                t = 1;
+            }
+            else
+            {
+                parser.errNo++;
+                System.out.println("Operator poređenja radi samo sa numeričkim tipovima (DOUBLE, INTEGER)");
+            }
+            
+            RESULT = t;
         :} 
-    | Term
+    | Term:t
     {:
             System.out.println("Prepoznat izraz");
+            
+            RESULT = t;
         :}; 
     
-Term ::= ID
+Term ::= ID:id
     {:
-            System.out.println("Prepoznat identifikator");
+            Variable variable = parser.symbolTable.getVar(id);
+            if (variable != null)
+            {
+                System.out.println("Prepoznat identifikator");
+                
+                if (variable.last_def == -1)
+                {
+                    parser.errNo++;
+                    System.out.println("Promenljiva '" + id + "' je korišćena pre inicijalizacije");
+                }
+                
+                RESULT = variable.type.tkind;
+            }
+            else
+            {
+                parser.errNo++;
+                System.out.println("Promenljiva '" + id + "' je korišćena a nije definisana");
+            }
+            
+            
         :} 
-    | CONST
+    | CONST:c
     {:
             System.out.println("Prepoznata konstanta");
+            RESULT = c;
         :};
      
 RelOp ::= LESS
@@ -160,9 +212,33 @@ RelOp ::= LESS
             System.out.println("Prepoznat relacioni operator greater");
         :};
      
-Assignment ::= ID ASSIGN Expression
+Assignment ::= ID:id ASSIGN Expression:exp
     {:
             System.out.println("Prepoznata dodela");
+            
+            Variable variable = parser.symbolTable.getVar(id);
+            if (variable != null)
+            {
+                variable.last_def = parser.getLine();
+                if (exp != Type.UNKNOWN || 
+                    variable.type.tkind == exp || 
+                    (variable.type.tkind == Type.DOUBLE && exp == Type.INTEGER))
+                {
+                    RESULT = variable.type.tkind;
+                }
+                else
+                {
+                    System.out.println("Izraz u liniji " + parser.getLine() + 
+                                       " nije kompatibilan sa tipom promenljive");
+                    RESULT = variable.type.tkind;
+                }
+            }
+            else
+            {
+                System.out.println("Promenljiva '" + id + "' je korišćena a nije definisana");
+                
+                RESULT = Type.UNKNOWN;
+            }
         :}; 
 
 Deployment ::= DEPLOYMENT TaskList ServerList DEPLOYMENTEND
@@ -184,14 +260,53 @@ ServerDef ::= SERVER ServerName COMMA Capacity SERVEREND
             System.out.println("Prepoznata definicija servera");
         :}; 
 
-ServerName ::= SERVERID ID
+ServerName ::= SERVERID ID:id
     {:
             System.out.println("Prepoznato imenovanje servera");
+            
+            Variable variable = parser.symbolTable.getVar(id);
+            if (variable != null)
+            {
+                System.out.println("Prepoznat identifikator");
+                
+                if (variable.last_def == -1)
+                {
+                    parser.errNo++;
+                    System.out.println("Promenljiva '" + id + "' je korišćena pre inicijalizacije");
+                }
+                
+                if (variable.isServer)
+                {
+                    parser.errNo++;
+                    System.out.println("Ne može više servera da imaju istu ime");
+                }
+                
+                if (variable.type.tkind != Type.STRING)
+                {
+                    parser.errNo++;
+                    System.out.println("Ime servera mora biti tipa STRING");
+                }
+                
+                variable.isServer = true;
+            }
+            else
+            {
+                parser.errNo++;
+                System.out.println("Promenljiva '" + id + "' je korišćena a nije definisana");
+            }
+            
+            
         :}; 
 
-Capacity ::= Term
+Capacity ::= Term:t
     {:
             System.out.println("Prepoznato definisanje kapaciteta servera");
+            
+            if (t != Type.INTEGER && t != Type.DOUBLE)
+            {
+                parser.errNo++;
+                System.out.println("Kapacitet servera mora biti numeričkog tipa (INTEGER, DOUBLE)");
+            }
         :}; 
 
 TaskList ::= TaskList SEMICOLON TaskDef
@@ -208,47 +323,124 @@ TaskDef ::= TASK TaskName COMMA Demand COMMA Mapping TASKEND
             System.out.println("Prepoznata definicija posla");
         :};
  
-TaskName ::= TASKID ID
+TaskName ::= TASKID ID:id
     {:
             System.out.println("Prepoznato imenovanje posla");
+            
+            Variable variable = parser.symbolTable.getVar(id);
+            if (variable != null)
+            {
+                System.out.println("Prepoznat identifikator");
+                
+                if (variable.last_def == -1)
+                {
+                    parser.errNo++;
+                    System.out.println("Promenljiva '" + id + "' je korišćena pre inicijalizacije");
+                }
+                
+                if (variable.type.tkind != Type.STRING)
+                {
+                    parser.errNo++;
+                    System.out.println("Ime posla mora biti tipa STRING");
+                }
+            }
+            else
+            {
+                parser.errNo++;
+                System.out.println("Promenljiva '" + id + "' je korišćena a nije definisana");
+            }
         :};
  
-Demand ::= Term
+Demand ::= Term:t
     {:
             System.out.println("Prepoznat zahtev");
+            
+            if (t != Type.INTEGER && t != Type.DOUBLE)
+            {
+                parser.errNo++;
+                System.out.println("Zahtev posla mora biti numeričkog tipa (INTEGER, DOUBLE)");
+            }
         :};
  
-Mapping ::= EXECUTEDON ID
+Mapping ::= EXECUTEDON ID:id
     {:
             System.out.println("Prepoznato mapiranje");
+            
+            Variable variable = parser.symbolTable.getVar(id);
+            if (variable != null)
+            {
+                System.out.println("Prepoznat identifikator");
+                
+                if (variable.last_def == -1)
+                {
+                    parser.errNo++;
+                    System.out.println("Promenljiva '" + id + "' je korišćena pre inicijalizacije");
+                }
+                
+                if (!variable.isServer)
+                {
+                    parser.errNo++;
+                    System.out.println("Promenljiva '" + id + "' mora odgovarati postojećem serveru");
+                }
+            }
+            else
+            {
+                parser.errNo++;
+                System.out.println("Promenljiva '" + id + "' je korišćena a nije definisana");
+            }
         :};
  
-Expression ::= Expression PLUS Term
+Expression ::= Expression:exp PLUS Term:t
     {:
             System.out.println("Prepoznato sabiranje");
+            
+            if ((exp == Type.INTEGER || exp == Type.DOUBLE) && (t == Type.INTEGER || t == Type.DOUBLE))
+            {
+                RESULT = exp > t ? exp : t;
+            }
+            else
+            {
+                System.out.println("Aritmetički izraz mora da bude sastavljen od tipova DOUBLE ili INTEGER");
+                RESULT = exp > t ? exp : t;
+            }
         :} 
-    | Expression MUL Term
+    | Expression:exp MUL Term:t
     {:
             System.out.println("Prepoznato množenje");
+            
+            if ((exp == Type.INTEGER || exp == Type.DOUBLE) && (t == Type.INTEGER || t == Type.DOUBLE))
+            {
+                RESULT = exp > t ? exp : t;
+            }
+            else
+            {
+                System.out.println("Aritmetički izraz mora da bude sastavljen od tipova DOUBLE ili INTEGER");
+                RESULT = exp > t ? exp : t;
+            }
         :} 
-    | Term
+    | Term:t
     {:
             System.out.println("Prepoznat izraz");
+            
+            RESULT = t;
         :}; 
         
 // Mod:
 CONST ::= CONSTSTRING:c
     {:
             System.out.println("Prepoznata je String konstanta");
-            RESULT = new Constant(parser.symbolTable.getType( "string" ),c);
+            //RESULT = new Constant(parser.symbolTable.getType( "string" ),c);
+            RESULT = Type.STRING;
         :} 
     | CONSTINTEGER:c
     {:
             System.out.println("Prepoznata je Integer konstanta");
-            RESULT = new Constant(parser.symbolTable.getType( "integer" ),c);
+            //RESULT = new Constant(parser.symbolTable.getType( "integer" ),c);
+            RESULT = Type.INTEGER;
         :} 
     | CONSTDOUBLE:c
     {:
             System.out.println("Prepoznata je Double konstanta");
-            RESULT = new Constant(parser.symbolTable.getType( "double" ),c);
+            //RESULT = new Constant(parser.symbolTable.getType( "double" ),c);
+            RESULT = Type.DOUBLE;
         :}; 
