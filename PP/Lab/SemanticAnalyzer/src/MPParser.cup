@@ -1,0 +1,254 @@
+//import section
+
+import java_cup.runtime.*;
+import java.io.*;
+import SymbolTable.*;
+
+parser code {:
+
+   public int errNo = 0;
+
+   SymbolTable symbolTable;
+
+   public static void main( String[] args )
+   {
+      try
+	  {
+		   FileReader file = new FileReader( args[0] );
+		   Scanner scanner = new MPLexer( file );
+		   MPParser parser = new MPParser( scanner );
+		   parser.parse();
+		   if ( parser.errNo == 0 )
+		      System.out.println( "Analiza zavrsena. U kodu nema gresaka." );
+		   else
+		      System.out.println( "Analiza zavrsena. Broj gresaka: " + parser.errNo );
+	  }
+	  catch( Exception e )
+	  {
+		   e.printStackTrace();
+	  }
+   }
+   
+   public int getLine()
+   {
+   	  return (( MPLexer) getScanner()).getLine();
+   }
+:};
+
+init with{: symbolTable = new SymbolTable(); :}
+
+// terminals:
+terminal MODEL, MODELEND, WHILE, SEMICOLON, LESS, EQUAL, GREATER, ASSIGN, COLON, INTEGER, DOUBLE, STRING;
+terminal String ID; // , CONST
+
+//const types
+terminal String CONSTSTRING;
+terminal Integer CONSTINTEGER;
+terminal Double CONSTDOUBLE;
+
+terminal DEPLOYMENT, DEPLOYMENTEND, SERVER, SERVEREND, SERVERID, TASK, TASKEND, TASKID, EXECUTEDON, PLUS, MUL;
+terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA;
+
+// nonterminals:
+nonterminal Model, Body, Declarations, VariableDeclaration;
+nonterminal String Variable, Type, Expression, RelExpression, Term, Assignment, Deployment;
+
+nonterminal Statements, Statement, WhileStatement, RelOp;
+nonterminal ServerList, ServerDef, ServerName, Capacity, TaskList, TaskDef, TaskName, Demand,Mapping;
+
+// special:
+nonterminal Constant CONST;
+
+precedence left PLUS;
+precedence left MUL;
+
+// grammar:
+Model ::= MODEL Body MODELEND
+    {:
+        System.out.println("Prepoznata definicija modela"); 
+        :};
+
+Body ::= Declarations Statements Deployment
+    {:
+            System.out.println("Prepoznato telo modela");
+        :};
+
+Declarations ::= VariableDeclaration
+    {:
+            System.out.println("Prepoznata deklaracija");
+        :}; 
+
+VariableDeclaration ::= VariableDeclaration SEMICOLON Variable 
+    {:
+            System.out.println("Prepoznate deklaracije promenljivih");
+        :}
+    | Variable
+    {:
+            System.out.println("Prepoznate deklaracije promenljivih");
+        :}; 
+
+Variable ::= ID:id COLON Type:type SEMICOLON
+    {:
+            System.out.println("Prepoznata deklaracija promenljive");
+            
+            
+        :}; 
+Type ::= INTEGER
+    {:
+            System.out.println("Prepoznat tip int");
+        :} 
+    | DOUBLE
+    {:
+            System.out.println("Prepoznat tip double");
+        :} 
+    | STRING
+    {:
+            System.out.println("Prepoznat tip string");
+        :}; 
+    
+Statements ::= Statements SEMICOLON Statement
+    {:
+            System.out.println("Prepoznat niz naredbi");
+        :} 
+    | Statement
+    {:
+            System.out.println("Prepoznat niz naredbi");
+        :}; 
+    
+Statement ::= Assignment
+    {:
+            System.out.println("Prepoznata naredba");
+        :} 
+    | WhileStatement
+    {:
+            System.out.println("Prepoznata naredba");
+        :}; 
+    
+WhileStatement ::= WHILE LEFTPAR RelExpression RIGHTPAR COLON LEFTCURVEDPAR Statements RIGHTCURVEDPAR
+    {:
+            System.out.println("Prepoznata while petlja");
+        :};
+ 
+RelExpression ::= Term RelOp Term
+    {:
+            System.out.println("Prepoznat izraz");
+        :} 
+    | Term
+    {:
+            System.out.println("Prepoznat izraz");
+        :}; 
+    
+Term ::= ID
+    {:
+            System.out.println("Prepoznat identifikator");
+        :} 
+    | CONST
+    {:
+            System.out.println("Prepoznata konstanta");
+        :};
+     
+RelOp ::= LESS
+    {:
+            System.out.println("Prepoznat relacioni operator less");
+        :} 
+    | EQUAL
+    {:
+            System.out.println("Prepoznat relacioni operator equal");
+        :} 
+    | GREATER
+    {:
+            System.out.println("Prepoznat relacioni operator greater");
+        :};
+     
+Assignment ::= ID ASSIGN Expression
+    {:
+            System.out.println("Prepoznata dodela");
+        :}; 
+
+Deployment ::= DEPLOYMENT TaskList ServerList DEPLOYMENTEND
+    {:
+            System.out.println("Prepoznat deployment");
+        :};
+ 
+ServerList ::= ServerList SEMICOLON ServerDef
+    {:
+            System.out.println("Prepoznata lista servera");
+        :} 
+    | ServerDef
+    {:
+            System.out.println("Prepoznata lista servera");
+        :};
+     
+ServerDef ::= SERVER ServerName COMMA Capacity SERVEREND
+    {:
+            System.out.println("Prepoznata definicija servera");
+        :}; 
+
+ServerName ::= SERVERID ID
+    {:
+            System.out.println("Prepoznato imenovanje servera");
+        :}; 
+
+Capacity ::= Term
+    {:
+            System.out.println("Prepoznato definisanje kapaciteta servera");
+        :}; 
+
+TaskList ::= TaskList SEMICOLON TaskDef
+    {:
+            System.out.println("Prepoznata lista poslova");
+        :} 
+    | TaskDef
+    {:
+            System.out.println("Prepoznata lista poslova");
+        :};
+     
+TaskDef ::= TASK TaskName COMMA Demand COMMA Mapping TASKEND
+    {:
+            System.out.println("Prepoznata definicija posla");
+        :};
+ 
+TaskName ::= TASKID ID
+    {:
+            System.out.println("Prepoznato imenovanje posla");
+        :};
+ 
+Demand ::= Term
+    {:
+            System.out.println("Prepoznat zahtev");
+        :};
+ 
+Mapping ::= EXECUTEDON ID
+    {:
+            System.out.println("Prepoznato mapiranje");
+        :};
+ 
+Expression ::= Expression PLUS Term
+    {:
+            System.out.println("Prepoznato sabiranje");
+        :} 
+    | Expression MUL Term
+    {:
+            System.out.println("Prepoznato množenje");
+        :} 
+    | Term
+    {:
+            System.out.println("Prepoznat izraz");
+        :}; 
+        
+// Mod:
+CONST ::= CONSTSTRING:c
+    {:
+            System.out.println("Prepoznata je String konstanta");
+            RESULT = new Constant(parser.symbolTable.getType( "string" ),c);
+        :} 
+    | CONSTINTEGER:c
+    {:
+            System.out.println("Prepoznata je Integer konstanta");
+            RESULT = new Constant(parser.symbolTable.getType( "integer" ),c);
+        :} 
+    | CONSTDOUBLE:c
+    {:
+            System.out.println("Prepoznata je Double konstanta");
+            RESULT = new Constant(parser.symbolTable.getType( "double" ),c);
+        :}; 
