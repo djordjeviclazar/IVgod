@@ -144,6 +144,12 @@ Assignment → **ID :=** Term
 
 <img src="PP/Lab/Tekst zadataka/lab5.png">
 
+#### Zad6
+
+<img src="PP/Lab/Tekst zadataka/lab6a.png">
+
+<img src="PP/Lab/Tekst zadataka/lab6b.png">
+
 ## Veštačka inteligencija
 
 ### Lab
