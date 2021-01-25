@@ -2,6 +2,8 @@
 
 import java_cup.runtime.*;
 import java.io.*;
+import SymbolTable.*;
+import AST.*;
 
 parser code {:
 
@@ -28,27 +30,39 @@ parser code {:
 :};
 
 // terminals:
-terminal MODEL, MODELEND, WHILE, SEMICOLON, ID, CONST, LESS, EQUAL, GREATER, ASSIGN, COLON, INTEGER, DOUBLE, STRING;
-terminal DEPLOYMENT, DEPLOYMENTEND, SERVER, SERVEREND, SERVERID, TASK, TASKEND, TASKID, EXECUTEDON, PLUS, MUL;
-terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA;
+terminal MODEL, MODELEND, WHILE, DEFAULT, ID, CONST, INTEGER, DOUBLE, STRING;
+terminal DEPLOYMENT, DEPLOYMENTEND, SERVER, SERVEREND, SERVERID, TASK, TASKEND, TASKID, EXECUTEDON;
+terminal LESS, EQUAL, GREATER, ASSIGN, PLUS, MUL;
+terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA, COLON, SEMICOLON;
 
 // nonterminals:
-nonterminal Model, Body, Declarations, VariableDeclaration, Variable;
-nonterminal Type, Statements, Statement, WhileStatement, RelExpression, Term, RelOp, Assignment, Deployment;
-nonterminal ServerList, ServerDef, ServerName, Capacity, TaskList, TaskDef, TaskName, Demand,Mapping,Expression;
+nonterminal Declarations, VariableDeclaration, Variable;
+nonterminal Deployment;
+nonterminal ServerList, ServerDef, ServerName, Capacity, TaskList, TaskDef, TaskName, Demand, Mapping;
+
+nonterminal Block Model, Body, Stmts;
+nonterminal Statement Stmt;
+nonterminal Assignment Assign;
+nonterminal Type TypeNonTerm;
+nonterminal Expression Expr, Term;
+nonterminal ComparisonExpression RelExpr;
+nonterminal WhileStatement WhileStmt;
+nonterminal Integer RelOp;
 
 precedence left PLUS;
 precedence left MUL;
 
 // grammar:
-Model ::= MODEL Body MODELEND
+Model ::= MODEL Body:b MODELEND
     {:
         System.out.println("Prepoznata definicija modela"); 
+        RESULT = b;
         :};
 
-Body ::= Declarations Statements Deployment
+Body ::= Declarations Stmts:s Deployment
     {:
             System.out.println("Prepoznato telo modela");
+            RESULT = s;
         :};
 
 Declarations ::= VariableDeclaration
@@ -65,47 +79,60 @@ VariableDeclaration ::= VariableDeclaration SEMICOLON Variable
             System.out.println("Prepoznate deklaracije promenljivih");
         :}; 
 
-Variable ::= ID COLON Type SEMICOLON
+Variable ::= ID:id COLON TypeNonTerm:t SEMICOLON
     {:
             System.out.println("Prepoznata deklaracija promenljive");
+            String ime = (String) niz.get(id);
+            parser.symbolTable.addVar( ime, t );
         :}; 
-Type ::= INTEGER
+
+TypeNonTerm ::= INTEGER
     {:
             System.out.println("Prepoznat tip int");
+            RESULT = parser.symbolTable.getType( "integer" );
         :} 
     | DOUBLE
     {:
             System.out.println("Prepoznat tip double");
+            RESULT = parser.symbolTable.getType( "double" );
         :} 
     | STRING
     {:
             System.out.println("Prepoznat tip string");
+            RESULT = parser.symbolTable.getType( "string" );
         :}; 
     
-Statements ::= Statements SEMICOLON Statement
+Stmts ::= Stmts:stmts SEMICOLON Stmt:stmt
     {:
             System.out.println("Prepoznat niz naredbi");
+            RESULT = stmts;
+            RESULT.addStatement(stmt);
         :} 
-    | Statement
+    | Stmt:stmt
     {:
             System.out.println("Prepoznat niz naredbi");
+            RESULT = new Block();
+            RESULT.addStatement(stmt);
         :}; 
     
-Statement ::= Assignment
+Stmt ::= Assign:a
     {:
             System.out.println("Prepoznata naredba");
+            RESULT = a;
         :} 
-    | WhileStatement
+    | WhileStmt:whiles
     {:
             System.out.println("Prepoznata naredba");
+            RESULT = whiles;
         :}; 
     
-WhileStatement ::= WHILE LEFTPAR RelExpression RIGHTPAR COLON LEFTCURVEDPAR Statements RIGHTCURVEDPAR
+WhileStmt ::= WHILE LEFTPAR RelExpr:e RIGHTPAR COLON LEFTCURVEDPAR Stmts:s1 RIGHTCURVEDPAR DEFAULT LEFTCURVEDPAR Stmt:s2 RIGHTCURVEDPAR
     {:
             System.out.println("Prepoznata while petlja");
+            RESULT = new WhileStatement( e, s1, s2 );
         :};
  
-RelExpression ::= Term RelOp Term
+RelExpr ::= Term RelOp Term
     {:
             System.out.println("Prepoznat izraz");
         :} 
@@ -114,29 +141,35 @@ RelExpression ::= Term RelOp Term
             System.out.println("Prepoznat izraz");
         :}; 
     
-Term ::= ID
+Term ::= ID:id
     {:
             System.out.println("Prepoznat identifikator");
+            Variable var = parser.symbolTable.getVar(ime);
+            RESULT = new VariableExpression(var);
         :} 
-    | CONST
+    | CONST:c
     {:
             System.out.println("Prepoznata konstanta");
+            RESULT = new ConstantExpression(c);
         :};
      
 RelOp ::= LESS
     {:
             System.out.println("Prepoznat relacioni operator less");
+            RESULT = Integer.valueOf(-1);
         :} 
     | EQUAL
     {:
             System.out.println("Prepoznat relacioni operator equal");
+            RESULT = Integer.valueOf(0);
         :} 
     | GREATER
     {:
             System.out.println("Prepoznat relacioni operator greater");
+            RESULT = Integer.valueOf(1);
         :};
      
-Assignment ::= ID ASSIGN Expression
+Assign ::= ID ASSIGN Expr
     {:
             System.out.println("Prepoznata dodela");
         :}; 
@@ -199,15 +232,19 @@ Mapping ::= EXECUTEDON ID
             System.out.println("Prepoznato mapiranje");
         :};
  
-Expression ::= Expression PLUS Term
+Expr ::= Expr:e PLUS Term:t
     {:
             System.out.println("Prepoznato sabiranje");
+            RESULT = new Sum(e, t);
+            
         :} 
-    | Expression MUL Term
+    | Expr:e MUL Term:t
     {:
             System.out.println("Prepoznato množenje");
+            RESULT = new Product(e, t);
         :} 
-    | Term
+    | Term:t
     {:
-            System.out.println("Prepoznat izraz");
+            System.out.println("Prepoznat izraz");  
+            RESULT = t;
         :}; 

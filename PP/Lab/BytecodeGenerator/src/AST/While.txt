@@ -1,0 +1,13 @@
+UslovLab:
+
+    IMC <RelExp>
+    Load_Mem R1, Result <Condition>
+    JumpIfZero R1, DefaultLab
+    
+    IMC <Stmt> ;iteracija
+    
+    Jump UslovLab
+
+DefaultLab:
+    IMC <Stmt> ;default stmt
+

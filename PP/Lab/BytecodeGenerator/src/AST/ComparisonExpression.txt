@@ -1,0 +1,49 @@
+3 slučaja:
+
+- Less:
+
+Load_Mem R1, Result<Expression1>
+Load_Mem R2, Result<Expression2>
+
+CMP R1, R2
+JL TRUE
+
+MOV R1, 0
+JMP END
+
+TRUE:
+MOV R1, 1
+
+END:
+
+- Equal:
+
+Load_Mem R1, Result<Expression1>
+Load_Mem R2, Result<Expression2>
+
+CMP R1, R2
+JE TRUE
+
+MOV R1, 0
+JMP END
+
+TRUE:
+MOV R1, 1
+
+END:
+
+- Greater:
+
+Load_Mem R1, Result<Expression1>
+Load_Mem R2, Result<Expression2>
+
+CMP R1, R2
+JG TRUE
+
+MOV R1, 0
+JMP END
+
+TRUE:
+MOV R1, 1
+
+END:
