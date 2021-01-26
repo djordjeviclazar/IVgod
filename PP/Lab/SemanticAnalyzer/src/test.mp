@@ -8,23 +8,26 @@ end ~comm
 
 model
 
-    ABCA : int; W : double; SAD : string;
+    ABCA : int;; 
+    
+    W : double;; SAD : string;;
     SERVERA: string;
+    
     comm Identifikatori imaju samo velika slova i cifre ~comm
     
     ABCA := -2.22321; W := 2; SAD := "fajdnfls?*!";
 
     while (ABCA less W) :
     {
-        ABCA := ABCA + 1;
-        ABCA := ABCA + W
+        ABCA := W + 1;
+        ABCA := ABCA + ABCA
     }
     
     deployment
     
         task
             taskId SIMPLE,
-            ABCA,
+            SAD,
             executedOn SERVERA
         ~task
     

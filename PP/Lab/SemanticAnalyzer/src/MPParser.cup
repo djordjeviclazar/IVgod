@@ -220,9 +220,8 @@ Assignment ::= ID:id ASSIGN Expression:exp
             if (variable != null)
             {
                 variable.last_def = parser.getLine();
-                if (exp != Type.UNKNOWN || 
-                    variable.type.tkind == exp || 
-                    (variable.type.tkind == Type.DOUBLE && exp == Type.INTEGER))
+                if (exp != Type.UNKNOWN && (variable.type.tkind == exp || 
+                                            (variable.type.tkind == Type.DOUBLE && exp == Type.INTEGER)))
                 {
                     RESULT = variable.type.tkind;
                 }
@@ -230,12 +229,14 @@ Assignment ::= ID:id ASSIGN Expression:exp
                 {
                     System.out.println("Izraz u liniji " + parser.getLine() + 
                                        " nije kompatibilan sa tipom promenljive");
+                    parser.errNo++;
                     RESULT = variable.type.tkind;
                 }
             }
             else
             {
                 System.out.println("Promenljiva '" + id + "' je korišćena a nije definisana");
+                parser.errNo++;
                 
                 RESULT = Type.UNKNOWN;
             }
