@@ -59,7 +59,7 @@ Body ::= Declarations Stmts:s Deployment
 
 Declarations ::= VariableDeclaration
     {:
-            System.out.println("Prepoznata deklaracija");
+            System.out.println("Prepoznat blok deklaracija");
         :}; 
 
 VariableDeclaration ::= VariableDeclaration SEMICOLON Variable 

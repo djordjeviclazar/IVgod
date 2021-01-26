@@ -8,17 +8,24 @@ end ~comm
 
 model
 
-    ABCA : int;
-    comm W : double; SAD : string; ~comm
+    ABCA : int;;
+    
+    W : double;; SAD : string;;
+    SERVERA: string;; SIMPLE: int;
+    
     comm Identifikatori imaju samo velika slova i cifre ~comm
+    
     ABCA := -2.22321; W := 2; SAD := "fajdnfls?*!";
 
     while (ABCA less W) :
     {
         ABCA := ABCA + 1;
-        ABCA := ABCA + W
+        ABCA := ABCA + ABCA
     }
-    
+    default
+    {
+        SIMPLE := 1
+    }
     deployment
     
         task
@@ -30,7 +37,7 @@ model
         server
     
             serverId SERVERA,
-            25.7
+            ABCA
     
         ~server
     

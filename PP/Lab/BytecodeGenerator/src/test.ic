@@ -1,0 +1,28 @@
+	Load_Const	R1, -2.22321
+	Store		R1, ABCA
+	Load_Const	R1, 2
+	Store		R1, W
+	Load_Const	R1, "fajdnfls?*!"
+	Store		R1, SAD
+lab0:
+	Load_Mem	R1, ABCA
+
+
+	JZ	R1, lab1
+	Load_Mem	R1, ABCA
+	Load_Const	R2, 1
+	Add		R1, R2
+	Store		R1, $tmp0
+	Load_Mem	R1, $tmp0
+	Store		R1, ABCA
+	Load_Mem	R1, ABCA
+	Load_Mem	R2, ABCA
+	Add		R1, R2
+	Store		R1, $tmp1
+	Load_Mem	R1, $tmp1
+	Store		R1, ABCA
+	JMP	lab0
+lab1:
+	Load_Const	R1, 1
+	Store		R1, SIMPLE
+
