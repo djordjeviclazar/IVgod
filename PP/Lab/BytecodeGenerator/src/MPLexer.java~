@@ -784,8 +784,8 @@ int getLine()
           case 29: break;
           case 8:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [85] { return new Symbol( sym.CONSTINTEGER, yyline, new Integer(yytext())); }");
-            { return new Symbol( sym.CONSTINTEGER, yyline, new Integer(yytext()));
+            System.out.println("action [85] { return new Symbol( sym.CONST, yyline, new Integer(yytext())); }");
+            { return new Symbol( sym.CONST, yyline, new Integer(yytext()));
             }
             // fall through
           case 30: break;
@@ -837,8 +837,8 @@ int getLine()
           case 36: break;
           case 15:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [86] { return new Symbol( sym.CONSTSTRING, yyline, new String(yytext()) ); }");
-            { return new Symbol( sym.CONSTSTRING, yyline, new String(yytext()) );
+            System.out.println("action [86] { return new Symbol( sym.CONST, yyline, new String(yytext()) ); }");
+            { return new Symbol( sym.CONST, yyline, new String(yytext()) );
             }
             // fall through
           case 37: break;
@@ -851,8 +851,8 @@ int getLine()
           case 38: break;
           case 17:
             System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-            System.out.println("action [87] { return new Symbol( sym.CONSTDOUBLE, yyline, new Double(yytext())); }");
-            { return new Symbol( sym.CONSTDOUBLE, yyline, new Double(yytext()));
+            System.out.println("action [87] { return new Symbol( sym.CONST, yyline, new Double(yytext())); }");
+            { return new Symbol( sym.CONST, yyline, new Double(yytext()));
             }
             // fall through
           case 39: break;

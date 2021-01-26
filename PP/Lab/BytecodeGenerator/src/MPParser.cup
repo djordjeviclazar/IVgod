@@ -7,33 +7,24 @@ import AST.*;
 
 parser code {:
 
-   public int errNo = 0;
-
-   public static void main( String[] args )
-   {
-      try
-	  {
-		   FileReader file = new FileReader( args[0] );
-		   Scanner scanner = new MPLexer( file );
-		   MPParser_without_errors parser = new MPParser_without_errors( scanner );
-		   parser.parse();
-//		   if ( parser.errNo == 0 )
-//		      System.out.println( "Analiza zavrsena. U kodu nema gresaka." );
-//		   else
-//		      System.out.println( "Analiza zavrsena. Broj gresaka: " + parser.errNo );
-	  }
-	  catch( Exception e )
-	  {
-		   e.printStackTrace();
-	  }
-   }
+   SymbolTable symbolTable;
 :};
 
+init with {:
+	symbolTable = new SymbolTable();
+:}
+
 // terminals:
-terminal MODEL, MODELEND, WHILE, DEFAULT, ID, CONST, INTEGER, DOUBLE, STRING;
+terminal MODEL, MODELEND, WHILE, DEFAULT, INTEGER, DOUBLE, STRING;
+terminal String ID;
 terminal DEPLOYMENT, DEPLOYMENTEND, SERVER, SERVEREND, SERVERID, TASK, TASKEND, TASKID, EXECUTEDON;
 terminal LESS, EQUAL, GREATER, ASSIGN, PLUS, MUL;
 terminal LEFTPAR, RIGHTPAR, LEFTCURVEDPAR, RIGHTCURVEDPAR, COMMA, COLON, SEMICOLON;
+
+//const types
+terminal String CONSTSTRING;
+terminal Integer CONSTINTEGER;
+terminal Double CONSTDOUBLE;
 
 // nonterminals:
 nonterminal Declarations, VariableDeclaration, Variable;
@@ -48,6 +39,7 @@ nonterminal Expression Expr, Term;
 nonterminal ComparisonExpression RelExpr;
 nonterminal WhileStatement WhileStmt;
 nonterminal Integer RelOp;
+nonterminal Constant CONST;
 
 precedence left PLUS;
 precedence left MUL;
@@ -82,8 +74,7 @@ VariableDeclaration ::= VariableDeclaration SEMICOLON Variable
 Variable ::= ID:id COLON TypeNonTerm:t SEMICOLON
     {:
             System.out.println("Prepoznata deklaracija promenljive");
-            String ime = (String) niz.get(id);
-            parser.symbolTable.addVar( ime, t );
+            parser.symbolTable.addVar(id, t );
         :}; 
 
 TypeNonTerm ::= INTEGER
@@ -132,19 +123,21 @@ WhileStmt ::= WHILE LEFTPAR RelExpr:e RIGHTPAR COLON LEFTCURVEDPAR Stmts:s1 RIGH
             RESULT = new WhileStatement( e, s1, s2 );
         :};
  
-RelExpr ::= Term RelOp Term
+RelExpr ::= Term:e1 RelOp:op Term:e2
     {:
             System.out.println("Prepoznat izraz");
+            RESULT = new ComparisonExpression(e1, e2, op);
         :} 
-    | Term
+    | Term:e1
     {:
             System.out.println("Prepoznat izraz");
+            RESULT = new ComparisonExpression(e1, null, -1);
         :}; 
     
 Term ::= ID:id
     {:
             System.out.println("Prepoznat identifikator");
-            Variable var = parser.symbolTable.getVar(ime);
+            Variable var = parser.symbolTable.getVar(id);
             RESULT = new VariableExpression(var);
         :} 
     | CONST:c
@@ -169,9 +162,11 @@ RelOp ::= LESS
             RESULT = Integer.valueOf(1);
         :};
      
-Assign ::= ID ASSIGN Expr
+Assign ::= ID:id ASSIGN Expr:e
     {:
             System.out.println("Prepoznata dodela");
+            Variable var = parser.symbolTable.getVar(id);
+            RESULT = new Assignment(var, e);
         :}; 
 
 Deployment ::= DEPLOYMENT TaskList ServerList DEPLOYMENTEND
@@ -247,4 +242,24 @@ Expr ::= Expr:e PLUS Term:t
     {:
             System.out.println("Prepoznat izraz");  
             RESULT = t;
+        :}; 
+
+// Mod:
+CONST ::= CONSTSTRING:c
+    {:
+            System.out.println("Prepoznata je String konstanta");
+            RESULT = new Constant(parser.symbolTable.getType( "string" ),c);
+            //RESULT = Type.STRING;
+        :} 
+    | CONSTINTEGER:c
+    {:
+            System.out.println("Prepoznata je Integer konstanta");
+            RESULT = new Constant(parser.symbolTable.getType( "integer" ),c);
+            //RESULT = Type.INTEGER;
+        :} 
+    | CONSTDOUBLE:c
+    {:
+            System.out.println("Prepoznata je Double konstanta");
+            RESULT = new Constant(parser.symbolTable.getType( "double" ),c);
+            //RESULT = Type.DOUBLE;
         :}; 

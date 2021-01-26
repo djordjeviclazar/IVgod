@@ -1,4 +1,5 @@
 // import sekcija
+import java_cup.runtime.*;
 
 %%
 

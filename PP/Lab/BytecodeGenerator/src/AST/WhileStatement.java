@@ -3,7 +3,7 @@ package AST;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class WhileStatement
+public class WhileStatement extends Statement
 {
     private Block iterationStmt;
     private Statement defaultStmt;
