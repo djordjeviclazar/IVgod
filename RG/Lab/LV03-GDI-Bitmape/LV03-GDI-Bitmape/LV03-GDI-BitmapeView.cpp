@@ -301,7 +301,7 @@ void CLV03GDIBitmapeView::drawPuzzle(CDC* pDC, CBitmap** bmp, CBitmap** mask, in
 	{
 		// transormations:
 
-		translate(pDC, -unit * 0.8 +  - 2 + 6 * unit - 5, -unit * 0.8 - 15 + 6 * unit + 15, false);
+		translate(pDC, -unit + 6 * unit - 5, -unit * 0.8 - 15 + 6 * unit + 15, false);
 		translate(pDC, imageWidth / 2., imageHeight / 2., false);
 		mirror(pDC, 1, -1, false);
 		rotate(pDC, -0.7, false);
@@ -324,7 +324,7 @@ void CLV03GDIBitmapeView::drawPuzzle(CDC* pDC, CBitmap** bmp, CBitmap** mask, in
 		translate(pDC, -unit * 0.8 + 12 * unit - 10 , -unit * 0.8 - 2 + 6 * unit + 2, false);
 		translate(pDC, imageWidth / 2., imageHeight / 2., false);
 		mirror(pDC, 1, -1, false);
-		rotate(pDC, -0.93, false);
+		rotate(pDC, -0.95, false);
 		translate(pDC, -imageWidth / 2., -imageHeight / 2., false);
 	}
 	{
@@ -341,10 +341,10 @@ void CLV03GDIBitmapeView::drawPuzzle(CDC* pDC, CBitmap** bmp, CBitmap** mask, in
 	{
 		// transormations:
 
-		translate(pDC, -unit * 0.8  , -unit * 0.8 - 2 + 12 * unit, false);
+		translate(pDC, -unit * 0.9 - 9, -unit * 0.8 - 3 + 12 * unit - 11, false);
 		translate(pDC, imageWidth / 2., imageHeight / 2., false);
 		mirror(pDC, 1, 1, false);
-		rotate(pDC, -0.92, false);
+		rotate(pDC, -0.91, false);
 		translate(pDC, -imageWidth / 2., -imageHeight / 2., false);
 	}
 	{
@@ -361,10 +361,10 @@ void CLV03GDIBitmapeView::drawPuzzle(CDC* pDC, CBitmap** bmp, CBitmap** mask, in
 	{
 		// transormations:
 
-		translate(pDC, -unit * 0.8 - 2 + 6 * unit, -unit * 0.8 - 15 + 12 * unit, false);
+		translate(pDC, -unit * 0.9 - 3 + 6 * unit, -unit * 0.8 - 15 + 12 * unit - 1, false);
 		translate(pDC, imageWidth / 2., imageHeight / 2., false);
 		mirror(pDC, -1, 1, false);
-		rotate(pDC, -0.13, false);
+		rotate(pDC, -0.36, false);
 		translate(pDC, -imageWidth / 2., -imageHeight / 2., false);
 	}
 	{
@@ -381,10 +381,10 @@ void CLV03GDIBitmapeView::drawPuzzle(CDC* pDC, CBitmap** bmp, CBitmap** mask, in
 	{
 		// transormations:
 
-		translate(pDC, -unit * 0.8 + 12 * unit, -unit * 0.8 - 2 + 12 * unit, false);
+		translate(pDC, -unit * 1.2 + 12 * unit, (-unit * 1.4) + (12 * unit), false);
 		translate(pDC, imageWidth / 2., imageHeight / 2., false);
 		mirror(pDC, -1, 1, false);
-		rotate(pDC, 0.27, false);
+		rotate(pDC, 0.31, false);
 		translate(pDC, -imageWidth / 2., -imageHeight / 2., false);
 	}
 	{
