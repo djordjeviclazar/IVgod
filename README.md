@@ -39,6 +39,20 @@ Nije dozvoljeno korišćenje funkcije FloodFill za ispunu unutrašnjosti pojedin
 
 <img src="RG/Lab/lab6.png">
 
+### Priprema za ispit
+
+#### Kolokvijum I 2018
+
+<img src="RG/Priprema/Tekst/2018_Kol1_tekst1">
+<img src="RG/Priprema/Tekst/2018_Kol1_tekst2">
+
+#### Kolokvijum II 2018
+
+<img src="RG/Priprema/Tekst/2018_Kol2_tekst1">
+<img src="RG/Priprema/Tekst/2018_Kol2_tekst2">
+<img src="RG/Priprema/Tekst/2018_Kol2_tekst3">
+
+
 ## Zaštita informacija
 
 ### Domaći
