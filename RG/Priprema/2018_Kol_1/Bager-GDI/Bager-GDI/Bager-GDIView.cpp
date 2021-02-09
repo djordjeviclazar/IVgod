@@ -35,6 +35,7 @@ CBagerGDIView::CBagerGDIView() noexcept
 {
 	// TODO: add construction code here
 
+
 }
 
 CBagerGDIView::~CBagerGDIView()

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "DImage.h"
 //----------------------------------
 /* stbi-1.33 - public domain JPEG/PNG reader - http://nothings.org/stb_image.c
