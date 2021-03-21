@@ -1,5 +1,11 @@
 # IVgod(zadaci, primeri, ...)
 
+## Paralelni sistemi
+
+### Lab
+
+<img src="PS/Lab/lab1.png">
+
 ## Računarska grafika
 
 ### Lab
