@@ -4,7 +4,7 @@
 
 ### Lab
 
-<img src="PS/Lab/lab1.png">
+<img src="PS/Lab/Tekst zadataka/lab1.png">
 
 ## Računarska grafika
 
