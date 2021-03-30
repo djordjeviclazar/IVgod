@@ -4,7 +4,16 @@
 
 ### Lab
 
-<img src="PS/Lab/Tekst zadataka/lab1.png">
+#### Termin1
+
+<!--
+	<img src="PS/Lab/Tekst zadataka/lab1.png">
+-->
+[Tekst zadataka](PS/Lab/Tekst zadataka/PRS_Domaci_zadatak CUDA.pdf)
+
+#### Termin2
+
+[Tekst zadataka za pripremu](PS/Lab/Tekst zadataka/PRS_Lab1_CUDA.pdf)
 
 ## Računarska grafika
 
