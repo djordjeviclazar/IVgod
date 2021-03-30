@@ -10,13 +10,14 @@
 	<img src="PS/Lab/Tekst zadataka/lab1.png">
 -->
 <!--
-	Ne sme da ima blanko znak kod linka - InvisibleWolf: https://stackoverflow.com/questions/7653483/github-relative-link-in-markdown-file/46189724#46189724
+	Ne sme da ima blanko znak kod linka, %20 mora umesto blanko
+	- InvisibleWolf: https://stackoverflow.com/questions/7653483/github-relative-link-in-markdown-file/46189724#46189724
 -->
-[Tekst zadataka](PS/Lab/Tekst%zadataka/PRS_Domaci_zadatak%CUDA.pdf)
+[Tekst zadataka](PS/Lab/Tekst%20zadataka/PRS_Domaci_zadatak%20CUDA.pdf)
 
 #### Termin2
 
-[Tekst zadataka za pripremu](PS/Lab/Tekst%zadataka/PRS_Lab1_CUDA.pdf)
+[Tekst zadataka za pripremu](PS/Lab/Tekst%20zadataka/PRS_Lab1_CUDA.pdf)
 
 ## Računarska grafika
 
