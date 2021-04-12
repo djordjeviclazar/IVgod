@@ -19,6 +19,14 @@
 
 [Tekst zadataka za pripremu](PS/Lab/Tekst%20zadataka/PRS_Lab1_CUDA.pdf)
 
+#### Termin3
+
+[Tekst zadataka za pripremu](PS/Lab/Tekst%20zadataka/PRS_Lab_MPI.pdf)
+
+[Uputstvo za podešavanja VS](PS/Lab/Tekst%20zadataka/Visual%20Studio%20i%20kompajliranje%20MS%20MPI%20programa)
+
+[Uputstvo za pokretanje MPI](PS/Lab/Tekst%20zadataka/mpirun)
+
 ## Računarska grafika
 
 ### Lab
